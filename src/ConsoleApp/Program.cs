@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AlmOps.ConsoleApp
 {
-    class Program
+    static class Program
     {
         #region Constants
 
