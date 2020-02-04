@@ -39,9 +39,9 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
 
         #region Protected methods
 
-        protected string GenerateUrl(string prefix = "", string arguments = "")
+        protected string GenerateUrl(string prefix = "", string suffix = "", string arguments = "")
         {
-            return $"{Configuration.BaseUrl}{prefix}/{ResourceName}?api-version={Configuration.ApiVersion}{arguments}";
+            return $"{Configuration.BaseUrl}{prefix}/{ResourceName}{suffix}?api-version={Configuration.ApiVersion}{arguments}";
         }
 
         protected virtual async Task<T> GetAsync<T>(string url) where T : class

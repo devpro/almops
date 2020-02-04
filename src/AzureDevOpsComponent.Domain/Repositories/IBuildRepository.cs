@@ -8,6 +8,8 @@ namespace AlmOps.AzureDevOpsComponent.Domain.Repositories
     {
         Task<List<BuildModel>> FindAllAsync(string projectName);
 
-        Task<BuildModel> CreateAsync(string projectName, object input);
+        Task<BuildModel> FindOneByIdAsync(string projectName, string id);
+
+        Task<BuildModel> CreateAsync(string projectName, string buildDefinitionId);
     }
 }

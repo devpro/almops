@@ -34,9 +34,15 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
             return Mapper.Map<List<BuildModel>>(resultList.Value);
         }
 
-        public async Task<BuildModel> CreateAsync(string projectName, object input)
+        public async Task<BuildModel> FindOneByIdAsync(string projectName, string id)
         {
-            var result = await PostAsync<BuildDto>(GenerateUrl(prefix: $"/{projectName}"), input);
+            var result = await GetAsync<BuildDto>(GenerateUrl(prefix: $"/{projectName}", suffix: $"/{id}"));
+            return Mapper.Map<BuildModel>(result);
+        }
+
+        public async Task<BuildModel> CreateAsync(string projectName, string buildDefinitionId)
+        {
+            var result = await PostAsync<BuildDto>(GenerateUrl(prefix: $"/{projectName}"), new { Definition = new { Id = buildDefinitionId } });
             return Mapper.Map<BuildModel>(result);
         }
 

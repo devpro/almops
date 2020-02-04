@@ -13,6 +13,7 @@ using CommandLine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Withywoods.Serialization.Json;
 
 namespace AlmOps.ConsoleApp
 {
@@ -88,8 +89,6 @@ namespace AlmOps.ConsoleApp
                             var projectRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IProjectRepository>();
                             var projects = await projectRepository.FindAllAsync();
 
-                            Console.WriteLine($"Successful query, {projects.Count} projects found = {string.Join(",", projects.Select(x => x.Name))}");
-
                             if (!string.IsNullOrEmpty(opts.Query))
                             {
                                 var property = typeof(ProjectModel).GetProperty(opts.Query.FirstCharToUpper());
@@ -115,6 +114,28 @@ namespace AlmOps.ConsoleApp
                             return -1;
                         }
                         break;
+                    case "show":
+                        if (string.IsNullOrEmpty(opts.Resource))
+                        {
+                            Console.WriteLine("The resource must be specified");
+                            return -1;
+                        }
+
+                        if (opts.Resource == "build")
+                        {
+                            LogVerbose(opts, "Show a build");
+
+                            var buildRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IBuildRepository>();
+                            var build = await buildRepository.FindOneByIdAsync(opts.Project, opts.Id);
+
+                            Console.WriteLine($"Successful query, {build.Id} has a status {build.Status}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Unknown resource \"{opts.Resource}\"");
+                            return -1;
+                        }
+                        break;
                     case "queue":
                         if (string.IsNullOrEmpty(opts.Resource))
                         {
@@ -127,8 +148,7 @@ namespace AlmOps.ConsoleApp
                             LogVerbose(opts, "Queue a new build");
 
                             var buildRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IBuildRepository>();
-                            var input = new { Definition = new { Id = opts.Id } };
-                            var build = await buildRepository.CreateAsync(opts.Project, input);
+                            var build = await buildRepository.CreateAsync(opts.Project, opts.Id);
 
                             Console.WriteLine($"Successful query, {build.Id} created");
                         }
@@ -154,8 +174,16 @@ namespace AlmOps.ConsoleApp
 
         private static void SaveSettings(CommandLineOptions opts)
         {
-            var jsonString = $"{{\"almops\":{{\"BaseUrl\": \"https://dev.azure.com/{opts.Organization}\", {{\"Username\": \"{opts.Username}\", \"PrivateKey\": \"{opts.Token}\"}}}}";
-            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, _AppsettingsFilename), jsonString, Encoding.UTF8);
+            var jsonConfig = new
+            {
+                almops = new
+                {
+                    BaseUrl = $"https://dev.azure.com/{opts.Organization}",
+                    Username = opts.Username,
+                    Token = opts.Token
+                }
+            };
+            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, _AppsettingsFilename), jsonConfig.ToJson(), Encoding.UTF8);
         }
 
         private static IConfigurationRoot LoadConfiguration()
@@ -176,7 +204,7 @@ namespace AlmOps.ConsoleApp
                         builder
                             .AddFilter("Microsoft", opts.IsVerbose ? LogLevel.Information : LogLevel.Warning)
                             .AddFilter("System", opts.IsVerbose ? LogLevel.Information : LogLevel.Warning)
-                            .AddFilter("MongoDb.Atlas.Client", opts.IsVerbose ? LogLevel.Debug : LogLevel.Information)
+                            .AddFilter("AlmOps", opts.IsVerbose ? LogLevel.Debug : LogLevel.Information)
                             .AddConsole();
                     })
                 .AddSingleton(configuration)

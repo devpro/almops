@@ -8,7 +8,7 @@
     <ProjectGuid>{9E18DEA5-68DD-4268-85FD-62E1574F7A30}</ProjectGuid>
     <IsPackable>true</IsPackable>
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>mdbatlas</ToolCommandName>
+    <ToolCommandName>almops</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <LangVersion>8.0</LangVersion>
     <AutoGenerateAssemblyVersion>true</AutoGenerateAssemblyVersion>
@@ -24,6 +24,12 @@
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="nupkg\**" />
+    <EmbeddedResource Remove="nupkg\**" />
+    <None Remove="nupkg\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="appsettings.json" />
