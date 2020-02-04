@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "src\ConsoleApp\ConsoleApp.csproj", "{FDB44954-E717-4955-970B-8861B4A666D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Solution Items", "0 - Solution Items", "{87B20B9D-F974-40EA-B444-2DC02F9066DC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Components", "1 - Components", "{D254B3EA-CAFB-4564-A1A5-2D0E37DE29B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Applications", "2 - Applications", "{842A49CD-7DBE-4E99-8244-57FCAA8E9901}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureDevOpsComponent.Domain", "src\AzureDevOpsComponent.Domain\AzureDevOpsComponent.Domain.csproj", "{397AE6F7-0796-499C-9252-D427DFAFAA99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureDevOpsComponent.Infrastructure.RestApi", "src\AzureDevOpsComponent.Infrastructure.RestApi\AzureDevOpsComponent.Infrastructure.RestApi.csproj", "{61A5E69D-67B8-476E-8995-57E7EA59811D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AzureDevOps", "AzureDevOps", "{74FF6EA7-6764-4B7B-970F-29E0763B0A04}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FDB44954-E717-4955-970B-8861B4A666D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDB44954-E717-4955-970B-8861B4A666D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDB44954-E717-4955-970B-8861B4A666D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDB44954-E717-4955-970B-8861B4A666D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{397AE6F7-0796-499C-9252-D427DFAFAA99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{397AE6F7-0796-499C-9252-D427DFAFAA99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{397AE6F7-0796-499C-9252-D427DFAFAA99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{397AE6F7-0796-499C-9252-D427DFAFAA99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61A5E69D-67B8-476E-8995-57E7EA59811D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61A5E69D-67B8-476E-8995-57E7EA59811D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61A5E69D-67B8-476E-8995-57E7EA59811D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61A5E69D-67B8-476E-8995-57E7EA59811D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FDB44954-E717-4955-970B-8861B4A666D8} = {842A49CD-7DBE-4E99-8244-57FCAA8E9901}
+		{397AE6F7-0796-499C-9252-D427DFAFAA99} = {74FF6EA7-6764-4B7B-970F-29E0763B0A04}
+		{61A5E69D-67B8-476E-8995-57E7EA59811D} = {74FF6EA7-6764-4B7B-970F-29E0763B0A04}
+		{74FF6EA7-6764-4B7B-970F-29E0763B0A04} = {D254B3EA-CAFB-4564-A1A5-2D0E37DE29B8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3CE55893-1DA3-4B50-BE62-9713F1859BF2}
+	EndGlobalSection
+EndGlobal
