@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "src\ConsoleApp\ConsoleApp.csproj", "{9E18DEA5-68DD-4268-85FD-62E1574F7A30}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Solution Items", "0 - Solution Items", "{87B20B9D-F974-40EA-B444-2DC02F9066DC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.azure\pipelines\ci.yml = .azure\pipelines\ci.yml
+		Directory.Build.props = Directory.Build.props
+		.azure\pipelines\pkg.yml = .azure\pipelines\pkg.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Components", "1 - Components", "{D254B3EA-CAFB-4564-A1A5-2D0E37DE29B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Applications", "2 - Applications", "{842A49CD-7DBE-4E99-8244-57FCAA8E9901}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureDevOpsComponent.Domain", "src\AzureDevOpsComponent.Domain\AzureDevOpsComponent.Domain.csproj", "{4CD575DE-CFBE-42A5-87A2-ED0BAA52033C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureDevOpsComponent.Infrastructure.RestApi", "src\AzureDevOpsComponent.Infrastructure.RestApi\AzureDevOpsComponent.Infrastructure.RestApi.csproj", "{163DE105-7EB7-43D5-98D6-69967ECCB87D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AzureDevOps", "AzureDevOps", "{74FF6EA7-6764-4B7B-970F-29E0763B0A04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureDevOpsComponent.Infrastructure.RestApi.UnitTests", "test\AzureDevOpsComponent.Infrastructure.RestApi.UnitTests\AzureDevOpsComponent.Infrastructure.RestApi.UnitTests.csproj", "{889EF283-E155-490B-B85A-6FD98F73927D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E18DEA5-68DD-4268-85FD-62E1574F7A30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E18DEA5-68DD-4268-85FD-62E1574F7A30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E18DEA5-68DD-4268-85FD-62E1574F7A30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E18DEA5-68DD-4268-85FD-62E1574F7A30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CD575DE-CFBE-42A5-87A2-ED0BAA52033C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CD575DE-CFBE-42A5-87A2-ED0BAA52033C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CD575DE-CFBE-42A5-87A2-ED0BAA52033C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CD575DE-CFBE-42A5-87A2-ED0BAA52033C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{163DE105-7EB7-43D5-98D6-69967ECCB87D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{163DE105-7EB7-43D5-98D6-69967ECCB87D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{163DE105-7EB7-43D5-98D6-69967ECCB87D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{163DE105-7EB7-43D5-98D6-69967ECCB87D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{889EF283-E155-490B-B85A-6FD98F73927D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{889EF283-E155-490B-B85A-6FD98F73927D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{889EF283-E155-490B-B85A-6FD98F73927D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{889EF283-E155-490B-B85A-6FD98F73927D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9E18DEA5-68DD-4268-85FD-62E1574F7A30} = {842A49CD-7DBE-4E99-8244-57FCAA8E9901}
+		{4CD575DE-CFBE-42A5-87A2-ED0BAA52033C} = {74FF6EA7-6764-4B7B-970F-29E0763B0A04}
+		{163DE105-7EB7-43D5-98D6-69967ECCB87D} = {74FF6EA7-6764-4B7B-970F-29E0763B0A04}
+		{74FF6EA7-6764-4B7B-970F-29E0763B0A04} = {D254B3EA-CAFB-4564-A1A5-2D0E37DE29B8}
+		{889EF283-E155-490B-B85A-6FD98F73927D} = {74FF6EA7-6764-4B7B-970F-29E0763B0A04}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3CE55893-1DA3-4B50-BE62-9713F1859BF2}
+	EndGlobalSection
+EndGlobal
