@@ -1,5 +1,9 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using AlmOps.AzureDevOpsComponent.Domain.Models;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
+using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 
@@ -27,6 +31,19 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
         #endregion
 
         #region IBuildArtifactRepository methods
+
+        /// <summary>
+        /// Find all artifacts for a build
+        /// </summary>
+        /// <param name="projectName">Project name</param>
+        /// <param name="buildId">Build id</param>
+        /// <returns></returns>
+        /// <remarks>GET https://dev.azure.com/{organization}/{project}/_apis/build/builds/{buildId}/artifacts?api-version=5.1</remarks>
+        public async Task<List<BuildArtifactModel>> FindAllAsync(string projectName, string buildId)
+        {
+            var resultList = await GetAsync<ResultListDto<BuildArtifactDto>>(GenerateUrl(prefix: $"/{projectName}", suffix: $"/{buildId}/artifacts"));
+            return Mapper.Map<List<BuildArtifactModel>>(resultList.Value);
+        }
 
         #endregion
     }

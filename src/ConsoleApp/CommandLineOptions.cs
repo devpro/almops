@@ -8,7 +8,7 @@ namespace AlmOps.ConsoleApp
         [Value(0, MetaValue = "Action", Required = true, HelpText = "Action (possible values: \"config\", \"list\", \"show\", \"queue\").")]
         public string Action { get; set; }
 
-        [Value(1, MetaValue = "Resource", Required = false, HelpText = "Resource (possible values: \"projects\", \"builds\", \"build\").")]
+        [Value(1, MetaValue = "Resource", Required = false, HelpText = "Resource (possible values: \"projects\", \"builds\", \"build\", \"artifacts\").")]
         public string Resource { get; set; }
 
         [Option("user", Required = false, HelpText = "Username (usually the email address).")]

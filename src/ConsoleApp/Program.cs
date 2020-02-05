@@ -109,6 +109,15 @@ namespace AlmOps.ConsoleApp
 
                             Console.WriteLine($"Successful query, {builds.Count} builds found = {string.Join(",", builds.Select(x => x.Id))}");
                         }
+                        else if (opts.Resource == "artifacts")
+                        {
+                            LogVerbose(opts, "Query the build artifact collection");
+
+                            var buildArtifactRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IBuildArtifactRepository>();
+                            var artifacts = await buildArtifactRepository.FindAllAsync(opts.Project, opts.Id);
+
+                            Console.WriteLine($"Successful query, {artifacts.Count} artifacts found = {string.Join(",", artifacts.Select(x => x.Name + ":" + x.Source))}");
+                        }
                         else
                         {
                             Console.WriteLine($"Unknown resource \"{opts.Resource}\"");
@@ -151,7 +160,7 @@ namespace AlmOps.ConsoleApp
                             var buildRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IBuildRepository>();
                             var build = await buildRepository.CreateAsync(opts.Project, opts.Id);
 
-                            Console.WriteLine($"Successful query, {build.Id} created");
+                            Console.WriteLine(build.Id);
                         }
                         else
                         {

@@ -49,7 +49,7 @@ almops config --org <organization> --user <username> --token <token>
 ```dos
 SET almops__BaseUrl=https://dev.azure.com/<organization>
 SET almops__Username=<username>
-SET almops__Password=<token>
+SET almops__Token=<token>
 ```
 
 ### How to use
