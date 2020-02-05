@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -40,8 +41,8 @@ namespace AlmOps.ConsoleApp
             return await Parser.Default.ParseArguments<CommandLineOptions>(args)
                 .MapResult(
                     (CommandLineOptions opts) => RunOptionsAndReturnExitCode(opts),
-                    errs => Task.FromResult(HandleParseError())
-                 );
+                    errs => Task.FromResult(HandleParseError(errs))
+                );
         }
 
         #endregion
@@ -108,6 +109,15 @@ namespace AlmOps.ConsoleApp
 
                             Console.WriteLine($"Successful query, {builds.Count} builds found = {string.Join(",", builds.Select(x => x.Id))}");
                         }
+                        else if (opts.Resource == "artifacts")
+                        {
+                            LogVerbose(opts, "Query the build artifact collection");
+
+                            var buildArtifactRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IBuildArtifactRepository>();
+                            var artifacts = await buildArtifactRepository.FindAllAsync(opts.Project, opts.Id);
+
+                            Console.WriteLine($"Successful query, {artifacts.Count} artifacts found = {string.Join(",", artifacts.Select(x => x.Name + ":" + x.Source))}");
+                        }
                         else
                         {
                             Console.WriteLine($"Unknown resource \"{opts.Resource}\"");
@@ -150,7 +160,7 @@ namespace AlmOps.ConsoleApp
                             var buildRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IBuildRepository>();
                             var build = await buildRepository.CreateAsync(opts.Project, opts.Id);
 
-                            Console.WriteLine($"Successful query, {build.Id} created");
+                            Console.WriteLine(build.Id);
                         }
                         else
                         {
@@ -162,13 +172,18 @@ namespace AlmOps.ConsoleApp
                         Console.WriteLine($"Unknown action \"{opts.Action}\"");
                         return -1;
                 }
-
-                return 0;
             }
+            return 0;
         }
 
-        private static int HandleParseError()
+        private static int HandleParseError(IEnumerable<Error> errs)
         {
+            var firstTag = errs.FirstOrDefault()?.Tag ?? default;
+            if (firstTag == ErrorType.VersionRequestedError || firstTag == ErrorType.HelpRequestedError)
+            {
+                return 0;
+            }
+
             return -2;
         }
 

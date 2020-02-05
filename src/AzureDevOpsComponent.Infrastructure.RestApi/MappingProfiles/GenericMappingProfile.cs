@@ -15,6 +15,25 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.MappingProfiles
             CreateMap<Domain.Models.BuildDefinitionModel, Dto.BuildDefinitionDto>()
                 .ForMember(x => x.Drafts, opt => opt.Ignore());
 
+            CreateMap<Dto.BuildArtifactDto, Domain.Models.BuildArtifactModel>()
+                .ForMember(x => x.ResourceArtifactSize, opt => opt.MapFrom(x => x.Resource.Properties.ArtifactSize))
+                .ForMember(x => x.ResourceData, opt => opt.MapFrom(x => x.Resource.Data))
+                .ForMember(x => x.ResourceDownloadUrl, opt => opt.MapFrom(x => x.Resource.DownloadUrl))
+                .ForMember(x => x.ResourceLocalPath, opt => opt.MapFrom(x => x.Resource.Properties.LocalPath))
+                .ForMember(x => x.ResourceType, opt => opt.MapFrom(x => x.Resource.Type))
+                .ForMember(x => x.ResourceUrl, opt => opt.MapFrom(x => x.Resource.Url));
+            CreateMap<Domain.Models.BuildArtifactModel, Dto.BuildArtifactDto>()
+                .ForMember(x => x.Resource, opt => opt.MapFrom(x => x));
+            CreateMap<Domain.Models.BuildArtifactModel, Dto.ResourceDto>()
+                .ForMember(x => x.Data, opt => opt.MapFrom(x => x.ResourceData))
+                .ForMember(x => x.DownloadUrl, opt => opt.MapFrom(x => x.ResourceDownloadUrl))
+                .ForMember(x => x.Properties, opt => opt.MapFrom(x => x))
+                .ForMember(x => x.Type, opt => opt.MapFrom(x => x.ResourceType))
+                .ForMember(x => x.Url, opt => opt.MapFrom(x => x.ResourceUrl));
+            CreateMap<Domain.Models.BuildArtifactModel, Dto.ResourcePropertiesDto>()
+                .ForMember(x => x.ArtifactSize, opt => opt.MapFrom(x => x.ResourceArtifactSize))
+                .ForMember(x => x.LocalPath, opt => opt.MapFrom(x => x.ResourceLocalPath));
+
             CreateMap<Dto.BuildDto, Domain.Models.BuildModel>();
             CreateMap<Domain.Models.BuildModel, Dto.BuildDto>()
                 .ForMember(x => x.Tags, opt => opt.Ignore())

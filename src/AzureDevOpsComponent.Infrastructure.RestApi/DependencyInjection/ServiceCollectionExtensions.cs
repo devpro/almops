@@ -27,6 +27,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection
 
             services.TryAddTransient<IAzureDevOpsRestApiConfiguration, T>();
             services.TryAddTransient<Domain.Repositories.IBuildRepository, Repositories.BuildRepository>();
+            services.TryAddTransient<Domain.Repositories.IBuildArtifactRepository, Repositories.BuildArtifactRepository>();
             services.TryAddTransient<Domain.Repositories.IProjectRepository, Repositories.ProjectRepository>();
 
             services

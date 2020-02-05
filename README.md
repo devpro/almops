@@ -49,7 +49,7 @@ almops config --org <organization> --user <username> --token <token>
 ```dos
 SET almops__BaseUrl=https://dev.azure.com/<organization>
 SET almops__Username=<username>
-SET almops__Password=<token>
+SET almops__Token=<token>
 ```
 
 ### How to use
@@ -112,3 +112,4 @@ dotnet tool uninstall -g almops
 
 * [Azure DevOps Services REST API Reference](https://docs.microsoft.com/en-us/rest/api/azure/devops/)
 * [microsoft/azure-devops-auth-samples](https://github.com/microsoft/azure-devops-auth-samples)
+* [microsoft/azure-devops-node-api](https://github.com/microsoft/azure-devops-node-api)
