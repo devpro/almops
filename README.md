@@ -112,3 +112,4 @@ dotnet tool uninstall -g almops
 
 * [Azure DevOps Services REST API Reference](https://docs.microsoft.com/en-us/rest/api/azure/devops/)
 * [microsoft/azure-devops-auth-samples](https://github.com/microsoft/azure-devops-auth-samples)
+* [microsoft/azure-devops-node-api](https://github.com/microsoft/azure-devops-node-api)
