@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -40,8 +41,8 @@ namespace AlmOps.ConsoleApp
             return await Parser.Default.ParseArguments<CommandLineOptions>(args)
                 .MapResult(
                     (CommandLineOptions opts) => RunOptionsAndReturnExitCode(opts),
-                    errs => Task.FromResult(HandleParseError())
-                 );
+                    errs => Task.FromResult(HandleParseError(errs))
+                );
         }
 
         #endregion
@@ -162,13 +163,18 @@ namespace AlmOps.ConsoleApp
                         Console.WriteLine($"Unknown action \"{opts.Action}\"");
                         return -1;
                 }
-
-                return 0;
             }
+            return 0;
         }
 
-        private static int HandleParseError()
+        private static int HandleParseError(IEnumerable<Error> errs)
         {
+            var firstTag = errs.FirstOrDefault()?.Tag ?? default;
+            if (firstTag == ErrorType.VersionRequestedError || firstTag == ErrorType.HelpRequestedError)
+            {
+                return 0;
+            }
+
             return -2;
         }
 
