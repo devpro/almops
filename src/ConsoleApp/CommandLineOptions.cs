@@ -29,6 +29,9 @@ namespace AlmOps.ConsoleApp
         [Option('n', "name", Required = false, HelpText = "Resource name.")]
         public string Name { get; set; }
 
+        [Option('b', "branch", Required = false, HelpText = "Branch name.")]
+        public string Branch { get; set; }
+
         [Option('q', "query", Required = false, HelpText = "Information to send back.")]
         public string Query { get; set; }
 
