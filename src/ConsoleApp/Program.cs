@@ -158,7 +158,7 @@ namespace AlmOps.ConsoleApp
                             LogVerbose(opts, "Queue a new build");
 
                             var buildRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IBuildRepository>();
-                            var build = await buildRepository.CreateAsync(opts.Project, opts.Id);
+                            var build = await buildRepository.CreateAsync(opts.Project, opts.Id, opts.Branch);
 
                             Console.WriteLine(build.Id);
                         }

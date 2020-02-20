@@ -9,6 +9,10 @@ using Microsoft.Extensions.Logging;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
 {
+    /// <summary>
+    /// Build repository.
+    /// </summary>
+    /// <remarks>https://docs.microsoft.com/en-us/rest/api/azure/devops/build/builds</remarks>
     public class BuildRepository : RepositoryBase, IBuildRepository
     {
         #region Constructor
@@ -40,9 +44,15 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
             return Mapper.Map<BuildModel>(result);
         }
 
-        public async Task<BuildModel> CreateAsync(string projectName, string buildDefinitionId)
+        public async Task<BuildModel> CreateAsync(string projectName, string buildDefinitionId, string sourceBranchName)
         {
-            var result = await PostAsync<BuildDto>(GenerateUrl(prefix: $"/{projectName}"), new { Definition = new { Id = buildDefinitionId } });
+            var result = await PostAsync<BuildDto>(
+                GenerateUrl(prefix: $"/{projectName}"),
+                new
+                {
+                    Definition = new { Id = buildDefinitionId },
+                    SourceBranch = sourceBranchName
+                });
             return Mapper.Map<BuildModel>(result);
         }
 
