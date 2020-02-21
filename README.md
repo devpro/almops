@@ -20,7 +20,7 @@ almops queue build -p myproject --id 42
 almops show build -p myproject --id 123
 ```
 
-## Quick start
+## User manual
 
 ### How to install
 
@@ -54,16 +54,42 @@ SET almops__Token=<token>
 
 ### How to use
 
-You can make a quick check by listing the organizations you have access:
+#### Quick start
 
 ```bash
+# display tool version
+almops --version
+
+# display help
+almops --help
+
+# configure
+almops config --org myorg --user myemailadress --token mysecrettoken
+
+# list
 almops list projects
 ```
 
-You can see all options by running the help command:
+#### Examples
 
 ```bash
-almops --help
+# list all builds
+almops list builds -p myproject
+
+# queue a new build
+almops queue build -p myproject --id 3 --branch mybranch
+
+# show build information
+almops show build -p myproject --id 264
+
+# list build artifacts
+almops list artifacts -p myproject --id 90
+
+# create a new release from a feature branch with the release definition id
+almops create release -p myproject --id 1 --branch "feature/something-awesome"
+
+# create a new release from master branch with the release name
+almops create release -p myproject --name myreleasename
 ```
 
 ### How to uninstall

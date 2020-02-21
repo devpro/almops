@@ -39,9 +39,10 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
 
         #region Protected methods
 
-        protected string GenerateUrl(string prefix = "", string suffix = "", string arguments = "")
+        protected string GenerateUrl(string prefix = "", string suffix = "", string arguments = "", bool isVsrm = false)
         {
-            return $"{Configuration.BaseUrl}{prefix}/{ResourceName}{suffix}?api-version={Configuration.ApiVersion}{arguments}";
+            var baseUrl = isVsrm ? Configuration.BaseUrl.Replace("https://", "https://vsrm.") : Configuration.BaseUrl;
+            return $"{baseUrl}{prefix}/{ResourceName}{suffix}?api-version={Configuration.ApiVersion}{arguments}";
         }
 
         protected virtual async Task<T> GetAsync<T>(string url) where T : class
