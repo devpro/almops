@@ -49,6 +49,7 @@ namespace AlmOps.ConsoleApp
 
         #region Private helpers
 
+        // TODO: method to be reworked (too complex and not tested)
         private async static Task<int> RunOptionsAndReturnExitCode(CommandLineOptions opts)
         {
             if (opts.Action == "config")
@@ -161,6 +162,55 @@ namespace AlmOps.ConsoleApp
                             var build = await buildRepository.CreateAsync(opts.Project, opts.Id, opts.Branch);
 
                             Console.WriteLine(build.Id);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Unknown resource \"{opts.Resource}\"");
+                            return -1;
+                        }
+                        break;
+                    case "create":
+                        if (string.IsNullOrEmpty(opts.Resource))
+                        {
+                            Console.WriteLine("The resource must be specified");
+                            return -1;
+                        }
+
+                        if (opts.Resource == "release")
+                        {
+                            LogVerbose(opts, "Create a new release");
+
+                            var releaseDefinitionRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IReleaseDefinitionRepository>();
+                            var buildRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IBuildRepository>();
+                            var releaseRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IReleaseRepository>();
+
+                            var releaseDefinitionId = opts.Id;
+                            if (!string.IsNullOrEmpty(opts.Name))
+                            {
+                                var releaseDefinitions = await releaseDefinitionRepository.FindAllAsync(opts.Project, opts.Name);
+                                if (!releaseDefinitions.Any())
+                                {
+                                    Console.WriteLine($"Cannot find a release definition with {opts.Name} name");
+                                    return -1;
+                                }
+
+                                releaseDefinitionId = releaseDefinitions.First().Id.ToString();
+                            }
+
+                            var releaseDefinition = await releaseDefinitionRepository.FindOneByIdAsync(opts.Project, releaseDefinitionId);
+
+                            // get latest build from the specified branch, master by default
+                            var branchName = opts.Branch ?? "master";
+                            var builds = await buildRepository.FindAllAsync(opts.Project, branchName, releaseDefinition.Artifacts.First().BuildDefinitionId);
+                            if (!builds.Any())
+                            {
+                                Console.WriteLine($"Cannot find a build on {branchName} branch");
+                                return -1;
+                            }
+
+                            var release = await releaseRepository.CreateAsync(opts.Project, releaseDefinitionId, builds.First().Id, releaseDefinition.Artifacts.First().Alias);
+
+                            Console.WriteLine(release.Id);
                         }
                         else
                         {

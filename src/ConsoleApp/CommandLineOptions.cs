@@ -5,10 +5,10 @@ namespace AlmOps.ConsoleApp
 {
     internal class CommandLineOptions
     {
-        [Value(0, MetaValue = "Action", Required = true, HelpText = "Action (possible values: \"config\", \"list\", \"show\", \"queue\").")]
+        [Value(0, MetaValue = "Action", Required = true, HelpText = "Action (possible values: \"config\", \"list\", \"show\", \"queue\", \"create\").")]
         public string Action { get; set; }
 
-        [Value(1, MetaValue = "Resource", Required = false, HelpText = "Resource (possible values: \"projects\", \"builds\", \"build\", \"artifacts\").")]
+        [Value(1, MetaValue = "Resource", Required = false, HelpText = "Resource (possible values: \"projects\", \"builds\", \"build\", \"release\", \"artifacts\").")]
         public string Resource { get; set; }
 
         [Option("user", Required = false, HelpText = "Username (usually the email address).")]

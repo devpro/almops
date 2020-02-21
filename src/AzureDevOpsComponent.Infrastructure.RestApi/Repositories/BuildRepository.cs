@@ -15,26 +15,25 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
     /// <remarks>https://docs.microsoft.com/en-us/rest/api/azure/devops/build/builds</remarks>
     public class BuildRepository : RepositoryBase, IBuildRepository
     {
-        #region Constructor
-
         public BuildRepository(IAzureDevOpsRestApiConfiguration configuration, ILogger<BuildRepository> logger, IHttpClientFactory httpClientFactory, IMapper mapper)
             : base(configuration, logger, httpClientFactory, mapper)
         {
         }
 
-        #endregion
-
-        #region RepositoryBase properties
-
         protected override string ResourceName => "_apis/build/builds";
 
-        #endregion
-
-        #region IProjectRepository methods
-
-        public async Task<List<BuildModel>> FindAllAsync(string projectName)
+        public async Task<List<BuildModel>> FindAllAsync(string projectName, string branchName = null, string buildDefinitionsId = null)
         {
-            var resultList = await GetAsync<ResultListDto<BuildDto>>(GenerateUrl(prefix: $"/{projectName}"));
+            var arguments = $"&queryOrder=startTimeDescending&$top=10";
+            if (!string.IsNullOrEmpty(branchName))
+            {
+                arguments += $"&branchName=refs/heads/{branchName}";
+            }
+            if (!string.IsNullOrEmpty(buildDefinitionsId))
+            {
+                arguments += $"&definitions={buildDefinitionsId}";
+            }
+            var resultList = await GetAsync<ResultListDto<BuildDto>>(GenerateUrl(prefix: $"/{projectName}", arguments: arguments));
             return Mapper.Map<List<BuildModel>>(resultList.Value);
         }
 
@@ -55,7 +54,5 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
                 });
             return Mapper.Map<BuildModel>(result);
         }
-
-        #endregion
     }
 }

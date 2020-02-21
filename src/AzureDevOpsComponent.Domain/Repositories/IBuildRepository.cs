@@ -6,7 +6,7 @@ namespace AlmOps.AzureDevOpsComponent.Domain.Repositories
 {
     public interface IBuildRepository
     {
-        Task<List<BuildModel>> FindAllAsync(string projectName);
+        Task<List<BuildModel>> FindAllAsync(string projectName, string branchName = null, string buildDefinitionsId = null);
 
         Task<BuildModel> FindOneByIdAsync(string projectName, string id);
 

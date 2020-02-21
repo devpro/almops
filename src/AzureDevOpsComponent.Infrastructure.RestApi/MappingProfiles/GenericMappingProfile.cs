@@ -63,6 +63,50 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.MappingProfiles
 
             CreateMap<Dto.QueueDto, Domain.Models.QueueModel>();
             CreateMap<Domain.Models.QueueModel, Dto.QueueDto>();
+
+            CreateMap<Dto.ReleaseDto, Domain.Models.ReleaseModel>();
+            CreateMap<Domain.Models.ReleaseModel, Dto.ReleaseDto>()
+                .ForMember(x => x.Artifacts, opt => opt.Ignore())
+                .ForMember(x => x.Links, opt => opt.Ignore());
+
+            CreateMap<Dto.ReleaseDefinitionDto, Domain.Models.ReleaseDefinitionModel>();
+            CreateMap<Domain.Models.ReleaseDefinitionModel, Dto.ReleaseDefinitionDto>()
+                .ForMember(x => x.Links, opt => opt.Ignore())
+                .ForMember(x => x.ProjectReference, opt => opt.Ignore())
+                .ForMember(x => x.Properties, opt => opt.Ignore())
+                .ForMember(x => x.Triggers, opt => opt.Ignore())
+                .ForMember(x => x.Tags, opt => opt.Ignore())
+                .ForMember(x => x.VariableGroups, opt => opt.Ignore())
+                .ForMember(x => x.Variables, opt => opt.Ignore());
+
+            CreateMap<Dto.EnvironmentDto, Domain.Models.EnvironmentModel>();
+            CreateMap<Domain.Models.EnvironmentModel, Dto.EnvironmentDto>()
+                .ForMember(x => x.DeploySteps, opt => opt.Ignore())
+                .ForMember(x => x.DeployPhasesSnapshot, opt => opt.Ignore())
+                .ForMember(x => x.WorkflowTasks, opt => opt.Ignore())
+                .ForMember(x => x.Conditions, opt => opt.Ignore())
+                .ForMember(x => x.Demands, opt => opt.Ignore())
+                .ForMember(x => x.EnvironmentOptions, opt => opt.Ignore())
+                .ForMember(x => x.PostApprovalsSnapshot, opt => opt.Ignore())
+                .ForMember(x => x.PreApprovalsSnapshot, opt => opt.Ignore())
+                .ForMember(x => x.PreDeployApprovals, opt => opt.Ignore())
+                .ForMember(x => x.PostDeployApprovals, opt => opt.Ignore());
+
+            CreateMap<Dto.ReleaseArtifactDto, Domain.Models.ReleaseArtifactModel>()
+                .ForMember(x => x.BuildDefinitionId, opt => opt.MapFrom(x => x.DefinitionReference.Definition.Id))
+                .ForMember(x => x.BuildDefinitionName, opt => opt.MapFrom(x => x.DefinitionReference.Definition.Name));
+            CreateMap<Domain.Models.ReleaseArtifactModel, Dto.ReleaseArtifactDto>()
+                .ForMember(x => x.DefinitionReference, opt => opt.MapFrom(x => x));
+            CreateMap<Domain.Models.ReleaseArtifactModel, Dto.DefinitionReferenceDto>()
+                .ForMember(x => x.ArtifactSourceDefinitionUrl, opt => opt.Ignore())
+                .ForMember(x => x.ArtifactSourceVersionUrl, opt => opt.Ignore())
+                .ForMember(x => x.DefaultVersionBranch, opt => opt.Ignore())
+                .ForMember(x => x.DefaultVersionSpecific, opt => opt.Ignore())
+                .ForMember(x => x.DefaultVersionTags, opt => opt.Ignore())
+                .ForMember(x => x.DefaultVersionType, opt => opt.Ignore())
+                .ForMember(x => x.Definition, opt => opt.MapFrom(x => new Dto.NameValueDto { Id = x.BuildDefinitionId, Name = x.BuildDefinitionName }))
+                .ForMember(x => x.Project, opt => opt.Ignore())
+                .ForMember(x => x.Version, opt => opt.Ignore());
         }
     }
 }
