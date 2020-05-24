@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Models;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection;
-using AlmOps.ConsoleApp.Extensions;
 using AutoMapper;
 using CommandLine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Withywoods.Serialization.Json;
+using Withywoods.System;
 
 namespace AlmOps.ConsoleApp
 {
@@ -23,13 +23,7 @@ namespace AlmOps.ConsoleApp
     /// </summary>
     static class Program
     {
-        #region Constants
-
         private const string _AppsettingsFilename = "appsettings.json";
-
-        #endregion
-
-        #region Entry point
 
         /// <summary>
         /// Method providing the very entry point.
@@ -44,10 +38,6 @@ namespace AlmOps.ConsoleApp
                     errs => Task.FromResult(HandleParseError(errs))
                 );
         }
-
-        #endregion
-
-        #region Private helpers
 
         // TODO: method to be reworked (too complex and not tested)
         private async static Task<int> RunOptionsAndReturnExitCode(CommandLineOptions opts)
@@ -299,7 +289,5 @@ namespace AlmOps.ConsoleApp
                 Console.WriteLine(message);
             }
         }
-
-        #endregion
     }
 }

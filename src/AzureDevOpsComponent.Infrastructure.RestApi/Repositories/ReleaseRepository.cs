@@ -29,7 +29,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
                 {
                     DefinitionId = releaseDefinitionId,
                     Description = "Created by almops command line tool",
-                    Artifacts = new []
+                    Artifacts = new[]
                     {
                         new
                         {
@@ -38,7 +38,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
                             {
                                 Id = buildId
                             }
-                        } 
+                        }
                     },
                     IsDraft = false,
                     Reason = "none"
