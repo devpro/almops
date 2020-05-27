@@ -17,7 +17,11 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
     /// </remarks>
     public class ReleaseDefinitionRepository : RepositoryBase, IReleaseDefinitionRepository
     {
-        public ReleaseDefinitionRepository(IAzureDevOpsRestApiConfiguration configuration, ILogger<ReleaseDefinitionRepository> logger, IHttpClientFactory httpClientFactory, IMapper mapper)
+        public ReleaseDefinitionRepository(
+            IAzureDevOpsRestApiConfiguration configuration,
+            ILogger<ReleaseDefinitionRepository> logger,
+            IHttpClientFactory httpClientFactory,
+            IMapper mapper)
             : base(configuration, logger, httpClientFactory, mapper)
         {
         }

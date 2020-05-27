@@ -1,10 +1,13 @@
 ﻿
+using System.Collections.Generic;
 using CommandLine;
 
 namespace AlmOps.ConsoleApp
 {
-    internal class CommandLineOptions
+    public class CommandLineOptions
     {
+        public const string VariableSeparator = ":";
+
         [Value(0, MetaValue = "Action", Required = true, HelpText = "Action (possible values: \"config\", \"list\", \"show\", \"queue\", \"create\").")]
         public string Action { get; set; }
 
@@ -23,7 +26,7 @@ namespace AlmOps.ConsoleApp
         [Option('p', "project", Required = false, HelpText = "Project name.")]
         public string Project { get; set; }
 
-        [Option("id", Required = false, HelpText = "Resource id.")]
+        [Option("id", Required = false, HelpText = "Resource ID.")]
         public string Id { get; set; }
 
         [Option('n', "name", Required = false, HelpText = "Resource name.")]
@@ -31,6 +34,12 @@ namespace AlmOps.ConsoleApp
 
         [Option('b', "branch", Required = false, HelpText = "Branch name.")]
         public string Branch { get; set; }
+
+        [Option('t', "tag", Required = false, HelpText = "Tag.")]
+        public string Tag { get; set; }
+
+        [Option("var", Required = false, HelpText = "Variables.")]
+        public IEnumerable<string> Variables { get; set; }
 
         [Option('q', "query", Required = false, HelpText = "Information to send back.")]
         public string Query { get; set; }

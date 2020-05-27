@@ -6,6 +6,7 @@ using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
+using Withywoods.Serialization.Json;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
 {
@@ -15,7 +16,11 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
     /// <remarks>https://docs.microsoft.com/en-us/rest/api/azure/devops/build/builds</remarks>
     public class BuildRepository : RepositoryBase, IBuildRepository
     {
-        public BuildRepository(IAzureDevOpsRestApiConfiguration configuration, ILogger<BuildRepository> logger, IHttpClientFactory httpClientFactory, IMapper mapper)
+        public BuildRepository(
+            IAzureDevOpsRestApiConfiguration configuration,
+            ILogger<BuildRepository> logger,
+            IHttpClientFactory httpClientFactory,
+            IMapper mapper)
             : base(configuration, logger, httpClientFactory, mapper)
         {
         }
@@ -43,14 +48,25 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
             return Mapper.Map<BuildModel>(result);
         }
 
-        public async Task<BuildModel> CreateAsync(string projectName, string buildDefinitionId, string sourceBranchName)
+        /// <summary>
+        /// Creates a new build.
+        /// </summary>
+        /// <param name="projectName"></param>
+        /// <param name="buildDefinitionId"></param>
+        /// <param name="sourceBranchName"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// https://docs.microsoft.com/en-us/rest/api/azure/devops/build/builds/queue?view=azure-devops-rest-5.1
+        /// </remarks>
+        public async Task<BuildModel> CreateAsync(string projectName, string buildDefinitionId, string sourceBranchName, Dictionary<string, string> variables)
         {
             var result = await PostAsync<BuildDto>(
                 GenerateUrl(prefix: $"/{projectName}"),
                 new
                 {
                     Definition = new { Id = buildDefinitionId },
-                    SourceBranch = sourceBranchName
+                    SourceBranch = sourceBranchName,
+                    Parameters = variables.ToJson()
                 });
             return Mapper.Map<BuildModel>(result);
         }

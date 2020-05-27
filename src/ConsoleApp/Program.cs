@@ -5,10 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using AlmOps.AzureDevOpsComponent.Domain.Models;
-using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection;
-using AlmOps.ConsoleApp.Extensions;
+using AlmOps.ConsoleApp.Tasks;
 using AutoMapper;
 using CommandLine;
 using Microsoft.Extensions.Configuration;
@@ -23,13 +21,7 @@ namespace AlmOps.ConsoleApp
     /// </summary>
     static class Program
     {
-        #region Constants
-
-        private const string _AppsettingsFilename = "appsettings.json";
-
-        #endregion
-
-        #region Entry point
+        private const string AppsettingsFilename = "appsettings.json";
 
         /// <summary>
         /// Method providing the very entry point.
@@ -45,11 +37,6 @@ namespace AlmOps.ConsoleApp
                 );
         }
 
-        #endregion
-
-        #region Private helpers
-
-        // TODO: method to be reworked (too complex and not tested)
         private async static Task<int> RunOptionsAndReturnExitCode(CommandLineOptions opts)
         {
             if (opts.Action == "config")
@@ -65,165 +52,40 @@ namespace AlmOps.ConsoleApp
 
             var configuration = LoadConfiguration();
             var appConfiguration = new AppConfiguration(configuration);
-            if (string.IsNullOrEmpty(((IAzureDevOpsRestApiConfiguration)appConfiguration).BaseUrl)
-                || string.IsNullOrEmpty(((IAzureDevOpsRestApiConfiguration)appConfiguration).Username)
-                || string.IsNullOrEmpty(((IAzureDevOpsRestApiConfiguration)appConfiguration).Token))
+            if (!appConfiguration.IsValid())
             {
                 Console.WriteLine("Missing configuration. Please use the config command or set the keys manually.");
                 return -1;
             }
 
-            using (var serviceProvider = CreateServiceProvider(opts, configuration))
+            using var serviceProvider = CreateServiceProvider(opts, configuration);
+
+            var factory = new ConsoleTaskFactory(serviceProvider);
+
+            var task = factory.Create(opts.Action, opts.Resource, out var errorMessage);
+            if (task == null)
             {
-                switch (opts.Action)
-                {
-                    case "list":
-                        if (string.IsNullOrEmpty(opts.Resource))
-                        {
-                            Console.WriteLine("The resource must be specified");
-                            return -1;
-                        }
-
-                        if (opts.Resource == "projects")
-                        {
-                            LogVerbose(opts, "Query the project collection");
-
-                            var projectRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IProjectRepository>();
-                            var projects = await projectRepository.FindAllAsync();
-
-                            if (!string.IsNullOrEmpty(opts.Query))
-                            {
-                                var property = typeof(ProjectModel).GetProperty(opts.Query.FirstCharToUpper());
-                                Console.WriteLine(property.GetValue(projects.First()));
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Successful query, {projects.Count} projects found = {string.Join(",", projects.Select(x => x.Name))}");
-                            }
-                        }
-                        else if (opts.Resource == "builds")
-                        {
-                            LogVerbose(opts, "Query the build collection");
-
-                            var buildRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IBuildRepository>();
-                            var builds = await buildRepository.FindAllAsync(opts.Project);
-
-                            Console.WriteLine($"Successful query, {builds.Count} builds found = {string.Join(",", builds.Select(x => x.Id))}");
-                        }
-                        else if (opts.Resource == "artifacts")
-                        {
-                            LogVerbose(opts, "Query the build artifact collection");
-
-                            var buildArtifactRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IBuildArtifactRepository>();
-                            var artifacts = await buildArtifactRepository.FindAllAsync(opts.Project, opts.Id);
-
-                            Console.WriteLine($"Successful query, {artifacts.Count} artifacts found = {string.Join(",", artifacts.Select(x => x.Name + ":" + x.Source))}");
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Unknown resource \"{opts.Resource}\"");
-                            return -1;
-                        }
-                        break;
-                    case "show":
-                        if (string.IsNullOrEmpty(opts.Resource))
-                        {
-                            Console.WriteLine("The resource must be specified");
-                            return -1;
-                        }
-
-                        if (opts.Resource == "build")
-                        {
-                            LogVerbose(opts, "Show a build");
-
-                            var buildRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IBuildRepository>();
-                            var build = await buildRepository.FindOneByIdAsync(opts.Project, opts.Id);
-
-                            Console.WriteLine($"Successful query, {build.Id} has a status {build.Status}");
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Unknown resource \"{opts.Resource}\"");
-                            return -1;
-                        }
-                        break;
-                    case "queue":
-                        if (string.IsNullOrEmpty(opts.Resource))
-                        {
-                            Console.WriteLine("The resource must be specified");
-                            return -1;
-                        }
-
-                        if (opts.Resource == "build")
-                        {
-                            LogVerbose(opts, "Queue a new build");
-
-                            var buildRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IBuildRepository>();
-                            var build = await buildRepository.CreateAsync(opts.Project, opts.Id, opts.Branch);
-
-                            Console.WriteLine(build.Id);
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Unknown resource \"{opts.Resource}\"");
-                            return -1;
-                        }
-                        break;
-                    case "create":
-                        if (string.IsNullOrEmpty(opts.Resource))
-                        {
-                            Console.WriteLine("The resource must be specified");
-                            return -1;
-                        }
-
-                        if (opts.Resource == "release")
-                        {
-                            LogVerbose(opts, "Create a new release");
-
-                            var releaseDefinitionRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IReleaseDefinitionRepository>();
-                            var buildRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IBuildRepository>();
-                            var releaseRepository = serviceProvider.GetService<AzureDevOpsComponent.Domain.Repositories.IReleaseRepository>();
-
-                            var releaseDefinitionId = opts.Id;
-                            if (!string.IsNullOrEmpty(opts.Name))
-                            {
-                                var releaseDefinitions = await releaseDefinitionRepository.FindAllAsync(opts.Project, opts.Name);
-                                if (!releaseDefinitions.Any())
-                                {
-                                    Console.WriteLine($"Cannot find a release definition with {opts.Name} name");
-                                    return -1;
-                                }
-
-                                releaseDefinitionId = releaseDefinitions.First().Id.ToString();
-                            }
-
-                            var releaseDefinition = await releaseDefinitionRepository.FindOneByIdAsync(opts.Project, releaseDefinitionId);
-
-                            // get latest build from the specified branch, master by default
-                            var branchName = opts.Branch ?? "master";
-                            var builds = await buildRepository.FindAllAsync(opts.Project, branchName, releaseDefinition.Artifacts.First().BuildDefinitionId);
-                            if (!builds.Any())
-                            {
-                                Console.WriteLine($"Cannot find a build on {branchName} branch");
-                                return -1;
-                            }
-
-                            var release = await releaseRepository.CreateAsync(opts.Project, releaseDefinitionId, builds.First().Id, releaseDefinition.Artifacts.First().Alias);
-
-                            Console.WriteLine(release.Id);
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Unknown resource \"{opts.Resource}\"");
-                            return -1;
-                        }
-                        break;
-                    default:
-                        Console.WriteLine($"Unknown action \"{opts.Action}\"");
-                        return -1;
-                }
+                Console.WriteLine(errorMessage);
+                return -1;
             }
-            return 0;
+
+            try
+            {
+                var output = await task.ExecuteAsync(opts);
+                if (string.IsNullOrEmpty(output))
+                {
+                    Console.WriteLine("No data returned");
+                    return -1;
+                }
+
+                Console.WriteLine(output);
+                return 0;
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine($"An error occured: {exc.Message}");
+                return -2;
+            }
         }
 
         private static int HandleParseError(IEnumerable<Error> errs)
@@ -248,14 +110,14 @@ namespace AlmOps.ConsoleApp
                     Token = opts.Token
                 }
             };
-            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, _AppsettingsFilename), jsonConfig.ToJson(), Encoding.UTF8);
+            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, AppsettingsFilename), jsonConfig.ToJson(), Encoding.UTF8);
         }
 
         private static IConfigurationRoot LoadConfiguration()
         {
             return new ConfigurationBuilder()
                 .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location))
-                .AddJsonFile(_AppsettingsFilename, true, true)
+                .AddJsonFile(AppsettingsFilename, true, true)
                 .AddEnvironmentVariables()
                 .Build();
         }
@@ -299,7 +161,5 @@ namespace AlmOps.ConsoleApp
                 Console.WriteLine(message);
             }
         }
-
-        #endregion
     }
 }

@@ -5,18 +5,12 @@ namespace AlmOps.ConsoleApp
 {
     public class AppConfiguration : IAzureDevOpsRestApiConfiguration
     {
-        #region Constructor & private fields
-
         private readonly IConfigurationRoot _configurationRoot;
 
         public AppConfiguration(IConfigurationRoot configurationRoot)
         {
             _configurationRoot = configurationRoot;
         }
-
-        #endregion
-
-        #region IAzureDevOpsRestApiConfiguration properties
 
         string IAzureDevOpsRestApiConfiguration.BaseUrl => _configurationRoot.GetSection("almops:BaseUrl")?.Value;
 
@@ -28,6 +22,11 @@ namespace AlmOps.ConsoleApp
 
         string IAzureDevOpsRestApiConfiguration.HttpClientName => "AzureDevOpsRestApi";
 
-        #endregion
+        public bool IsValid()
+        {
+            return !string.IsNullOrEmpty(((IAzureDevOpsRestApiConfiguration)this).BaseUrl)
+                && !string.IsNullOrEmpty(((IAzureDevOpsRestApiConfiguration)this).Username)
+                && !string.IsNullOrEmpty(((IAzureDevOpsRestApiConfiguration)this).Token);
+        }
     }
 }

@@ -14,7 +14,11 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
     /// <remarks>https://docs.microsoft.com/en-us/rest/api/azure/devops/release/releases</remarks>
     public class ReleaseRepository : RepositoryBase, IReleaseRepository
     {
-        public ReleaseRepository(IAzureDevOpsRestApiConfiguration configuration, ILogger<ReleaseRepository> logger, IHttpClientFactory httpClientFactory, IMapper mapper)
+        public ReleaseRepository(
+            IAzureDevOpsRestApiConfiguration configuration,
+            ILogger<ReleaseRepository> logger,
+            IHttpClientFactory httpClientFactory,
+            IMapper mapper)
             : base(configuration, logger, httpClientFactory, mapper)
         {
         }
@@ -29,7 +33,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
                 {
                     DefinitionId = releaseDefinitionId,
                     Description = "Created by almops command line tool",
-                    Artifacts = new []
+                    Artifacts = new[]
                     {
                         new
                         {
@@ -38,7 +42,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
                             {
                                 Id = buildId
                             }
-                        } 
+                        }
                     },
                     IsDraft = false,
                     Reason = "none"
