@@ -26,8 +26,9 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection
             }
 
             services.TryAddTransient<IAzureDevOpsRestApiConfiguration, T>();
-            services.TryAddTransient<Domain.Repositories.IBuildRepository, Repositories.BuildRepository>();
             services.TryAddTransient<Domain.Repositories.IBuildArtifactRepository, Repositories.BuildArtifactRepository>();
+            services.TryAddTransient<Domain.Repositories.IBuildRepository, Repositories.BuildRepository>();
+            services.TryAddTransient<Domain.Repositories.IBuildTagRepository, Repositories.BuildTagRepository>();
             services.TryAddTransient<Domain.Repositories.IProjectRepository, Repositories.ProjectRepository>();
             services.TryAddTransient<Domain.Repositories.IReleaseRepository, Repositories.ReleaseRepository>();
             services.TryAddTransient<Domain.Repositories.IReleaseDefinitionRepository, Repositories.ReleaseDefinitionRepository>();
@@ -39,7 +40,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection
                         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
                             "Basic",
-                            Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", configuration.Username, configuration.Token))));
+                            Convert.ToBase64String(Encoding.ASCII.GetBytes($"{configuration.Username}:{configuration.Token}")));
 
                     });
 

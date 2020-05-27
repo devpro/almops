@@ -15,7 +15,11 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
     /// <remarks>https://docs.microsoft.com/en-us/rest/api/azure/devops/core/projects</remarks>
     public class ProjectRepository : RepositoryBase, IProjectRepository
     {
-        public ProjectRepository(IAzureDevOpsRestApiConfiguration configuration, ILogger<ProjectRepository> logger, IHttpClientFactory httpClientFactory, IMapper mapper)
+        public ProjectRepository(
+            IAzureDevOpsRestApiConfiguration configuration,
+            ILogger<ProjectRepository> logger,
+            IHttpClientFactory httpClientFactory,
+            IMapper mapper)
             : base(configuration, logger, httpClientFactory, mapper)
         {
         }

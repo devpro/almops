@@ -15,7 +15,11 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
     /// <remarks>https://docs.microsoft.com/en-us/rest/api/azure/devops/build/artifacts</remarks>
     public class BuildArtifactRepository : RepositoryBase, IBuildArtifactRepository
     {
-        public BuildArtifactRepository(IAzureDevOpsRestApiConfiguration configuration, ILogger<BuildArtifactRepository> logger, IHttpClientFactory httpClientFactory, IMapper mapper)
+        public BuildArtifactRepository(
+            IAzureDevOpsRestApiConfiguration configuration,
+            ILogger<BuildArtifactRepository> logger,
+            IHttpClientFactory httpClientFactory,
+            IMapper mapper)
             : base(configuration, logger, httpClientFactory, mapper)
         {
         }

@@ -21,5 +21,12 @@ namespace AlmOps.ConsoleApp
         string IAzureDevOpsRestApiConfiguration.Token => _configurationRoot.GetSection("almops:Token")?.Value;
 
         string IAzureDevOpsRestApiConfiguration.HttpClientName => "AzureDevOpsRestApi";
+
+        public bool IsValid()
+        {
+            return !string.IsNullOrEmpty(((IAzureDevOpsRestApiConfiguration)this).BaseUrl)
+                && !string.IsNullOrEmpty(((IAzureDevOpsRestApiConfiguration)this).Username)
+                && !string.IsNullOrEmpty(((IAzureDevOpsRestApiConfiguration)this).Token);
+        }
     }
 }

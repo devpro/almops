@@ -10,6 +10,6 @@ namespace AlmOps.AzureDevOpsComponent.Domain.Repositories
 
         Task<BuildModel> FindOneByIdAsync(string projectName, string id);
 
-        Task<BuildModel> CreateAsync(string projectName, string buildDefinitionId, string sourceBranchName);
+        Task<BuildModel> CreateAsync(string projectName, string buildDefinitionId, string sourceBranchName, Dictionary<string, string> variables);
     }
 }
