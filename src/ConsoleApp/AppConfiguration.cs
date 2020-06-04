@@ -25,7 +25,6 @@ namespace AlmOps.ConsoleApp
         public bool IsValid()
         {
             return !string.IsNullOrEmpty(((IAzureDevOpsRestApiConfiguration)this).BaseUrl)
-                && !string.IsNullOrEmpty(((IAzureDevOpsRestApiConfiguration)this).Username)
                 && !string.IsNullOrEmpty(((IAzureDevOpsRestApiConfiguration)this).Token);
         }
     }
