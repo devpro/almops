@@ -41,9 +41,9 @@ namespace AlmOps.ConsoleApp
         {
             if (opts.Action == "config")
             {
-                if (string.IsNullOrEmpty(opts.Organization) || string.IsNullOrEmpty(opts.Username) || string.IsNullOrEmpty(opts.Token))
+                if (string.IsNullOrEmpty(opts.Organization) || string.IsNullOrEmpty(opts.Token))
                 {
-                    Console.WriteLine("Invalid arguments. Organization, username and token must be set to have a valid configuration.");
+                    Console.WriteLine("Invalid arguments. At least organization and token must be set to have a valid configuration.");
                     return -1;
                 }
                 SaveSettings(opts);
