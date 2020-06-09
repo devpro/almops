@@ -67,8 +67,19 @@ namespace AlmOps.ConsoleApp.Tasks
                             _serviceProvider.GetService<IReleaseRepository>());
                     }
                     break;
+                case "variables":
+                    if (action == "update")
+                    {
+                        return new UpdateVariableTask(
+                            _serviceProvider.GetService<ILogger<UpdateVariableTask>>(),
+                            _serviceProvider.GetService<IVariableGroupRepository>());
+                    }
+                    break;
+                default:
+                    errorMessage = $"Unknown resource \"{resource}\". Available resources: \"projects\", \"build\", \"builds\", \"artifacts\", \"release\", \"variables\"";
+                    return null;
             }
-            errorMessage = $"Unknown action \"{action}\" on resource \"{resource}\"";
+            errorMessage = $"Unknown action \"{action}\" for resource \"{resource}\"";
             return null;
         }
     }

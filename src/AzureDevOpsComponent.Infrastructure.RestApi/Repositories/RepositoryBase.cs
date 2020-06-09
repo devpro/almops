@@ -26,10 +26,11 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
 
         protected abstract string ResourceName { get; }
 
-        protected string GenerateUrl(string prefix = "", string suffix = "", string arguments = "", bool isVsrm = false)
+        protected string GenerateUrl(string prefix = "", string suffix = "", string arguments = "", bool isVsrm = false, bool isPreview = false)
         {
             var baseUrl = isVsrm ? Configuration.BaseUrl.Replace("https://", "https://vsrm.") : Configuration.BaseUrl;
-            return $"{baseUrl}{prefix}/{ResourceName}{suffix}?api-version={Configuration.ApiVersion}{arguments}";
+            var previewSuffix = isPreview ? "-preview" : "";
+            return $"{baseUrl}{prefix}/{ResourceName}{suffix}?api-version={Configuration.ApiVersion}{previewSuffix}{arguments}";
         }
     }
 }

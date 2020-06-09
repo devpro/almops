@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace AlmOps.ConsoleApp.Tasks
 {
-    class QueueBuildTask : IConsoleTask
+    class QueueBuildTask : TaskBase
     {
         private readonly ILogger<QueueBuildTask> _logger;
 
@@ -21,7 +20,7 @@ namespace AlmOps.ConsoleApp.Tasks
             _buildTagRepository = buildTagRepository;
         }
 
-        public async Task<string> ExecuteAsync(CommandLineOptions options)
+        public override async Task<string> ExecuteAsync(CommandLineOptions options)
         {
             if (string.IsNullOrEmpty(options.Project) || string.IsNullOrEmpty(options.Id))
             {
@@ -30,7 +29,11 @@ namespace AlmOps.ConsoleApp.Tasks
 
             _logger.LogDebug("Queue a new build");
 
-            var build = await _buildRepository.CreateAsync(options.Project, options.Id, options.Branch ?? "master", GetBuildVariables(options));
+            var build = await _buildRepository.CreateAsync(
+                options.Project,
+                options.Id,
+                options.Branch ?? "master",
+                GetVariables(options.Variables.ToList(), CommandLineOptions.VariableSeparator));
             if (build == null)
             {
                 return null;
@@ -42,23 +45,6 @@ namespace AlmOps.ConsoleApp.Tasks
             }
 
             return build.Id;
-        }
-
-        private static Dictionary<string, string> GetBuildVariables(CommandLineOptions options)
-        {
-            var output = new Dictionary<string, string>();
-
-            var inputVariables = options.Variables.ToList();
-            if (!inputVariables.Any())
-            {
-                return output;
-            }
-
-            inputVariables.ForEach(x => output.Add(
-                x.Split(CommandLineOptions.VariableSeparator)[0],
-                x.Contains(CommandLineOptions.VariableSeparator) ? x.Split(CommandLineOptions.VariableSeparator)[1] : null));
-
-            return output;
         }
     }
 }

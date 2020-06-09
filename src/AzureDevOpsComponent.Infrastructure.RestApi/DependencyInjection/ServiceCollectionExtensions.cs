@@ -37,6 +37,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection
             services.TryAddTransient<Domain.Repositories.IProjectRepository, Repositories.ProjectRepository>();
             services.TryAddTransient<Domain.Repositories.IReleaseRepository, Repositories.ReleaseRepository>();
             services.TryAddTransient<Domain.Repositories.IReleaseDefinitionRepository, Repositories.ReleaseDefinitionRepository>();
+            services.TryAddTransient<Domain.Repositories.IVariableGroupRepository, Repositories.VariableGroupRepository>();
 
             services
                 .AddHttpClient(configuration.HttpClientName, client =>

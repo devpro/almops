@@ -352,3 +352,7 @@ MigrationBackup/
 # Console application configuration
 **/ConsoleApp/appsettings.json
 **/ConsoleApp/Properties/launchSettings.json
+
+# Local debug files
+Local.runsettings
+appsettings.Development.json
