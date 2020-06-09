@@ -28,6 +28,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
         /// </summary>
         /// <param name="projectName">Project name</param>
         /// <param name="buildId">Build id</param>
+        /// <param name="tag"></param>
         /// <returns></returns>
         /// <remarks>
         /// https://docs.microsoft.com/en-us/rest/api/azure/devops/build/tags/add%20build%20tag?view=azure-devops-rest-5.1

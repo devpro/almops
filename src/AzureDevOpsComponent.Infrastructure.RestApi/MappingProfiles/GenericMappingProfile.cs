@@ -107,6 +107,8 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.MappingProfiles
                 .ForMember(x => x.Definition, opt => opt.MapFrom(x => new Dto.NameValueDto { Id = x.BuildDefinitionId, Name = x.BuildDefinitionName }))
                 .ForMember(x => x.Project, opt => opt.Ignore())
                 .ForMember(x => x.Version, opt => opt.Ignore());
+
+            CreateMap<Dto.VariableGroupDto, Domain.Models.VariableGroupModel>();
         }
     }
 }

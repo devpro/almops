@@ -25,23 +25,30 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            services.TryAddTransient<IAzureDevOpsRestApiConfiguration, T>();
+            if (configuration is null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
+            services.TryAddSingleton<IAzureDevOpsRestApiConfiguration>(configuration);
             services.TryAddTransient<Domain.Repositories.IBuildArtifactRepository, Repositories.BuildArtifactRepository>();
             services.TryAddTransient<Domain.Repositories.IBuildRepository, Repositories.BuildRepository>();
             services.TryAddTransient<Domain.Repositories.IBuildTagRepository, Repositories.BuildTagRepository>();
             services.TryAddTransient<Domain.Repositories.IProjectRepository, Repositories.ProjectRepository>();
             services.TryAddTransient<Domain.Repositories.IReleaseRepository, Repositories.ReleaseRepository>();
             services.TryAddTransient<Domain.Repositories.IReleaseDefinitionRepository, Repositories.ReleaseDefinitionRepository>();
+            services.TryAddTransient<Domain.Repositories.IVariableGroupRepository, Repositories.VariableGroupRepository>();
 
             services
                 .AddHttpClient(configuration.HttpClientName, client =>
                     {
                         client.DefaultRequestHeaders.Clear();
                         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-                            "Basic",
-                            Convert.ToBase64String(Encoding.ASCII.GetBytes($"{configuration.Username}:{configuration.Token}")));
-
+                        client.DefaultRequestHeaders.Authorization = string.IsNullOrEmpty(configuration.Username)
+                            ? new AuthenticationHeaderValue(
+                                "Bearer", configuration.Token)
+                            : new AuthenticationHeaderValue(
+                                "Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{configuration.Username}:{configuration.Token}")));
                     });
 
             return services;

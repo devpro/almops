@@ -8,10 +8,10 @@ namespace AlmOps.ConsoleApp
     {
         public const string VariableSeparator = ":";
 
-        [Value(0, MetaValue = "Action", Required = true, HelpText = "Action (possible values: \"config\", \"list\", \"show\", \"queue\", \"create\").")]
+        [Value(0, MetaValue = "Action", Required = true, HelpText = "Action (possible values: \"config\", \"list\", \"show\", \"queue\", \"create\", \"update\").")]
         public string Action { get; set; }
 
-        [Value(1, MetaValue = "Resource", Required = false, HelpText = "Resource (possible values: \"projects\", \"builds\", \"build\", \"release\", \"artifacts\").")]
+        [Value(1, MetaValue = "Resource", Required = false, HelpText = "Resource (possible values: \"projects\", \"builds\", \"build\", \"release\", \"artifacts\", \"variables\").")]
         public string Resource { get; set; }
 
         [Option("user", Required = false, HelpText = "Username (usually the email address).")]
@@ -28,6 +28,9 @@ namespace AlmOps.ConsoleApp
 
         [Option("id", Required = false, HelpText = "Resource ID.")]
         public string Id { get; set; }
+
+        [Option("type", Required = false, HelpText = "Resource type.")]
+        public string Type { get; set; }
 
         [Option('n', "name", Required = false, HelpText = "Resource name.")]
         public string Name { get; set; }
