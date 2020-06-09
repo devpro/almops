@@ -8,6 +8,6 @@ namespace AlmOps.AzureDevOpsComponent.Domain.Repositories
     {
         Task<VariableGroupModel> FindOneByIdAsync(string projectName, string id);
 
-        Task UpdateAsync(string projectName, string id, Dictionary<string, string> variables, bool isReplaceAll = false);
+        Task UpdateAsync(string projectName, string id, Dictionary<string, string> input, bool isReplaceAll = false);
     }
 }
