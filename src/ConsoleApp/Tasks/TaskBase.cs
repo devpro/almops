@@ -19,7 +19,7 @@ namespace AlmOps.ConsoleApp.Tasks
 
             inputVariables.ForEach(x => output.Add(
                 x.Split(separator)[0],
-                x.Contains(separator) ? x.Split(separator)[1] : null));
+                x.Contains(separator) ? x.Substring(x.IndexOf(separator) + 1) : null));
 
             return output;
         }
