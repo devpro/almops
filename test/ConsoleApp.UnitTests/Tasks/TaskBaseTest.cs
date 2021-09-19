@@ -35,5 +35,19 @@ namespace AlmOps.ConsoleApp.UnitTests.Tasks
             output.Should().ContainKey("tutu");
             output["tutu"].Should().Be("tyty");
         }
+
+        [Fact]
+        public void TaskBaseGetVariables_WithSeperatorCharacter_ShouldReturnDictionary()
+        {
+            var task = new DummyTask();
+            var output = task.GetVariables(new List<string> { "connectionString:https://www.google.com", "complexPassword:Pass:Word:123" }, ":");
+            output.Should().NotBeNull();
+            output.Should().NotBeEmpty();
+            output.Count.Should().Be(2);
+            output.Should().ContainKey("connectionString");
+            output["connectionString"].Should().Be("https://www.google.com");
+            output.Should().ContainKey("complexPassword");
+            output["complexPassword"].Should().Be("Pass:Word:123");
+        }
     }
 }
