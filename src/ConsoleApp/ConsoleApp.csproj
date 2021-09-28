@@ -45,7 +45,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
-    <PackageReference Include="Withywoods.Configuration" Version="1.4.0" />
+    <PackageReference Include="Withywoods.Configuration" Version="1.4.4" />
     <PackageReference Include="Withywoods.System" Version="1.4.0" />
   </ItemGroup>
 
