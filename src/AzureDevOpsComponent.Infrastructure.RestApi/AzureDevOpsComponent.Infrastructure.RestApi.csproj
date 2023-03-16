@@ -13,11 +13,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Withywoods.Net.Http" Version="1.4.0" />
-    <PackageReference Include="Withywoods.Serialization" Version="1.4.0" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Withywoods.Net.Http" Version="1.5.2" />
+    <PackageReference Include="Withywoods.Serialization" Version="1.5.2" />
   </ItemGroup>
 
   <ItemGroup>
