@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29728.190
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "src\ConsoleApp\ConsoleApp.csproj", "{9E18DEA5-68DD-4268-85FD-62E1574F7A30}"
 EndProject
@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Solution Items", "0 - S
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		.azure\pipelines\ci.yml = .azure\pipelines\ci.yml
+		CONTRIBUTING.md = CONTRIBUTING.md
 		Directory.Build.props = Directory.Build.props
 		Local.runsettings = Local.runsettings
 		.azure\pipelines\pkg.yml = .azure\pipelines\pkg.yml
@@ -30,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureDevOpsComponent.Infras
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp.UnitTests", "test\ConsoleApp.UnitTests\ConsoleApp.UnitTests.csproj", "{933E5B0A-BA55-4768-8380-91DE2A253D53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests", "test\AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests\AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests.csproj", "{D1BC2785-13AF-457B-AF92-1F2457BDD094}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests", "test\AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests\AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests.csproj", "{ED040615-CB13-4DF5-9D0B-33BF464F8F36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,10 +59,10 @@ Global
 		{933E5B0A-BA55-4768-8380-91DE2A253D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{933E5B0A-BA55-4768-8380-91DE2A253D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{933E5B0A-BA55-4768-8380-91DE2A253D53}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D1BC2785-13AF-457B-AF92-1F2457BDD094}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D1BC2785-13AF-457B-AF92-1F2457BDD094}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D1BC2785-13AF-457B-AF92-1F2457BDD094}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D1BC2785-13AF-457B-AF92-1F2457BDD094}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED040615-CB13-4DF5-9D0B-33BF464F8F36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED040615-CB13-4DF5-9D0B-33BF464F8F36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED040615-CB13-4DF5-9D0B-33BF464F8F36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED040615-CB13-4DF5-9D0B-33BF464F8F36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,7 +74,7 @@ Global
 		{74FF6EA7-6764-4B7B-970F-29E0763B0A04} = {D254B3EA-CAFB-4564-A1A5-2D0E37DE29B8}
 		{889EF283-E155-490B-B85A-6FD98F73927D} = {74FF6EA7-6764-4B7B-970F-29E0763B0A04}
 		{933E5B0A-BA55-4768-8380-91DE2A253D53} = {842A49CD-7DBE-4E99-8244-57FCAA8E9901}
-		{D1BC2785-13AF-457B-AF92-1F2457BDD094} = {74FF6EA7-6764-4B7B-970F-29E0763B0A04}
+		{ED040615-CB13-4DF5-9D0B-33BF464F8F36} = {74FF6EA7-6764-4B7B-970F-29E0763B0A04}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3CE55893-1DA3-4B50-BE62-9713F1859BF2}

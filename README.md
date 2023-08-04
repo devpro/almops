@@ -5,137 +5,91 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=devpro.almops&metric=coverage)](https://sonarcloud.io/dashboard?id=devpro.almops)
 [![Nuget](https://img.shields.io/nuget/v/almops.svg)](https://www.nuget.org/packages/almops)
 
-Command line tool to administrate [ALM (Application lifecycle management)](https://en.wikipedia.org/wiki/Application_lifecycle_management) solutions such as Azure DevOps or GitLab.
+Command line tool to administrate [ALM (Application lifecycle management)](https://en.wikipedia.org/wiki/Application_lifecycle_management) solutions such as Azure DevOps, GitHub, GitLab.
 
-Examples:
+## How to install
 
-```bash
-# List your projects
-almops list projects -p myproject
+### Option 1 - .NET global tool
 
-# Queue a new build
-almops queue build -p myproject --id 42
-
-# Show build status
-almops show build -p myproject --id 123
-```
-
-## User manual
-
-### How to install
-
-As a requirement, you only have to install the latest [.NET Core CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x) (open source tool with a minimized footprint).
-
-As a .NET global tool, `almops` is installed from the NuGet package:
+* Install [.NET CLI](https://learn.microsoft.com/en-us/dotnet/core/install/)
+* Install `almops` globally
 
 ```bash
 dotnet tool install --global almops
 ```
 
-### How to configure
+* If needed, uninstall `almops`
 
-#### Azure DevOps
+```bash
+dotnet tool uninstall -g almops
+```
 
-A personal access token (PAT) to work with Azure DevOps. If you're not familier with it, the instructions are given in the page [Authenticate access with personal access tokens](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page).
+### Option 2 - Container
 
-* Use the tool `config` action
+* TODO
+
+## How to authenticate
+
+### Azure DevOps
+
+Create a Personal Access Token (PAT) in your Azure DevOps organization (ref. [Authenticate access with personal access tokens](https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate)).
+
+## How to configure
+
+### Option 1 - Use config action
 
 ```bash
 almops config --org <organization> --user <username> --token <token>
 ```
 
-* (alternative) Set environment variables
+### Option 2 - Set environment variables
 
 ```dos
-SET almops__BaseUrl=https://dev.azure.com/<organization>
+SET almops__BaseUrl=<url>
 SET almops__Username=<username>
 SET almops__Token=<token>
 ```
 
-### How to use
+## How to use
 
-#### Quick start
+### Quick start
 
 ```bash
-# display tool version
+# displays tool version
 almops --version
 
-# display help
+# displays help
 almops --help
 
-# configure
-almops config --org myorg --user myemailadress --token mysecrettoken
+# configures
+almops config --org https://dev.azure.com/<organization> --user <email_address> --token <token>
 
-# list
+# lists
 almops list projects
 ```
 
-#### Examples
+### Examples
 
 ```bash
-# list all builds
+# lists all builds
 almops list builds -p myproject
 
-# queue a new build
+# queues a new build
 almops queue build -p myproject --id 3 --branch mybranch
 
-# show build information
+# shows build information
 almops show build -p myproject --id 264
 
-# list build artifacts
+# lists build artifacts
 almops list artifacts -p myproject --id 90
 
-# create a new release from a feature branch with the release definition id
+# creates a new release from a feature branch with the release definition id
 almops create release -p myproject --id 1 --branch "feature/something-awesome"
 
-# create a new release from master branch with the release name
+# creates a new release from master branch with the release name
 almops create release -p myproject --name myreleasename
 ```
 
-### How to uninstall
+## How to contribute
 
-The tool can be easily uninstalled with:
-
-```bash
-dotnet tool uninstall -g almops
-```
-
-## Contribue
-
-### Requirements
-
-* [.NET Core SDK](https://dotnet.microsoft.com/download) must be installed
-
-### Local project debug
-
-```bash
-# build the .NET solution
-dotnet build
-
-# run the console app
-dotnet src/ConsoleApp/bin/Debug/netcoreapp3.1/almops.dll --help
-```
-
-### Local installation
-
-```bash
-# pack the projects
-dotnet pack
-
-# install from local package
-dotnet tool update -g almops --add-source=src/ConsoleApp/nupkg --version 1.1.0-alpha-000000
-
-# run the tool
-almops list projects
-
-# uninstall the tool
-dotnet tool uninstall -g almops
-```
-
-## References
-
-### Microsoft documentation
-
-* [Azure DevOps Services REST API Reference](https://docs.microsoft.com/en-us/rest/api/azure/devops/)
-* [microsoft/azure-devops-auth-samples](https://github.com/microsoft/azure-devops-auth-samples)
-* [microsoft/azure-devops-node-api](https://github.com/microsoft/azure-devops-node-api)
+Follow the [Contributing guide](CONTRIBUTING.md).
