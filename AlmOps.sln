@@ -12,15 +12,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Solution Items", "0 - S
 		CONTRIBUTING.md = CONTRIBUTING.md
 		Directory.Build.props = Directory.Build.props
 		Local.runsettings = Local.runsettings
-		.azure\pipelines\pkg.yml = .azure\pipelines\pkg.yml
 		README.md = README.md
 		.gitlab-ci.yml = .gitlab-ci.yml
 		.dockerignore = .dockerignore
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Components", "1 - Components", "{D254B3EA-CAFB-4564-A1A5-2D0E37DE29B8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Components", "2 - Components", "{D254B3EA-CAFB-4564-A1A5-2D0E37DE29B8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Applications", "2 - Applications", "{842A49CD-7DBE-4E99-8244-57FCAA8E9901}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Applications", "3 - Applications", "{842A49CD-7DBE-4E99-8244-57FCAA8E9901}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureDevOpsComponent.Domain", "src\AzureDevOpsComponent.Domain\AzureDevOpsComponent.Domain.csproj", "{4CD575DE-CFBE-42A5-87A2-ED0BAA52033C}"
 EndProject
@@ -39,6 +38,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{360EE467-B8AE-41CB-9405-8166E8F61D62}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp.IntegrationTests", "test\ConsoleApp.IntegrationTests\ConsoleApp.IntegrationTests.csproj", "{90677288-AAA3-4C4C-8F06-794BEA93A34E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Framework", "1 - Framework", "{5A8D2CEE-3519-4FE9-877A-4D32F5AE3757}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

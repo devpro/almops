@@ -19,6 +19,8 @@ variables:
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
     DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
     COREHOST_TRACE: 0
+    BUILD_SOURCEBRANCHNAME: $CI_COMMIT_BRANCH
+    BUILD_BUILDID: $CI_PIPELINE_ID
 
 dotnet-build:
   extends: .dotnet
@@ -36,8 +38,6 @@ dotnet-test:
     DOTNET_TEST_REPORT_FOLDER: report
     # other options available: /d:sonar.coverage.exclusions=... /d:sonar.cpd.exclusions=**/Models/*.cs,**/Dto/*.cs
     SONAR_EXTRA_PARAMETERS: /d:sonar.cpd.exclusions=**/*Generated*.cs,report/** /d:sonar.coverageReportPaths=report/SonarQube.xml
-    BUILD_SOURCEBRANCHNAME: $CI_COMMIT_BRANCH
-    BUILD_BUILDID: $CI_PIPELINE_ID
     AlmOps__Sandbox__Organization: $AZUREDEVOPS_TEST_ORG
     AlmOps__Sandbox__Username: $AZUREDEVOPS_TEST_USERNAME
     AlmOps__Sandbox__Token: $AZUREDEVOPS_TEST_TOKEN
@@ -77,7 +77,7 @@ dotnet-test:
         path: $DOTNET_TEST_COVERAGE_XMLFILES
   coverage: '/Line coverage: \d+(?:\.\d+)?%/'
 
-nuget-publish:
+nuget-push:
   extends: .dotnet
   stage: publish
   script:
@@ -123,7 +123,7 @@ podman-push:
   script:
     - podman load -i image.tar
     - podman push $IMAGE_NAME
-    - if [ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]; then podman tag $IMAGE_NAME $IMAGE_LATEST; podman push IMAGE_LATEST; fi
+    - if [ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]; then podman tag $IMAGE_NAME $IMAGE_LATEST; podman push $IMAGE_LATEST; fi
   only:
     - main
     - web
