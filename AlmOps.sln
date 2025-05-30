@@ -9,12 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Solution Items", "0 - S
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
-		.azure\pipelines\ci.yml = .azure\pipelines\ci.yml
 		CONTRIBUTING.md = CONTRIBUTING.md
 		Directory.Build.props = Directory.Build.props
 		Local.runsettings = Local.runsettings
 		.azure\pipelines\pkg.yml = .azure\pipelines\pkg.yml
 		README.md = README.md
+		.gitlab-ci.yml = .gitlab-ci.yml
+		.dockerignore = .dockerignore
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Components", "1 - Components", "{D254B3EA-CAFB-4564-A1A5-2D0E37DE29B8}"
@@ -32,6 +33,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp.UnitTests", "test\ConsoleApp.UnitTests\ConsoleApp.UnitTests.csproj", "{933E5B0A-BA55-4768-8380-91DE2A253D53}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests", "test\AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests\AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests.csproj", "{ED040615-CB13-4DF5-9D0B-33BF464F8F36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitLab", "GitLab", "{4A98AFE3-F966-4916-8BA2-B07C138E1DD8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{360EE467-B8AE-41CB-9405-8166E8F61D62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp.IntegrationTests", "test\ConsoleApp.IntegrationTests\ConsoleApp.IntegrationTests.csproj", "{90677288-AAA3-4C4C-8F06-794BEA93A34E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +70,10 @@ Global
 		{ED040615-CB13-4DF5-9D0B-33BF464F8F36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED040615-CB13-4DF5-9D0B-33BF464F8F36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED040615-CB13-4DF5-9D0B-33BF464F8F36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90677288-AAA3-4C4C-8F06-794BEA93A34E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90677288-AAA3-4C4C-8F06-794BEA93A34E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90677288-AAA3-4C4C-8F06-794BEA93A34E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90677288-AAA3-4C4C-8F06-794BEA93A34E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +86,9 @@ Global
 		{889EF283-E155-490B-B85A-6FD98F73927D} = {74FF6EA7-6764-4B7B-970F-29E0763B0A04}
 		{933E5B0A-BA55-4768-8380-91DE2A253D53} = {842A49CD-7DBE-4E99-8244-57FCAA8E9901}
 		{ED040615-CB13-4DF5-9D0B-33BF464F8F36} = {74FF6EA7-6764-4B7B-970F-29E0763B0A04}
+		{4A98AFE3-F966-4916-8BA2-B07C138E1DD8} = {D254B3EA-CAFB-4564-A1A5-2D0E37DE29B8}
+		{360EE467-B8AE-41CB-9405-8166E8F61D62} = {D254B3EA-CAFB-4564-A1A5-2D0E37DE29B8}
+		{90677288-AAA3-4C4C-8F06-794BEA93A34E} = {842A49CD-7DBE-4E99-8244-57FCAA8E9901}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3CE55893-1DA3-4B50-BE62-9713F1859BF2}

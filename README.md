@@ -1,9 +1,13 @@
 ﻿# almops - Ops tool for ALM solutions
 
-[![Build Status](https://dev.azure.com/devprofr/open-source/_apis/build/status/almops-ci?branchName=master)](https://dev.azure.com/devprofr/open-source/_build/latest?definitionId=24&branchName=master)
+[![GitLab Pipeline Status](https://gitlab.com/devpro-labs/software/almops/badges/main/pipeline.svg)](https://gitlab.com/devpro-labs/software/almops/-/pipelines)
+[![GitLab Coverage Report](https://gitlab.com/devpro-labs/software/almops/badges/main/coverage.svg)](https://gitlab.com/devpro-labs/software/almops/-/commits/main)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=devpro.almops&metric=alert_status)](https://sonarcloud.io/dashboard?id=devpro.almops)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=devpro.almops&metric=coverage)](https://sonarcloud.io/dashboard?id=devpro.almops)
 [![Nuget](https://img.shields.io/nuget/v/almops.svg)](https://www.nuget.org/packages/almops)
+[![Docker Image Version](https://img.shields.io/docker/v/devprofr/almops?label=Docker)](https://hub.docker.com/r/devprofr/almops)
+
+<!--[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=devpro.almops&metric=coverage)](https://sonarcloud.io/dashboard?id=devpro.almops)-->
+
 
 Command line tool to administrate [ALM (Application lifecycle management)](https://en.wikipedia.org/wiki/Application_lifecycle_management) solutions such as Azure DevOps, GitHub, GitLab.
 
@@ -26,7 +30,11 @@ dotnet tool uninstall -g almops
 
 ### Option 2 - Container
 
-* TODO
+```bash
+docker run -it --rm --name almops \
+  -e almops__BaseUrl="https://dev.azure.com/***" -e almops__Username="***" -e almops__Token="***" \
+  devprofr/almops:latest list projects
+```
 
 ## How to authenticate
 
@@ -86,7 +94,7 @@ almops list artifacts -p myproject --id 90
 # creates a new release from a feature branch with the release definition id
 almops create release -p myproject --id 1 --branch "feature/something-awesome"
 
-# creates a new release from master branch with the release name
+# creates a new release from main branch with the release name
 almops create release -p myproject --name myreleasename
 ```
 

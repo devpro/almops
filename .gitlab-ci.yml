@@ -1,0 +1,131 @@
+stages:
+  - build
+  - test
+  - publish
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+
+variables:
+  IMAGE_NAME: $CONTAINER_REGISTRY_USER/almops:1.3.$CI_PIPELINE_ID
+  IMAGE_LATEST: $CONTAINER_REGISTRY_USER/almops:latest
+
+.dotnet:
+  image: mcr.microsoft.com/dotnet/sdk:9.0
+  variables:
+    DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+    COREHOST_TRACE: 0
+
+dotnet-build:
+  extends: .dotnet
+  stage: build
+  script:
+    - dotnet restore
+    - dotnet build --no-restore --configuration Debug
+
+dotnet-test:
+  extends: .dotnet
+  stage: test
+  variables:
+    DOTNET_TEST_RESULT_XMLFILES: ./**/*test-result.xml
+    DOTNET_TEST_COVERAGE_XMLFILES: ./test/*/TestResults/*/coverage.cobertura.xml
+    DOTNET_TEST_REPORT_FOLDER: report
+    # other options available: /d:sonar.coverage.exclusions=... /d:sonar.cpd.exclusions=**/Models/*.cs,**/Dto/*.cs
+    SONAR_EXTRA_PARAMETERS: /d:sonar.cpd.exclusions=**/*Generated*.cs,report/** /d:sonar.coverageReportPaths=report/SonarQube.xml
+    BUILD_SOURCEBRANCHNAME: $CI_COMMIT_BRANCH
+    BUILD_BUILDID: $CI_PIPELINE_ID
+    AlmOps__Sandbox__Organization: $AZUREDEVOPS_TEST_ORG
+    AlmOps__Sandbox__Username: $AZUREDEVOPS_TEST_USERNAME
+    AlmOps__Sandbox__Token: $AZUREDEVOPS_TEST_TOKEN
+    AlmOps__Sandbox__Project: $AZUREDEVOPS_TEST_PROJECT
+    AlmOps__Sandbox__VariableGroupId: $AZUREDEVOPS_TEST_VARIABLEGROUPID
+  before_script:
+    # updates system
+    - cat /etc/issue
+    - apt-get update
+    - apt-get install -y gnupg
+    # installs java runtime, sonar scanner and report generator tool
+    - apt install -y default-jre
+    - dotnet tool install --global dotnet-sonarscanner
+    - dotnet tool install --global dotnet-reportgenerator-globaltool
+    # adds dotnet global tool in the path
+    - export PATH="$PATH:/root/.dotnet/tools"
+  script:
+    - dotnet sonarscanner begin /o:$SONAR_ORGANIZATION /k:$SONAR_PROJECTKEY /n:AlmOps /d:sonar.host.url=$SONAR_HOSTURL /d:sonar.token=$SONAR_TOKEN $SONAR_EXTRA_PARAMETERS
+    - dotnet test --configuration Debug --logger:"junit;LogFilePath=..\..\artifacts\{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose" --collect:"XPlat Code Coverage"
+    - reportgenerator "-reports:$DOTNET_TEST_COVERAGE_XMLFILES" -targetdir:$DOTNET_TEST_REPORT_FOLDER "-reporttypes:Cobertura;Html;TextSummary;SonarQube"
+    - dotnet sonarscanner end /d:sonar.token=$SONAR_TOKEN
+    - cat $DOTNET_TEST_REPORT_FOLDER/Summary.txt
+  artifacts:
+    when: always
+    paths:
+      - $DOTNET_TEST_RESULT_XMLFILES
+      - $DOTNET_TEST_COVERAGE_XMLFILES
+      - $DOTNET_TEST_REPORT_FOLDER/Cobertura.xml
+      - $DOTNET_TEST_REPORT_FOLDER/Summary.txt
+    reports:
+      junit:
+        - $DOTNET_TEST_RESULT_XMLFILES
+      coverage_report:
+        coverage_format: cobertura
+        # should also work and will prevent issue with line limit
+        # path: $DOTNET_TEST_REPORT_FOLDER/Cobertura.xml
+        path: $DOTNET_TEST_COVERAGE_XMLFILES
+  coverage: '/Line coverage: \d+(?:\.\d+)?%/'
+
+nuget-publish:
+  extends: .dotnet
+  stage: publish
+  script:
+    - dotnet pack --configuration Release -o output
+    - for f in output/*.nupkg; do dotnet nuget push "$f" --api-key $NUGET_APIKEY --source $NUGET_SOURCE ; done
+  only:
+    refs:
+      - main
+    changes:
+      - Directory.Build.props
+    variables:
+      - $CI_PIPELINE_SOURCE == "push"
+
+#.docker:
+#  image: docker:stable
+#  services:
+#    - docker-dind
+#  tags:
+#    - gitlab-org-docker
+
+.podman:
+  image: quay.io/podman/stable:latest
+
+podman-build:
+  extends: .podman
+  stage: build
+  script:
+    - podman build . -t $IMAGE_NAME -f src/ConsoleApp/Dockerfile
+    - podman save -o image.tar $IMAGE_NAME
+  timeout: 30 minutes
+  artifacts:
+    expire_in: 1 hours
+    paths:
+      - image.tar
+
+# TODO: scan container image (with NeuVector/Trivy)
+
+podman-push:
+  extends: .podman
+  stage: publish
+  before_script:
+    - echo "$CONTAINER_REGISTRY_PASSWD" | podman login docker.io -u "$CONTAINER_REGISTRY_USER" --password-stdin
+  script:
+    - podman load -i image.tar
+    - podman push $IMAGE_NAME
+    - if [ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]; then podman tag $IMAGE_NAME $IMAGE_LATEST; podman push IMAGE_LATEST; fi
+  only:
+    - main
+    - web
+  dependencies:
+    - podman-build

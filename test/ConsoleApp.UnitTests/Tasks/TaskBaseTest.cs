@@ -9,16 +9,16 @@ namespace AlmOps.ConsoleApp.UnitTests.Tasks
     [Trait("Category", "UnitTests")]
     public class TaskBaseTest
     {
-        class DummyTask : TaskBase
+        private class DummyTask : TaskBase
         {
             public override Task<string> ExecuteAsync(CommandLineOptions options)
             {
                 return null;
             }
 
-            public new Dictionary<string, string> GetVariables(List<string> inputVariables, string separator)
+            public new static Dictionary<string, string> GetVariables(List<string> inputVariables, string separator)
             {
-                return base.GetVariables(inputVariables, separator);
+                return TaskBase.GetVariables(inputVariables, separator);
             }
         }
 
@@ -26,7 +26,7 @@ namespace AlmOps.ConsoleApp.UnitTests.Tasks
         public void TaskBaseGetVariables_ShouldReturnDictionary()
         {
             var task = new DummyTask();
-            var output = task.GetVariables(new List<string> { "toto:titi", "tutu:tyty" }, ":");
+            var output = DummyTask.GetVariables(["toto:titi", "tutu:tyty"], ":");
             output.Should().NotBeNull();
             output.Should().NotBeEmpty();
             output.Count.Should().Be(2);
@@ -37,10 +37,10 @@ namespace AlmOps.ConsoleApp.UnitTests.Tasks
         }
 
         [Fact]
-        public void TaskBaseGetVariables_WithSeperatorCharacter_ShouldReturnDictionary()
+        public void TaskBaseGetVariables_WithSeparatorCharacter_ShouldReturnDictionary()
         {
             var task = new DummyTask();
-            var output = task.GetVariables(new List<string> { "connectionString:https://www.google.com", "complexPassword:Pass:Word:123" }, ":");
+            var output = DummyTask.GetVariables(["connectionString:https://www.google.com", "complexPassword:Pass:Word:123"], ":");
             output.Should().NotBeNull();
             output.Should().NotBeEmpty();
             output.Count.Should().Be(2);

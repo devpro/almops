@@ -4,42 +4,35 @@ using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 using Withywoods.System;
 
-namespace AlmOps.ConsoleApp.Tasks
+namespace AlmOps.ConsoleApp.Tasks;
+
+internal class ShowBuildTask(ILogger<ShowBuildTask> logger, IBuildRepository buildRepository)
+    : IConsoleTask
 {
-    class ShowBuildTask : IConsoleTask
+    public async Task<string> ExecuteAsync(CommandLineOptions options)
     {
-        private readonly ILogger<ShowBuildTask> _logger;
-
-        private readonly IBuildRepository _buildRepository;
-
-        public ShowBuildTask(ILogger<ShowBuildTask> logger, IBuildRepository buildRepository)
+        if (string.IsNullOrEmpty(options.Project) || string.IsNullOrEmpty(options.Id))
         {
-            _logger = logger;
-            _buildRepository = buildRepository;
+            return null;
         }
 
-        public async Task<string> ExecuteAsync(CommandLineOptions options)
+        logger.LogDebug("Show a build");
+
+        var build = await buildRepository.FindOneByIdAsync(options.Project, options.Id);
+        if (build == null)
         {
-            if (string.IsNullOrEmpty(options.Project) || string.IsNullOrEmpty(options.Id))
-            {
-                return null;
-            }
+            return null;
+        }
 
-            _logger.LogDebug("Show a build");
-
-            var build = await _buildRepository.FindOneByIdAsync(options.Project, options.Id);
-            if (build == null)
+        if (!string.IsNullOrEmpty(options.Query))
+        {
+            var property = typeof(BuildModel).GetProperty(options.Query.FirstCharToUpper());
+            if (property != null)
             {
-                return null;
-            }
-
-            if (!string.IsNullOrEmpty(options.Query))
-            {
-                var property = typeof(BuildModel).GetProperty(options.Query.FirstCharToUpper());
                 return (string)property.GetValue(build);
             }
-
-            return $"Successful query, {build.Id} has a status {build.Status}";
         }
+
+        return $"Successful query, {build.Id} has a status {build.Status}";
     }
 }

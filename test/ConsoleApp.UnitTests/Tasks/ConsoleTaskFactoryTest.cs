@@ -11,7 +11,7 @@ namespace AlmOps.ConsoleApp.UnitTests.Tasks
     [Trait("Category", "UnitTests")]
     public class ConsoleTaskFactoryTest
     {
-        protected readonly ServiceProvider _serviceProvider;
+        private readonly ServiceProvider _serviceProvider;
 
         public ConsoleTaskFactoryTest()
         {

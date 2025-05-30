@@ -5,42 +5,35 @@ using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 using Withywoods.System;
 
-namespace AlmOps.ConsoleApp.Tasks
+namespace AlmOps.ConsoleApp.Tasks;
+
+internal class ListBuildTask(ILogger<ListBuildTask> logger, IBuildRepository buildRepository)
+    : IConsoleTask
 {
-    class ListBuildTask : IConsoleTask
+    public async Task<string> ExecuteAsync(CommandLineOptions options)
     {
-        private readonly ILogger<ListBuildTask> _logger;
-
-        private readonly IBuildRepository _buildRepository;
-
-        public ListBuildTask(ILogger<ListBuildTask> logger, IBuildRepository buildRepository)
+        if (string.IsNullOrEmpty(options.Project))
         {
-            _logger = logger;
-            _buildRepository = buildRepository;
+            return null;
         }
 
-        public async Task<string> ExecuteAsync(CommandLineOptions options)
+        logger.LogDebug("Query the build repository");
+
+        var builds = await buildRepository.FindAllAsync(options.Project);
+        if (builds.Count == 0)
         {
-            if (string.IsNullOrEmpty(options.Project))
-            {
-                return null;
-            }
+            return null;
+        }
 
-            _logger.LogDebug("Query the build repository");
-
-            var builds = await _buildRepository.FindAllAsync(options.Project);
-            if (!builds.Any())
+        if (!string.IsNullOrEmpty(options.Query))
+        {
+            var property = typeof(BuildModel).GetProperty(options.Query.FirstCharToUpper());
+            if (property != null)
             {
-                return null;
-            }
-
-            if (!string.IsNullOrEmpty(options.Query))
-            {
-                var property = typeof(BuildModel).GetProperty(options.Query.FirstCharToUpper());
                 return (string)property.GetValue(builds.First());
             }
-
-            return $"Successful query, {builds.Count} builds found = {string.Join(",", builds.Select(x => x.Id))}";
         }
+
+        return $"Successful query, {builds.Count} builds found = {string.Join(",", builds.Select(x => x.Id))}";
     }
 }

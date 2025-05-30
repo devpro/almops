@@ -4,7 +4,7 @@
     {
         public string BaseUrl { get; set; }
 
-        public string ApiVersion { get; set; } = "5.1";
+        public string ApiVersion { get; set; } = "7.1";
 
         public string Username { get; set; }
 

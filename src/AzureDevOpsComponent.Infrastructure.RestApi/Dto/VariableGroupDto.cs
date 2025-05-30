@@ -29,5 +29,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
 
         [JsonProperty("variableGroupProjectReferences")]
         public List<ProjectReferenceDto> ProjectReferences { get; set; }
+        
+        // providerData VariableGroupProviderData
     }
 }

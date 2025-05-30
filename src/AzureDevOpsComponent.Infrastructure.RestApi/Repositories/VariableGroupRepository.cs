@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Models;
@@ -15,7 +15,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
     /// Build repository.
     /// </summary>
     /// <remarks>
-    /// https://docs.microsoft.com/en-us/rest/api/azure/devops/distributedtask/variablegroups
+    /// https://learn.microsoft.com/en-us/rest/api/azure/devops/distributedtask/variablegroups
     /// </remarks>
     public class VariableGroupRepository : RepositoryBase, IVariableGroupRepository
     {
@@ -54,7 +54,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
         /// <param name="isReplaceAll"></param>
         /// <returns></returns>
         /// <remarks>
-        /// https://docs.microsoft.com/en-us/rest/api/azure/devops/distributedtask/variablegroups/update
+        /// https://learn.microsoft.com/en-us/rest/api/azure/devops/distributedtask/variablegroups/update
         /// </remarks>
         public async Task UpdateAsync(string projectName, string id, Dictionary<string, string> input, bool isReplaceAll = false)
         {
@@ -80,13 +80,22 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
                 existing.Variables.Add(variable.Key, $"{{\"value\":\"{variable.Value}\"}}".FromJson<JToken>());
             }
 
-            var url = GenerateUrl(prefix: $"/{projectName}", suffix: $"/{id}", isPreview: true);
+            var url = GenerateUrl(prefix: $"/{projectName}", suffix: $"/{id}");
             await PutAsync(url, existing);
         }
 
+        /// <summary>
+        /// Find one variable group from its id.
+        /// </summary>
+        /// <param name="projectName">Project name</param>
+        /// <param name="id">Variable group name</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// https://learn.microsoft.com/en-us/rest/api/azure/devops/distributedtask/variablegroups/get
+        /// </remarks>
         private async Task<VariableGroupDto> FindOneVariableGroupDto(string projectName, string id)
         {
-            var url = GenerateUrl(prefix: $"/{projectName}", suffix: $"/{id}", isPreview: true);
+            var url = GenerateUrl(prefix: $"/{projectName}", suffix: $"/{id}");
             return await GetAsync<VariableGroupDto>(url);
         }
     }

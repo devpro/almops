@@ -14,8 +14,8 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection
         /// <summary>
         /// Add the dependency injection configuration.
         /// </summary>
-        /// <typeparam name="T">Instance of <see cref="IMongoDbAtlasRestApiConfiguration"/></typeparam>
         /// <param name="services">Collection of services that will be completed</param>
+        /// <param name="configuration">Instance of <see cref="IAzureDevOpsRestApiConfiguration"/></param>
         /// <returns></returns>
         public static IServiceCollection AddAzureDevOpsRestApi<T>(this IServiceCollection services, T configuration)
             where T : class, IAzureDevOpsRestApiConfiguration

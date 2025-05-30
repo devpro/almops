@@ -5,37 +5,30 @@ using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 using Withywoods.System;
 
-namespace AlmOps.ConsoleApp.Tasks
+namespace AlmOps.ConsoleApp.Tasks;
+
+internal class ListProjectTask(ILogger<ListProjectTask> logger, IProjectRepository projectRepository)
+    : IConsoleTask
 {
-    class ListProjectTask : IConsoleTask
+    public async Task<string> ExecuteAsync(CommandLineOptions options)
     {
-        private readonly ILogger<ListProjectTask> _logger;
+        logger.LogDebug("Query the project repository");
 
-        private readonly IProjectRepository _projectRepository;
-
-        public ListProjectTask(ILogger<ListProjectTask> logger, IProjectRepository projectRepository)
+        var projects = await projectRepository.FindAllAsync();
+        if (projects.Count == 0)
         {
-            _logger = logger;
-            _projectRepository = projectRepository;
+            return null;
         }
 
-        public async Task<string> ExecuteAsync(CommandLineOptions options)
+        if (!string.IsNullOrEmpty(options.Query))
         {
-            _logger.LogDebug("Query the project repository");
-
-            var projects = await _projectRepository.FindAllAsync();
-            if (!projects.Any())
+            var property = typeof(ProjectModel).GetProperty(options.Query.FirstCharToUpper());
+            if (property != null)
             {
-                return null;
-            }
-
-            if (!string.IsNullOrEmpty(options.Query))
-            {
-                var property = typeof(ProjectModel).GetProperty(options.Query.FirstCharToUpper());
                 return (string)property.GetValue(projects.First());
             }
-
-            return $"Successful query, {projects.Count} projects found = {string.Join(",", projects.Select(x => x.Name))}";
         }
+
+        return $"Successful query, {projects.Count} projects found = {string.Join(",", projects.Select(x => x.Name))}";
     }
 }

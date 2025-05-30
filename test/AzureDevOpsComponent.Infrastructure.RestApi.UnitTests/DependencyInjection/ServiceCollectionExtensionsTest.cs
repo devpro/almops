@@ -11,12 +11,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.UnitTests.Dependenc
     [Trait("Category", "UnitTests")]
     public class ServiceCollectionExtensionsTest
     {
-        private readonly DefaultAzureDevOpsRestApiConfiguration _configuration;
-
-        public ServiceCollectionExtensionsTest()
-        {
-            _configuration = new DefaultAzureDevOpsRestApiConfiguration();
-        }
+        private readonly DefaultAzureDevOpsRestApiConfiguration _configuration = new();
 
         [Fact]
         public void AddAzureDevOpsRestApi_ShouldProvideConfiguration()
@@ -56,7 +51,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.UnitTests.Dependenc
         }
 
         [Fact]
-        public void AddAzureDevOpsRestApi_ShouldprovideHttpClient()
+        public void AddAzureDevOpsRestApi_ShouldProvideHttpClient()
         {
             // Arrange
             var serviceCollection = new ServiceCollection()
@@ -76,11 +71,8 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.UnitTests.Dependenc
         [Fact]
         public void AddAzureDevOpsRestApi_ShouldThrowExceptionIfServiceCollectionIsNull()
         {
-            // Arrange
-            var serviceCollection = (ServiceCollection)null;
-
             // Act
-            var exc = Assert.Throws<ArgumentNullException>(() => serviceCollection.AddAzureDevOpsRestApi(_configuration));
+            var exc = Assert.Throws<ArgumentNullException>(() => ((ServiceCollection)null).AddAzureDevOpsRestApi(_configuration));
 
             // Assert
             exc.Should().NotBeNull();
@@ -92,10 +84,9 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.UnitTests.Dependenc
         {
             // Arrange
             var serviceCollection = new ServiceCollection();
-            var configuration = (IAzureDevOpsRestApiConfiguration)null;
 
             // Act
-            var exc = Assert.Throws<ArgumentNullException>(() => serviceCollection.AddAzureDevOpsRestApi(configuration));
+            var exc = Assert.Throws<ArgumentNullException>(() => serviceCollection.AddAzureDevOpsRestApi<IAzureDevOpsRestApiConfiguration>(null));
 
             // Assert
             exc.Should().NotBeNull();
