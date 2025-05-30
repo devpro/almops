@@ -3,48 +3,38 @@ using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
-namespace AlmOps.ConsoleApp.Tasks
+namespace AlmOps.ConsoleApp.Tasks;
+
+internal class QueueBuildTask(
+    ILogger<QueueBuildTask> logger,
+    IBuildRepository buildRepository,
+    IBuildTagRepository buildTagRepository)
+    : TaskBase
 {
-    class QueueBuildTask : TaskBase
+    public override async Task<string> ExecuteAsync(CommandLineOptions options)
     {
-        private readonly ILogger<QueueBuildTask> _logger;
-
-        private readonly IBuildRepository _buildRepository;
-
-        private readonly IBuildTagRepository _buildTagRepository;
-
-        public QueueBuildTask(ILogger<QueueBuildTask> logger, IBuildRepository buildRepository, IBuildTagRepository buildTagRepository)
+        if (string.IsNullOrEmpty(options.Project) || string.IsNullOrEmpty(options.Id))
         {
-            _logger = logger;
-            _buildRepository = buildRepository;
-            _buildTagRepository = buildTagRepository;
+            return null;
         }
 
-        public override async Task<string> ExecuteAsync(CommandLineOptions options)
+        logger.LogDebug("Queue a new build");
+
+        var build = await buildRepository.CreateAsync(
+            options.Project,
+            options.Id,
+            options.Branch ?? "main",
+            GetVariables(options.Variables.ToList(), CommandLineOptions.VariableSeparator));
+        if (build == null)
         {
-            if (string.IsNullOrEmpty(options.Project) || string.IsNullOrEmpty(options.Id))
-            {
-                return null;
-            }
-
-            _logger.LogDebug("Queue a new build");
-
-            var build = await _buildRepository.CreateAsync(
-                options.Project,
-                options.Id,
-                options.Branch ?? "master",
-                GetVariables(options.Variables.ToList(), CommandLineOptions.VariableSeparator));
-            if (build == null)
-            {
-                return null;
-            }
-
-            if (!string.IsNullOrEmpty(options.Tag))
-            {
-                await _buildTagRepository.AddOneAsync(options.Project, build.Id, options.Tag);
-            }
-
-            return build.Id;
+            return null;
         }
+
+        if (!string.IsNullOrEmpty(options.Tag))
+        {
+            await buildTagRepository.AddOneAsync(options.Project, build.Id, options.Tag);
+        }
+
+        return build.Id;
     }
 }

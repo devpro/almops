@@ -5,42 +5,35 @@ using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 using Withywoods.System;
 
-namespace AlmOps.ConsoleApp.Tasks
+namespace AlmOps.ConsoleApp.Tasks;
+
+internal class ListArtifactTask(ILogger<ListArtifactTask> logger, IBuildArtifactRepository buildArtifactRepository)
+    : IConsoleTask
 {
-    class ListArtifactTask : IConsoleTask
+    public async Task<string> ExecuteAsync(CommandLineOptions options)
     {
-        private readonly ILogger<ListArtifactTask> _logger;
-
-        private readonly IBuildArtifactRepository _buildArtifactRepository;
-
-        public ListArtifactTask(ILogger<ListArtifactTask> logger, IBuildArtifactRepository buildArtifactRepository)
+        if (string.IsNullOrEmpty(options.Project) || string.IsNullOrEmpty(options.Id))
         {
-            _logger = logger;
-            _buildArtifactRepository = buildArtifactRepository;
+            return null;
         }
 
-        public async Task<string> ExecuteAsync(CommandLineOptions options)
+        logger.LogDebug("Query the build artifact repository");
+
+        var artifacts = await buildArtifactRepository.FindAllAsync(options.Project, options.Id);
+        if (artifacts.Count == 0)
         {
-            if (string.IsNullOrEmpty(options.Project) || string.IsNullOrEmpty(options.Id))
-            {
-                return null;
-            }
+            return null;
+        }
 
-            _logger.LogDebug("Query the build artifact repository");
-
-            var artifacts = await _buildArtifactRepository.FindAllAsync(options.Project, options.Id);
-            if (!artifacts.Any())
+        if (!string.IsNullOrEmpty(options.Query))
+        {
+            var property = typeof(BuildArtifactModel).GetProperty(options.Query.FirstCharToUpper());
+            if (property != null)
             {
-                return null;
-            }
-
-            if (!string.IsNullOrEmpty(options.Query))
-            {
-                var property = typeof(BuildArtifactModel).GetProperty(options.Query.FirstCharToUpper());
                 return (string)property.GetValue(artifacts.First());
             }
-
-            return $"Successful query, {artifacts.Count} artifacts found = {string.Join(",", artifacts.Select(x => x.Name + ":" + x.Source))}";
         }
+
+        return $"Successful query, {artifacts.Count} artifacts found = {string.Join(",", artifacts.Select(x => x.Name + ":" + x.Source))}";
     }
 }

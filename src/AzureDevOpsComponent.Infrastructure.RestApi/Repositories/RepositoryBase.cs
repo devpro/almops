@@ -18,7 +18,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
             Mapper = mapper;
         }
 
-        protected IAzureDevOpsRestApiConfiguration Configuration { get; private set; }
+        private IAzureDevOpsRestApiConfiguration Configuration { get; set; }
 
         protected IMapper Mapper { get; private set; }
 

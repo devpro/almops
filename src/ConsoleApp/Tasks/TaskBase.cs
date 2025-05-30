@@ -1,27 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AlmOps.ConsoleApp.Tasks
+namespace AlmOps.ConsoleApp.Tasks;
+
+public abstract class TaskBase : IConsoleTask
 {
-    public abstract class TaskBase : IConsoleTask
+    public abstract Task<string> ExecuteAsync(CommandLineOptions options);
+
+    protected static Dictionary<string, string> GetVariables(List<string> inputVariables, string separator)
     {
-        public abstract Task<string> ExecuteAsync(CommandLineOptions options);
+        var output = new Dictionary<string, string>();
 
-        protected Dictionary<string, string> GetVariables(List<string> inputVariables, string separator)
+        if (inputVariables.Count == 0)
         {
-            var output = new Dictionary<string, string>();
-
-            if (!inputVariables.Any())
-            {
-                return output;
-            }
-
-            inputVariables.ForEach(x => output.Add(
-                x.Split(separator)[0],
-                x.Contains(separator) ? x.Substring(x.IndexOf(separator) + 1) : null));
-
             return output;
         }
+
+        inputVariables.ForEach(x => output.Add(
+            x.Split(separator)[0],
+            x.Contains(separator) ? x[(x.IndexOf(separator, StringComparison.Ordinal) + 1)..] : null));
+
+        return output;
     }
 }

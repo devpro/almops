@@ -3,66 +3,50 @@ using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
-namespace AlmOps.ConsoleApp.Tasks
+namespace AlmOps.ConsoleApp.Tasks;
+
+internal class CreateReleaseTask(
+    ILogger<CreateReleaseTask> logger,
+    IReleaseDefinitionRepository releaseDefinitionRepository,
+    IBuildRepository buildRepository,
+    IReleaseRepository releaseRepository)
+    : IConsoleTask
 {
-    class CreateReleaseTask : IConsoleTask
+    public async Task<string> ExecuteAsync(CommandLineOptions options)
     {
-        private readonly ILogger<CreateReleaseTask> _logger;
-
-        private readonly IReleaseDefinitionRepository _releaseDefinitionRepository;
-
-        private readonly IBuildRepository _buildRepository;
-
-        private readonly IReleaseRepository _releaseRepository;
-
-        public CreateReleaseTask(
-            ILogger<CreateReleaseTask> logger,
-            IReleaseDefinitionRepository releaseDefinitionRepository,
-            IBuildRepository buildRepository,
-            IReleaseRepository releaseRepository)
+        if (string.IsNullOrEmpty(options.Project) || (string.IsNullOrEmpty(options.Id) && string.IsNullOrEmpty(options.Name)))
         {
-            _logger = logger;
-            _releaseDefinitionRepository = releaseDefinitionRepository;
-            _buildRepository = buildRepository;
-            _releaseRepository = releaseRepository;
+            return null;
         }
 
-        public async Task<string> ExecuteAsync(CommandLineOptions options)
+        logger.LogDebug("Create a new release");
+
+        var releaseDefinitionId = options.Id;
+        if (!string.IsNullOrEmpty(options.Name))
         {
-            if (string.IsNullOrEmpty(options.Project) || (string.IsNullOrEmpty(options.Id) && string.IsNullOrEmpty(options.Name)))
+            var releaseDefinitions = await releaseDefinitionRepository.FindAllAsync(options.Project, options.Name);
+            if (releaseDefinitions.Count == 0)
             {
+                logger.LogWarning("Cannot find a release definition with {OptionsName} name", options.Name);
                 return null;
             }
 
-            _logger.LogDebug("Create a new release");
-
-            var releaseDefinitionId = options.Id;
-            if (!string.IsNullOrEmpty(options.Name))
-            {
-                var releaseDefinitions = await _releaseDefinitionRepository.FindAllAsync(options.Project, options.Name);
-                if (!releaseDefinitions.Any())
-                {
-                    _logger.LogWarning($"Cannot find a release definition with {options.Name} name");
-                    return null;
-                }
-
-                releaseDefinitionId = releaseDefinitions.First().Id.ToString();
-            }
-
-            var releaseDefinition = await _releaseDefinitionRepository.FindOneByIdAsync(options.Project, releaseDefinitionId);
-
-            // get latest build from the specified branch, master by default
-            var branchName = options.Branch ?? "master";
-            var builds = await _buildRepository.FindAllAsync(options.Project, branchName, releaseDefinition.Artifacts.First().BuildDefinitionId);
-            if (!builds.Any())
-            {
-                _logger.LogWarning($"Cannot find a build on {branchName} branch");
-                return null;
-            }
-
-            var release = await _releaseRepository.CreateAsync(options.Project, releaseDefinitionId, builds.First().Id, releaseDefinition.Artifacts.First().Alias);
-
-            return release.Id;
+            releaseDefinitionId = releaseDefinitions.First().Id.ToString();
         }
+
+        var releaseDefinition = await releaseDefinitionRepository.FindOneByIdAsync(options.Project, releaseDefinitionId);
+
+        // gets latest build from the specified branch, with a default value
+        var branchName = options.Branch ?? "main";
+        var builds = await buildRepository.FindAllAsync(options.Project, branchName, releaseDefinition.Artifacts.First().BuildDefinitionId);
+        if (builds.Count == 0)
+        {
+            logger.LogWarning("Cannot find a build on {BranchName} branch", branchName);
+            return null;
+        }
+
+        var release = await releaseRepository.CreateAsync(options.Project, releaseDefinitionId, builds.First().Id, releaseDefinition.Artifacts.First().Alias);
+
+        return release.Id;
     }
 }

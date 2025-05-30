@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests
 {
-    public class RepositoryIntegrationTestBase
+    public abstract class RepositoryIntegrationTestBase
     {
         private readonly string _environmentName;
 
@@ -38,16 +38,13 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests
 
         protected ServiceProvider ServiceProvider { get; private set; }
 
-        protected IAzureDevOpsRestApiConfiguration Configuration { get; private set; }
+        protected IAzureDevOpsRestApiConfiguration Configuration { get; }
 
         protected string ProjectName { get; private set; }
 
         protected string GetEnvironmentVariable(string key)
         {
-            if (key is null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
+            ArgumentNullException.ThrowIfNull(key);
 
             var name = $"AlmOps__{_environmentName}__{key}";
             var output = Environment.GetEnvironmentVariable(name);
