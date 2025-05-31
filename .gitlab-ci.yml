@@ -1,3 +1,7 @@
+include:
+  - remote: 'https://gitlab.com/neuvector/gitlab-plugin/-/raw/master/scan.yml'
+  - template: Jobs/Container-Scanning.gitlab-ci.yml
+
 stages:
   - build
   - test
@@ -10,8 +14,10 @@ workflow:
     - if: '$CI_PIPELINE_SOURCE == "web"'
 
 variables:
-  IMAGE_NAME: $CONTAINER_REGISTRY_USER/almops:1.3.$CI_PIPELINE_ID
-  IMAGE_LATEST: $CONTAINER_REGISTRY_USER/almops:latest
+  IMAGE_REPOSITORY: $CONTAINER_REGISTRY_DOMAIN/$CONTAINER_REGISTRY_USER/almops
+  IMAGE_TAG: 1.3.$CI_PIPELINE_ID
+  IMAGE_NAME: $IMAGE_REPOSITORY:$IMAGE_TAG
+  IMAGE_LATEST: $IMAGE_REPOSITORY:latest
 
 .dotnet:
   image: mcr.microsoft.com/dotnet/sdk:9.0
@@ -113,13 +119,49 @@ podman-build:
     paths:
       - image.tar
 
-# TODO: scan container image (with NeuVector/Trivy)
+neuvector_scan:
+  #extends: .docker
+  stage: test
+  variables:
+    #image_registry_url: "https://registry-1.docker.io"
+    #image_registry_user: $CONTAINER_REGISTRY_USER
+    #image_registry_password: $CONTAINER_REGISTRY_PASSWD
+    scan_local_image: "true"
+    image_tar: "image.tar"
+    image_repo: $IMAGE_REPOSITORY
+    image_tag: $IMAGE_TAG
+    #nv_registry_url: "https://registry-1.docker.io"
+    nv_registry_user: $CONTAINER_REGISTRY_USER
+    nv_registry_password: $CONTAINER_REGISTRY_PASSWD
+    scan_layers: "false"
+    high_vul_to_fail: 0
+    medium_vul_to_fail: 0
+    vul_names_to_fail: ""
+    #DOCKER_HOST: tcp://docker:2376
+    #DOCKER_TLS_CERTDIR: "/certs"
+    #DOCKER_TLS_VERIFY: 1
+    #DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
+  #before_script:
+  #  - apk add curl
+  #  - apk add jq
+  #  - until docker info; do sleep 1; done
+  after_script:
+    - cat ./nvreport/scan-summary.txt
+  dependencies:
+    - podman-build
+
+# https://docs.gitlab.com/user/application_security/container_scanning/
+container_scanning:
+  variables:
+    CS_IMAGE: "archive://image.tar"
+  dependencies:
+    - podman-build
 
 podman-push:
   extends: .podman
   stage: publish
   before_script:
-    - echo "$CONTAINER_REGISTRY_PASSWD" | podman login docker.io -u "$CONTAINER_REGISTRY_USER" --password-stdin
+    - echo "$CONTAINER_REGISTRY_PASSWD" | podman login $CONTAINER_REGISTRY_DOMAIN -u "$CONTAINER_REGISTRY_USER" --password-stdin
   script:
     - podman load -i image.tar
     - podman push $IMAGE_NAME

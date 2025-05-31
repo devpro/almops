@@ -6,48 +6,43 @@ using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 
-namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories
+namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
+
+/// <summary>
+/// Release repository.
+/// </summary>
+/// <remarks>https://docs.microsoft.com/en-us/rest/api/azure/devops/release/releases</remarks>
+public class ReleaseRepository(
+    IAzureDevOpsRestApiConfiguration configuration,
+    ILogger<ReleaseRepository> logger,
+    IHttpClientFactory httpClientFactory,
+    IMapper mapper)
+    : RepositoryBase(configuration, logger, httpClientFactory, mapper), IReleaseRepository
 {
-    /// <summary>
-    /// Release repository.
-    /// </summary>
-    /// <remarks>https://docs.microsoft.com/en-us/rest/api/azure/devops/release/releases</remarks>
-    public class ReleaseRepository : RepositoryBase, IReleaseRepository
+    protected override string ResourceName => "_apis/release/releases";
+
+    public async Task<ReleaseModel> CreateAsync(string projectName, string releaseDefinitionId, string buildId, string alias)
     {
-        public ReleaseRepository(
-            IAzureDevOpsRestApiConfiguration configuration,
-            ILogger<ReleaseRepository> logger,
-            IHttpClientFactory httpClientFactory,
-            IMapper mapper)
-            : base(configuration, logger, httpClientFactory, mapper)
-        {
-        }
-
-        protected override string ResourceName => "_apis/release/releases";
-
-        public async Task<ReleaseModel> CreateAsync(string projectName, string releaseDefinitionId, string buildId, string alias)
-        {
-            var result = await PostAsync<ReleaseDto>(
-                GenerateUrl(prefix: $"/{projectName}", isVsrm: true),
-                new
+        var result = await PostAsync<ReleaseDto>(
+            GenerateUrl(prefix: $"/{projectName}", isVsrm: true),
+            new
+            {
+                DefinitionId = releaseDefinitionId,
+                Description = "Created by almops command line tool",
+                Artifacts = new[]
                 {
-                    DefinitionId = releaseDefinitionId,
-                    Description = "Created by almops command line tool",
-                    Artifacts = new[]
+                    new
                     {
-                        new
+                        Alias = alias,
+                        InstanceReference = new
                         {
-                            Alias = alias,
-                            InstanceReference = new
-                            {
-                                Id = buildId
-                            }
+                            Id = buildId
                         }
-                    },
-                    IsDraft = false,
-                    Reason = "none"
-                });
-            return Mapper.Map<ReleaseModel>(result);
-        }
+                    }
+                },
+                IsDraft = false,
+                Reason = "none"
+            });
+        return Mapper.Map<ReleaseModel>(result);
     }
 }
