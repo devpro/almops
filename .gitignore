@@ -414,3 +414,6 @@ FodyWeavers.xsd
 # Local debug files
 Local.runsettings
 appsettings.Development.json
+
+# Report files
+report/

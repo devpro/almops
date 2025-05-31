@@ -12,56 +12,55 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
-namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests.Sandbox
+namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests.Sandbox;
+
+[Trait("Environment", "Sandbox")]
+public class VariableGroupRepositorySandboxTest() : RepositoryIntegrationTestBase("Sandbox")
 {
-    [Trait("Environment", "Sandbox")]
-    public class VariableGroupRepositorySandboxTest() : RepositoryIntegrationTestBase("Sandbox")
+    [Fact]
+    public async Task VariableGroupRepositoryFindOneByIdAsync_OnSandbox_ReturnDefinition()
     {
-        [Fact]
-        public async Task VariableGroupRepositoryFindOneByIdAsync_OnSandbox_ReturnDefinition()
-        {
-            // Arrange
-            var repository = BuildRepository();
-            var variableGroupId = GetEnvironmentVariable("VariableGroupId");
+        // Arrange
+        var repository = BuildRepository();
+        var variableGroupId = GetEnvironmentVariable("VariableGroupId");
 
-            // Act
-            var output = await repository.FindOneByIdAsync(ProjectName, variableGroupId);
+        // Act
+        var output = await repository.FindOneByIdAsync(ProjectName, variableGroupId);
 
-            // Assert
-            output.Should().NotBeNull();
-        }
+        // Assert
+        output.Should().NotBeNull();
+    }
 
-        [Fact]
-        public async Task VariableGroupRepositoryUpdateAsync_OnSandbox_IsSuccessful()
-        {
-            // Arrange
-            var repository = BuildRepository();
-            var variableGroupId = GetEnvironmentVariable("VariableGroupId");
-            var fixture = new Fixture();
-            var inputCreate = fixture.CreateMany<KeyValuePair<string, string>>(5).ToDictionary(x => x.Key, x => x.Value);
-            inputCreate.Add("test", DateTime.Now.ToShortDateString());
-            var inputUpdate = fixture.CreateMany<KeyValuePair<string, string>>(3).ToDictionary(x => x.Key, x => x.Value);
-            inputUpdate.Add("test", DateTime.Now.ToLongDateString());
+    [Fact]
+    public async Task VariableGroupRepositoryUpdateAsync_OnSandbox_IsSuccessful()
+    {
+        // Arrange
+        var repository = BuildRepository();
+        var variableGroupId = GetEnvironmentVariable("VariableGroupId");
+        var fixture = new Fixture();
+        var inputCreate = fixture.CreateMany<KeyValuePair<string, string>>(5).ToDictionary(x => x.Key, x => x.Value);
+        inputCreate.Add("test", DateTime.Now.ToShortDateString());
+        var inputUpdate = fixture.CreateMany<KeyValuePair<string, string>>(3).ToDictionary(x => x.Key, x => x.Value);
+        inputUpdate.Add("test", DateTime.Now.ToLongDateString());
 
-            // Act & Assert
-            await repository.UpdateAsync(ProjectName, variableGroupId, inputCreate, true);
-            var outputAfterFirstUpdate = await repository.FindOneByIdAsync(ProjectName, variableGroupId);
-            outputAfterFirstUpdate.Should().NotBeNull();
-            ((JObject)outputAfterFirstUpdate.Variables).Children().Count().Should().Be(6);
+        // Act & Assert
+        await repository.UpdateAsync(ProjectName, variableGroupId, inputCreate, true);
+        var outputAfterFirstUpdate = await repository.FindOneByIdAsync(ProjectName, variableGroupId);
+        outputAfterFirstUpdate.Should().NotBeNull();
+        ((JObject)outputAfterFirstUpdate.Variables).Children().Count().Should().Be(6);
 
-            await repository.UpdateAsync(ProjectName, variableGroupId, inputUpdate);
-            var outputAfterSecondUpdate = await repository.FindOneByIdAsync(ProjectName, variableGroupId);
-            outputAfterSecondUpdate.Should().NotBeNull();
-            ((JObject)outputAfterSecondUpdate.Variables).Children().Count().Should().Be(9);
-        }
+        await repository.UpdateAsync(ProjectName, variableGroupId, inputUpdate);
+        var outputAfterSecondUpdate = await repository.FindOneByIdAsync(ProjectName, variableGroupId);
+        outputAfterSecondUpdate.Should().NotBeNull();
+        ((JObject)outputAfterSecondUpdate.Variables).Children().Count().Should().Be(9);
+    }
 
-        private VariableGroupRepository BuildRepository()
-        {
-            var logger = ServiceProvider.GetService<ILogger<VariableGroupRepository>>();
-            var httpClientFactory = ServiceProvider.GetService<IHttpClientFactory>();
-            var mapper = ServiceProvider.GetService<IMapper>();
+    private VariableGroupRepository BuildRepository()
+    {
+        var logger = ServiceProvider.GetService<ILogger<VariableGroupRepository>>();
+        var httpClientFactory = ServiceProvider.GetService<IHttpClientFactory>();
+        var mapper = ServiceProvider.GetService<IMapper>();
 
-            return new VariableGroupRepository(Configuration, logger, httpClientFactory, mapper);
-        }
+        return new VariableGroupRepository(Configuration, logger, httpClientFactory, mapper);
     }
 }
