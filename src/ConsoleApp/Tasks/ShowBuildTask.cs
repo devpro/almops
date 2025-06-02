@@ -9,7 +9,7 @@ namespace AlmOps.ConsoleApp.Tasks;
 internal class ShowBuildTask(ILogger<ShowBuildTask> logger, IBuildRepository buildRepository)
     : IConsoleTask
 {
-    public async Task<string> ExecuteAsync(CommandLineOptions options)
+    public async Task<string?> ExecuteAsync(CommandLineOptions options)
     {
         if (string.IsNullOrEmpty(options.Project) || string.IsNullOrEmpty(options.Id))
         {
@@ -29,7 +29,7 @@ internal class ShowBuildTask(ILogger<ShowBuildTask> logger, IBuildRepository bui
             var property = typeof(BuildModel).GetProperty(options.Query.FirstCharToUpper());
             if (property != null)
             {
-                return (string)property.GetValue(build);
+                return (string?)property.GetValue(build);
             }
         }
 

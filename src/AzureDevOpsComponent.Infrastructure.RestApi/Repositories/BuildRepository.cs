@@ -15,7 +15,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
 /// </summary>
 /// <remarks>https://docs.microsoft.com/en-us/rest/api/azure/devops/build/builds</remarks>
 public class BuildRepository(
-    IAzureDevOpsRestApiConfiguration configuration,
+    AzureDevOpsRestApiConfiguration configuration,
     ILogger<BuildRepository> logger,
     IHttpClientFactory httpClientFactory,
     IMapper mapper)

@@ -17,7 +17,7 @@ namespace AlmOps.ConsoleApp.UnitTests.Tasks
         {
             var services = new ServiceCollection()
                 .AddLogging()
-                .AddAzureDevOpsRestApi(new DefaultAzureDevOpsRestApiConfiguration())
+                .AddAzureDevOpsRestApi(new AzureDevOpsRestApiConfiguration())
                 .AddSingleton(new MapperConfiguration(x => { }).CreateMapper());
 
             _serviceProvider = services.BuildServiceProvider();

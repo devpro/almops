@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <AssemblyName>AlmOps.Common.System</AssemblyName>
+    <RootNamespace>AlmOps.Common.System</RootNamespace>
+    <ProjectGuid>{68AFEBEE-BBBF-45A2-BCB5-B4B8A7BE39A8}</ProjectGuid>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+</Project>

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AlmOps.AzureDevOpsComponent.Domain.Repositories;
+﻿using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace AlmOps.ConsoleApp.Tasks;
@@ -11,7 +9,7 @@ internal class QueueBuildTask(
     IBuildTagRepository buildTagRepository)
     : TaskBase
 {
-    public override async Task<string> ExecuteAsync(CommandLineOptions options)
+    public override async Task<string?> ExecuteAsync(CommandLineOptions options)
     {
         if (string.IsNullOrEmpty(options.Project) || string.IsNullOrEmpty(options.Id))
         {
@@ -23,7 +21,7 @@ internal class QueueBuildTask(
         var build = await buildRepository.CreateAsync(
             options.Project,
             options.Id,
-            options.Branch ?? "main",
+            options.Branch,
             GetVariables(options.Variables.ToList(), CommandLineOptions.VariableSeparator));
         if (build == null)
         {

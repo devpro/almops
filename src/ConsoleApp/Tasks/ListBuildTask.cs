@@ -10,7 +10,7 @@ namespace AlmOps.ConsoleApp.Tasks;
 internal class ListBuildTask(ILogger<ListBuildTask> logger, IBuildRepository buildRepository)
     : IConsoleTask
 {
-    public async Task<string> ExecuteAsync(CommandLineOptions options)
+    public async Task<string?> ExecuteAsync(CommandLineOptions options)
     {
         if (string.IsNullOrEmpty(options.Project))
         {
@@ -30,7 +30,7 @@ internal class ListBuildTask(ILogger<ListBuildTask> logger, IBuildRepository bui
             var property = typeof(BuildModel).GetProperty(options.Query.FirstCharToUpper());
             if (property != null)
             {
-                return (string)property.GetValue(builds.First());
+                return (string?)property.GetValue(builds.First());
             }
         }
 

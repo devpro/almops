@@ -13,15 +13,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AzureDevOpsComponent.Domain\AzureDevOpsComponent.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.5" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
     <PackageReference Include="Withywoods.Net.Http" Version="1.5.2" />
     <PackageReference Include="Withywoods.Serialization" Version="1.5.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\AzureDevOpsComponent.Domain\AzureDevOpsComponent.Domain.csproj" />
   </ItemGroup>
 
 </Project>

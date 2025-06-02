@@ -28,6 +28,9 @@ dotnet src/ConsoleApp/bin/Debug/net9.0/almops.dll --help
       <AlmOps__Sandbox__Token>xxx</AlmOps__Sandbox__Token>
       <AlmOps__Sandbox__Project>xxx</AlmOps__Sandbox__Project>
       <AlmOps__Sandbox__VariableGroupId>xxx</AlmOps__Sandbox__VariableGroupId>
+      <AlmOps__Sandbox__GitLab__Token>glpat-xxxx</AlmOps__Sandbox__GitLab__Token>
+      <AlmOps__Sandbox__GitLab__GroupId>xxx</AlmOps__Sandbox__GitLab__GroupId>
+      <AlmOps__Sandbox__GitLab__ProjectId>xxx</AlmOps__Sandbox__GitLab__ProjectId>
     </EnvironmentVariables>
   </RunConfiguration>
 </RunSettings>

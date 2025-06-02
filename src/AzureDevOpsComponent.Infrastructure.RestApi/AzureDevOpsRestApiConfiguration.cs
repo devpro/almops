@@ -1,36 +1,33 @@
 ﻿namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi
 {
-    /// <summary>
-    /// Configuration of calls to Azure DevOps REST API for a specific user and organization.
-    /// </summary>
-    public interface IAzureDevOpsRestApiConfiguration
+    public class AzureDevOpsRestApiConfiguration
     {
         /// <summary>
-        /// Base url.
+        /// Base URL
         /// </summary>
         /// <example>https://dev.azure.com/myorganization</example>
-        string BaseUrl { get; }
+        public string BaseUrl { get; init; }
 
         /// <summary>
-        /// Api version.
+        /// API version
         /// </summary>
         /// <example>5.1</example>
-        string ApiVersion { get; }
+        public string ApiVersion { get; set; } = "7.1";
 
         /// <summary>
-        /// Authentication username.
+        /// Username
         /// </summary>
-        string Username { get; }
+        public string Username { get; init; }
 
         /// <summary>
         /// Authentication token.
         /// This is a Personal Access Token (PAT) that can be generated from the web interface of Azure DevOps.
         /// </summary>
-        string Token { get; }
+        public string Token { get; init; }
 
         /// <summary>
-        /// HTTP client name.
+        /// HTTP Client name
         /// </summary>
-        public string HttpClientName { get; }
+        public string HttpClientName { get; } = "AzureDevOpsRestApiClient";
     }
 }

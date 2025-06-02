@@ -18,7 +18,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
 /// https://learn.microsoft.com/en-us/rest/api/azure/devops/distributedtask/variablegroups
 /// </remarks>
 public class VariableGroupRepository(
-    IAzureDevOpsRestApiConfiguration configuration,
+    AzureDevOpsRestApiConfiguration configuration,
     ILogger<VariableGroupRepository> logger,
     IHttpClientFactory httpClientFactory,
     IMapper mapper)

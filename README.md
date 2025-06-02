@@ -8,8 +8,12 @@
 
 <!--[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=devpro.almops&metric=coverage)](https://sonarcloud.io/dashboard?id=devpro.almops)-->
 
-
 Command line tool to administrate [ALM (Application lifecycle management)](https://en.wikipedia.org/wiki/Application_lifecycle_management) solutions such as Azure DevOps, GitHub, GitLab.
+
+For simple calls, you may first look at the officials clients like [Azure DevOps CLI](https://learn.microsoft.com/en-us/azure/devops/cli/),
+[GitHub CLI](https://cli.github.com/), [GitLab CLI](https://docs.gitlab.com/editor_extensions/gitlab_cli/).
+
+<!-- https://github.com/ubisoft/NGitLab/tree/main -->
 
 ## How to install
 

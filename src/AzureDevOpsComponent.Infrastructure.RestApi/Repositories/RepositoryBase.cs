@@ -6,13 +6,13 @@ using Withywoods.Net.Http;
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
 
 public abstract class RepositoryBase(
-    IAzureDevOpsRestApiConfiguration configuration,
+    AzureDevOpsRestApiConfiguration configuration,
     ILogger logger,
     IHttpClientFactory httpClientFactory,
     IMapper mapper)
     : HttpRepositoryBase(logger, httpClientFactory)
 {
-    private IAzureDevOpsRestApiConfiguration Configuration { get; set; } = configuration;
+    private AzureDevOpsRestApiConfiguration Configuration { get; } = configuration;
 
     protected IMapper Mapper { get; private set; } = mapper;
 

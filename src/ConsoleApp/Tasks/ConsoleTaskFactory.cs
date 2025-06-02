@@ -6,7 +6,7 @@ namespace AlmOps.ConsoleApp.Tasks;
 
 public class ConsoleTaskFactory(ServiceProvider serviceProvider)
 {
-    public IConsoleTask Create(string action, string resource, out string errorMessage)
+    public IConsoleTask? Create(string action, string resource, out string? errorMessage)
     {
         errorMessage = null;
         switch (resource)
@@ -15,57 +15,57 @@ public class ConsoleTaskFactory(ServiceProvider serviceProvider)
                 if (action == "list")
                 {
                     return new ListProjectTask(
-                        serviceProvider.GetService<ILogger<ListProjectTask>>(),
-                        serviceProvider.GetService<IProjectRepository>());
+                        serviceProvider.GetRequiredService<ILogger<ListProjectTask>>(),
+                        serviceProvider.GetRequiredService<IProjectRepository>());
                 }
                 break;
             case "build":
                 if (action == "show")
                 {
                     return new ShowBuildTask(
-                        serviceProvider.GetService<ILogger<ShowBuildTask>>(),
-                        serviceProvider.GetService<IBuildRepository>());
+                        serviceProvider.GetRequiredService<ILogger<ShowBuildTask>>(),
+                        serviceProvider.GetRequiredService<IBuildRepository>());
                 }
                 if (action == "queue")
                 {
                     return new QueueBuildTask(
-                        serviceProvider.GetService<ILogger<QueueBuildTask>>(),
-                        serviceProvider.GetService<IBuildRepository>(),
-                        serviceProvider.GetService<IBuildTagRepository>());
+                        serviceProvider.GetRequiredService<ILogger<QueueBuildTask>>(),
+                        serviceProvider.GetRequiredService<IBuildRepository>(),
+                        serviceProvider.GetRequiredService<IBuildTagRepository>());
                 }
                 break;
             case "builds":
                 if (action == "list")
                 {
                     return new ListBuildTask(
-                        serviceProvider.GetService<ILogger<ListBuildTask>>(),
-                        serviceProvider.GetService<IBuildRepository>());
+                        serviceProvider.GetRequiredService<ILogger<ListBuildTask>>(),
+                        serviceProvider.GetRequiredService<IBuildRepository>());
                 }
                 break;
             case "artifacts":
                 if (action == "list")
                 {
                     return new ListArtifactTask(
-                        serviceProvider.GetService<ILogger<ListArtifactTask>>(),
-                        serviceProvider.GetService<IBuildArtifactRepository>());
+                        serviceProvider.GetRequiredService<ILogger<ListArtifactTask>>(),
+                        serviceProvider.GetRequiredService<IBuildArtifactRepository>());
                 }
                 break;
             case "release":
                 if (action == "create")
                 {
                     return new CreateReleaseTask(
-                        serviceProvider.GetService<ILogger<CreateReleaseTask>>(),
-                        serviceProvider.GetService<IReleaseDefinitionRepository>(),
-                        serviceProvider.GetService<IBuildRepository>(),
-                        serviceProvider.GetService<IReleaseRepository>());
+                        serviceProvider.GetRequiredService<ILogger<CreateReleaseTask>>(),
+                        serviceProvider.GetRequiredService<IReleaseDefinitionRepository>(),
+                        serviceProvider.GetRequiredService<IBuildRepository>(),
+                        serviceProvider.GetRequiredService<IReleaseRepository>());
                 }
                 break;
             case "variables":
                 if (action == "update")
                 {
                     return new UpdateVariableTask(
-                        serviceProvider.GetService<ILogger<UpdateVariableTask>>(),
-                        serviceProvider.GetService<IVariableGroupRepository>());
+                        serviceProvider.GetRequiredService<ILogger<UpdateVariableTask>>(),
+                        serviceProvider.GetRequiredService<IVariableGroupRepository>());
                 }
                 break;
             default:

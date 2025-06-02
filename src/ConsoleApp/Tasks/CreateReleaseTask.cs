@@ -12,7 +12,7 @@ internal class CreateReleaseTask(
     IReleaseRepository releaseRepository)
     : IConsoleTask
 {
-    public async Task<string> ExecuteAsync(CommandLineOptions options)
+    public async Task<string?> ExecuteAsync(CommandLineOptions options)
     {
         if (string.IsNullOrEmpty(options.Project) || (string.IsNullOrEmpty(options.Id) && string.IsNullOrEmpty(options.Name)))
         {
@@ -36,8 +36,8 @@ internal class CreateReleaseTask(
 
         var releaseDefinition = await releaseDefinitionRepository.FindOneByIdAsync(options.Project, releaseDefinitionId);
 
-        // gets latest build from the specified branch, with a default value
-        var branchName = options.Branch ?? "main";
+        // gets latest build from the specified branch
+        var branchName = options.Branch;
         var builds = await buildRepository.FindAllAsync(options.Project, branchName, releaseDefinition.Artifacts.First().BuildDefinitionId);
         if (builds.Count == 0)
         {

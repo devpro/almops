@@ -11,7 +11,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
 /// </summary>
 /// <remarks>https://docs.microsoft.com/en-us/rest/api/azure/devops/build/tags</remarks>
 public class BuildTagRepository(
-    IAzureDevOpsRestApiConfiguration configuration,
+    AzureDevOpsRestApiConfiguration configuration,
     ILogger<BuildTagRepository> logger,
     IHttpClientFactory httpClientFactory,
     IMapper mapper)

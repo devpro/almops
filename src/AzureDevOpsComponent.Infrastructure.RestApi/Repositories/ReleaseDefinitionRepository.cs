@@ -16,7 +16,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
 /// https://docs.microsoft.com/en-us/rest/api/azure/devops/release/definitions?view=azure-devops-rest-5.1
 /// </remarks>
 public class ReleaseDefinitionRepository(
-    IAzureDevOpsRestApiConfiguration configuration,
+    AzureDevOpsRestApiConfiguration configuration,
     ILogger<ReleaseDefinitionRepository> logger,
     IHttpClientFactory httpClientFactory,
     IMapper mapper)
