@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <AssemblyName>AlmOps.Common.Net.Http</AssemblyName>
+    <RootNamespace>AlmOps.Common.Net.Http</RootNamespace>
+    <ProjectGuid>{137D8171-A4D7-486A-9AA6-BC5A5F5E4895}</ProjectGuid>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+</Project>

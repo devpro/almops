@@ -4,5 +4,5 @@ namespace AlmOps.ConsoleApp.Tasks;
 
 public interface IConsoleTask
 {
-    Task<string> ExecuteAsync(CommandLineOptions options);
+    Task<string?> ExecuteAsync(CommandLineOptions options);
 }

@@ -8,43 +8,43 @@ public class CommandLineOptions
     public const string VariableSeparator = ":";
 
     [Value(0, MetaValue = "Action", Required = true, HelpText = "Action (possible values: \"config\", \"list\", \"show\", \"queue\", \"create\", \"update\").")]
-    public string Action { get; set; }
+    public required string Action { get; set; }
 
     [Value(1, MetaValue = "Resource", Required = false, HelpText = "Resource (possible values: \"projects\", \"builds\", \"build\", \"release\", \"artifacts\", \"variables\").")]
-    public string Resource { get; set; }
+    public string? Resource { get; set; }
 
     [Option("user", Required = false, HelpText = "Username (usually the email address).")]
-    public string Username { get; set; }
+    public string? Username { get; set; }
 
     [Option("token", Required = false, HelpText = "Token (PAT = Personal Access Token).")]
-    public string Token { get; set; }
+    public string? Token { get; set; }
 
     [Option("org", Required = false, HelpText = "Organization name.")]
-    public string Organization { get; set; }
+    public string? Organization { get; set; }
 
     [Option('p', "project", Required = false, HelpText = "Project name.")]
-    public string Project { get; set; }
+    public string? Project { get; set; }
 
     [Option("id", Required = false, HelpText = "Resource ID.")]
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     [Option("type", Required = false, HelpText = "Resource type.")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [Option('n', "name", Required = false, HelpText = "Resource name.")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [Option('b', "branch", Required = false, HelpText = "Branch name.")]
-    public string Branch { get; set; }
+    public string Branch { get; set; } = "main";
 
     [Option('t', "tag", Required = false, HelpText = "Tag.")]
-    public string Tag { get; set; }
+    public string? Tag { get; set; }
 
     [Option("var", Required = false, HelpText = "Variables.")]
-    public IEnumerable<string> Variables { get; set; }
+    public IEnumerable<string> Variables { get; set; } = new List<string> { };
 
     [Option('q', "query", Required = false, HelpText = "Information to send back.")]
-    public string Query { get; set; }
+    public string? Query { get; set; }
 
     [Option('v', "verbose", Required = false, HelpText = "Set output to verbose messages.")]
     public bool IsVerbose { get; set; }

@@ -10,7 +10,7 @@ namespace AlmOps.ConsoleApp.Tasks;
 internal class ListProjectTask(ILogger<ListProjectTask> logger, IProjectRepository projectRepository)
     : IConsoleTask
 {
-    public async Task<string> ExecuteAsync(CommandLineOptions options)
+    public async Task<string?> ExecuteAsync(CommandLineOptions options)
     {
         logger.LogDebug("Query the project repository");
 
@@ -25,7 +25,7 @@ internal class ListProjectTask(ILogger<ListProjectTask> logger, IProjectReposito
             var property = typeof(ProjectModel).GetProperty(options.Query.FirstCharToUpper());
             if (property != null)
             {
-                return (string)property.GetValue(projects.First());
+                return (string?)property.GetValue(projects.First());
             }
         }
 

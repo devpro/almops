@@ -11,7 +11,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.UnitTests.Dependenc
 [Trait("Category", "UnitTests")]
 public class ServiceCollectionExtensionsTest
 {
-    private readonly DefaultAzureDevOpsRestApiConfiguration _configuration = new();
+    private readonly AzureDevOpsRestApiConfiguration _configuration = new();
 
     [Fact]
     public void AddAzureDevOpsRestApi_ShouldProvideConfiguration()
@@ -25,7 +25,7 @@ public class ServiceCollectionExtensionsTest
 
         // Assert
         var services = serviceCollection.BuildServiceProvider();
-        services.GetRequiredService<IAzureDevOpsRestApiConfiguration>().Should().Be(_configuration);
+        services.GetRequiredService<AzureDevOpsRestApiConfiguration>().Should().Be(_configuration);
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class ServiceCollectionExtensionsTest
         var serviceCollection = new ServiceCollection();
 
         // Act
-        var exc = Assert.Throws<ArgumentNullException>(() => serviceCollection.AddAzureDevOpsRestApi<IAzureDevOpsRestApiConfiguration>(null));
+        var exc = Assert.Throws<ArgumentNullException>(() => serviceCollection.AddAzureDevOpsRestApi(null));
 
         // Assert
         exc.Should().NotBeNull();

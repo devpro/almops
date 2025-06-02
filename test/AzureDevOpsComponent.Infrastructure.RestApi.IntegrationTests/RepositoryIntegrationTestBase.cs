@@ -9,11 +9,17 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests
     {
         private readonly string _environmentName;
 
+        protected ServiceProvider ServiceProvider { get; private set; }
+
+        protected AzureDevOpsRestApiConfiguration Configuration { get; }
+
+        protected string ProjectName { get; private set; }
+
         protected RepositoryIntegrationTestBase(string environmentName)
         {
             _environmentName = environmentName;
 
-            Configuration = new DefaultAzureDevOpsRestApiConfiguration
+            Configuration = new AzureDevOpsRestApiConfiguration
             {
                 BaseUrl = "https://dev.azure.com/" + GetEnvironmentVariable("Organization"),
                 Username = GetEnvironmentVariable("Username"),
@@ -35,12 +41,6 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests
 
             ServiceProvider = services.BuildServiceProvider();
         }
-
-        protected ServiceProvider ServiceProvider { get; private set; }
-
-        protected IAzureDevOpsRestApiConfiguration Configuration { get; }
-
-        protected string ProjectName { get; private set; }
 
         protected string GetEnvironmentVariable(string key)
         {

@@ -61,7 +61,7 @@ internal static class Program
 
         var factory = new ConsoleTaskFactory(serviceProvider);
 
-        var task = factory.Create(opts.Action, opts.Resource, out var errorMessage);
+        var task = factory.Create(opts.Action, opts.Resource ?? "", out var errorMessage);
         if (task == null)
         {
             Console.WriteLine(errorMessage);
@@ -124,6 +124,7 @@ internal static class Program
     private static ServiceProvider CreateServiceProvider(CommandLineOptions opts, IConfigurationRoot configuration)
     {
         LogVerbose(opts, "Create the service provider");
+        var appConfiguration = new AppConfiguration(configuration);
         var serviceCollection = new ServiceCollection()
             .AddLogging(builder =>
             {
@@ -134,7 +135,7 @@ internal static class Program
                     .AddConsole();
             })
             .AddSingleton(configuration)
-            .AddAzureDevOpsRestApi(new AppConfiguration(configuration));
+            .AddAzureDevOpsRestApi(appConfiguration.AzureDevOpsRestApiConfiguration);
 
         ConfigureAutoMapper(serviceCollection);
 

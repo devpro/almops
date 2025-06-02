@@ -49,6 +49,9 @@ dotnet-test:
     AlmOps__Sandbox__Token: $AZUREDEVOPS_TEST_TOKEN
     AlmOps__Sandbox__Project: $AZUREDEVOPS_TEST_PROJECT
     AlmOps__Sandbox__VariableGroupId: $AZUREDEVOPS_TEST_VARIABLEGROUPID
+    AlmOps__Sandbox__GitLab__Token: $GITLAB_TEST_TOKEN
+    AlmOps__Sandbox__GitLab__GroupId: $GITLAB_TEST_GROUPID
+    AlmOps__Sandbox__GitLab__ProjectId: $GITLAB_TEST_PROJECTID
   before_script:
     # updates system
     - cat /etc/issue
@@ -156,6 +159,8 @@ container_scanning:
     CS_IMAGE: "archive://image.tar"
   dependencies:
     - podman-build
+
+#other way to add Trivy: https://trivy.dev/latest/getting-started/installation/, https://trivy.dev/v0.58/tutorials/integrations/gitlab-ci/
 
 podman-push:
   extends: .podman

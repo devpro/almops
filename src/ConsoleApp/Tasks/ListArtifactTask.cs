@@ -10,7 +10,7 @@ namespace AlmOps.ConsoleApp.Tasks;
 internal class ListArtifactTask(ILogger<ListArtifactTask> logger, IBuildArtifactRepository buildArtifactRepository)
     : IConsoleTask
 {
-    public async Task<string> ExecuteAsync(CommandLineOptions options)
+    public async Task<string?> ExecuteAsync(CommandLineOptions options)
     {
         if (string.IsNullOrEmpty(options.Project) || string.IsNullOrEmpty(options.Id))
         {
@@ -30,7 +30,7 @@ internal class ListArtifactTask(ILogger<ListArtifactTask> logger, IBuildArtifact
             var property = typeof(BuildArtifactModel).GetProperty(options.Query.FirstCharToUpper());
             if (property != null)
             {
-                return (string)property.GetValue(artifacts.First());
+                return (string?)property.GetValue(artifacts.First());
             }
         }
 

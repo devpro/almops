@@ -10,7 +10,7 @@ internal class UpdateVariableTask(
     IVariableGroupRepository variableGroupRepository)
     : TaskBase
 {
-    public override async Task<string> ExecuteAsync(CommandLineOptions options)
+    public override async Task<string?> ExecuteAsync(CommandLineOptions options)
     {
         if (string.IsNullOrEmpty(options.Project) || string.IsNullOrEmpty(options.Id))
         {
