@@ -1,0 +1,21 @@
+### Test the SSO Enrichment Function
+# This simulates the call Entra ID makes to your API
+POST http://localhost:7106/api/TokenClaimsEnricher
+Content-Type: application/json
+
+{
+  "type": "microsoft.graph.onTokenIssuanceStartCalloutData",
+  "data": {
+    "@type": "microsoft.graph.onTokenIssuanceStartCalloutData",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "authenticationContext": {
+      "correlationId": "58659d89-9e8c-44e2-9d29-c89b25129c54",
+      "clientAppId": "your-app-id",
+      "user": {
+        "id": "user-guid",
+        "userPrincipalName": "admin@yourcompany.com",
+        "displayName": "Demo User"
+      }
+    }
+  }
+}
