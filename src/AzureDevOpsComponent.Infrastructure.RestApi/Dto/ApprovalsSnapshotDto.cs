@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
+namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
+
+public class ApprovalsSnapshotDto
 {
-    public class ApprovalsSnapshotDto
-    {
-        public List<ApprovalDto> Approvals { get; set; }
-        public ApprovalOptionsDto ApprovalOptions { get; set; }
-    }
+    public List<ApprovalDto> Approvals { get; set; }
+    public ApprovalOptionsDto ApprovalOptions { get; set; }
 }

@@ -1,14 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>AlmOps.ConsoleApp.IntegrationTests</AssemblyName>
     <RootNamespace>AlmOps.ConsoleApp.IntegrationTests</RootNamespace>
-    <ProjectGuid>{169FC181-09AE-414D-8607-07F472EB8C44}</ProjectGuid>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ConsoleApp\ConsoleApp.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.1" />
@@ -31,10 +33,6 @@
 
   <ItemGroup>
     <Using Include="Xunit"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\ConsoleApp\ConsoleApp.csproj" />
   </ItemGroup>
 
 </Project>

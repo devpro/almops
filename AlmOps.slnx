@@ -8,11 +8,7 @@
     <File Path="Directory.Build.props" />
     <File Path="README.md" />
   </Folder>
-  <Folder Name="/1 - Framework/">
-    <Project Path="src/Common.Net.Http/Common.Net.Http.csproj" />
-    <Project Path="src/Common.System/Common.System.csproj" />
-  </Folder>
-  <Folder Name="/2 - Components/">
+  <Folder Name="/1 - Components/">
     <Project Path="src/AzureDevOpsComponent.Domain/AzureDevOpsComponent.Domain.csproj" />
     <Project Path="src/AzureDevOpsComponent.Infrastructure.RestApi/AzureDevOpsComponent.Infrastructure.RestApi.csproj" />
     <Project Path="src/GitLabComponent.Infrastructure.RestApi/GitLabComponent.Infrastructure.RestApi.csproj" />
@@ -20,9 +16,10 @@
     <Project Path="test/AzureDevOpsComponent.Infrastructure.RestApi.UnitTests/AzureDevOpsComponent.Infrastructure.RestApi.UnitTests.csproj" />
     <Project Path="test/GitLabComponent.Infrastructure.RestApi.IntegrationTests/GitLabComponent.Infrastructure.RestApi.IntegrationTests.csproj" />
   </Folder>
-  <Folder Name="/3 - Applications/">
-    <Project Path="src/ConsoleApp/ConsoleApp.csproj" />
-    <Project Path="test/ConsoleApp.IntegrationTests/ConsoleApp.IntegrationTests.csproj" />
-    <Project Path="test/ConsoleApp.UnitTests/ConsoleApp.UnitTests.csproj" />
+  <Folder Name="/2 - Samples/">
+    <Project Path="samples/SamlTokenClaimEnricher/SamlTokenClaimEnricher.csproj" />
   </Folder>
+  <Project Path="src/ConsoleApp/ConsoleApp.csproj" />
+  <Project Path="test/ConsoleApp.IntegrationTests/ConsoleApp.IntegrationTests.csproj" />
+  <Project Path="test/ConsoleApp.UnitTests/ConsoleApp.UnitTests.csproj" />
 </Solution>

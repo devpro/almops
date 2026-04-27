@@ -1,10 +1,9 @@
-﻿namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
+﻿namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
+
+public class BuildArtifactDto
 {
-    public class BuildArtifactDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Source { get; set; }
-        public ResourceDto Resource { get; set; }
-    }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Source { get; set; }
+    public ResourceDto Resource { get; set; }
 }

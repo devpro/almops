@@ -2,10 +2,9 @@
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Models;
 
-namespace AlmOps.AzureDevOpsComponent.Domain.Repositories
+namespace AlmOps.AzureDevOpsComponent.Domain.Repositories;
+
+public interface IProjectRepository
 {
-    public interface IProjectRepository
-    {
-        Task<List<ProjectModel>> FindAllAsync();
-    }
+    Task<List<ProjectModel>> FindAllAsync();
 }

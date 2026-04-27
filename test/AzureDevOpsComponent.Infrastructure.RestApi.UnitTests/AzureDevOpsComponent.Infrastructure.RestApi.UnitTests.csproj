@@ -1,17 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.UnitTests</AssemblyName>
     <RootNamespace>AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.UnitTests</RootNamespace>
-    <ProjectGuid>{889EF283-E155-490B-B85A-6FD98F73927D}</ProjectGuid>
+    <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AzureDevOpsComponent.Infrastructure.RestApi\AzureDevOpsComponent.Infrastructure.RestApi.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.1" />
@@ -31,10 +30,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\AzureDevOpsComponent.Infrastructure.RestApi\AzureDevOpsComponent.Infrastructure.RestApi.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 
 public abstract class TaskBase : IConsoleTask
 {
-    public abstract Task<string?> ExecuteAsync(CommandLineOptions options);
+    public abstract Task<string> ExecuteAsync(CommandLineOptions options);
 
     protected static Dictionary<string, string?> GetVariables(List<string> inputVariables, string separator)
     {

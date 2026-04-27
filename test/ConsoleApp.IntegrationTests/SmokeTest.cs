@@ -1,4 +1,7 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using FluentAssertions;
 
 namespace AlmOps.ConsoleApp.IntegrationTests;
 
@@ -25,11 +28,6 @@ public class SmokeTest
 
         var name = $"AlmOps__Sandbox__{key}";
         var output = Environment.GetEnvironmentVariable(name);
-        if (string.IsNullOrEmpty(output))
-        {
-            throw new ArgumentException($"Environment variable \"{name}\" is not defined or empty");
-        }
-
-        return output;
+        return string.IsNullOrEmpty(output) ? throw new ArgumentException($"Environment variable \"{name}\" is not defined or empty") : output;
     }
 }

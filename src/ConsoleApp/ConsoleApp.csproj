@@ -2,17 +2,16 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>almops</AssemblyName>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>AlmOps.ConsoleApp</RootNamespace>
-    <ProjectGuid>{9E18DEA5-68DD-4268-85FD-62E1574F7A30}</ProjectGuid>
     <IsPackable>true</IsPackable>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>almops</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
-    <LangVersion>13.0</LangVersion>
+    <LangVersion>14.0</LangVersion>
     <AutoGenerateAssemblyVersion>true</AutoGenerateAssemblyVersion>
     <Description>Command line tool to administrate ALM (Application lifecycle management) solutions like Azure DevOps or GitLab</Description>
     <Authors>Bertrand THOMAS</Authors>
@@ -23,19 +22,9 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
   <ItemGroup>
-    <Compile Remove="nupkg\**" />
-    <EmbeddedResource Remove="nupkg\**" />
-    <None Remove="nupkg\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="appsettings.json" />
+    <ProjectReference Include="..\AzureDevOpsComponent.Infrastructure.RestApi\AzureDevOpsComponent.Infrastructure.RestApi.csproj" />
+    <ProjectReference Include="..\AzureDevOpsComponent.Domain\AzureDevOpsComponent.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,8 +41,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AzureDevOpsComponent.Infrastructure.RestApi\AzureDevOpsComponent.Infrastructure.RestApi.csproj" />
-    <ProjectReference Include="..\AzureDevOpsComponent.Domain\AzureDevOpsComponent.Domain.csproj" />
+    <Compile Remove="nupkg\**" />
+    <EmbeddedResource Remove="nupkg\**" />
+    <None Remove="nupkg\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>

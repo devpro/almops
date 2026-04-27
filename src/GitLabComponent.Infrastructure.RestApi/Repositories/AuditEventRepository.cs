@@ -1,4 +1,7 @@
-﻿using AlmOps.GitLabComponent.Infrastructure.RestApi.Dto;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using AlmOps.GitLabComponent.Infrastructure.RestApi.Dto;
 using Microsoft.Extensions.Logging;
 
 namespace AlmOps.GitLabComponent.Infrastructure.RestApi.Repositories;

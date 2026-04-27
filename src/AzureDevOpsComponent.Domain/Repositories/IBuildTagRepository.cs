@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace AlmOps.AzureDevOpsComponent.Domain.Repositories
+namespace AlmOps.AzureDevOpsComponent.Domain.Repositories;
+
+public interface IBuildTagRepository
 {
-    public interface IBuildTagRepository
-    {
-        Task AddOneAsync(string projectName, string buildId, string tag);
-    }
+    Task AddOneAsync(string projectName, string buildId, string tag);
 }

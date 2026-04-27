@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests</AssemblyName>
     <RootNamespace>AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests</RootNamespace>
-    <ProjectGuid>{ED040615-CB13-4DF5-9D0B-33BF464F8F36}</ProjectGuid>
+    <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

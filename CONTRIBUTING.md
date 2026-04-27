@@ -2,7 +2,7 @@
 
 ## Requirements
 
-* [.NET SDK](https://dotnet.microsoft.com/download) must be installed, either directly or from an IDE (Visual Studio 2022, Rider)
+* [.NET SDK](https://dotnet.microsoft.com/download) must be installed, either directly or from an IDE (Visual Studio 2022/2026, Rider)
 
 ## Run the dll
 
@@ -74,13 +74,3 @@ docker run -it --rm --name almops \
 * [Azure DevOps Services REST API Reference](https://learn.microsoft.com/en-us/rest/api/azure/devops/)
 * [microsoft/azure-devops-auth-samples](https://github.com/microsoft/azure-devops-auth-samples)
 * [microsoft/azure-devops-node-api](https://github.com/microsoft/azure-devops-node-api)
-
-## Tips
-
-### Rider shortcuts
-
- Key combination      | Action                       
-----------------------|------------------------------
- `F4`                 | Open project definition file 
- `Ctrl`+`Enter`       | Open context menu            
- `Ctrl`+`Alt`+`Enter` | Format file                  

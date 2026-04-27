@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>AlmOps.GitLabComponent.Infrastructure.RestApi</AssemblyName>
     <RootNamespace>AlmOps.GitLabComponent.Infrastructure.RestApi</RootNamespace>
-    <ProjectGuid>{AED4FA90-92D9-4DC4-ADC1-A0F1D47389F2}</ProjectGuid>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
