@@ -67,6 +67,11 @@ docker run -it --rm --name almops \
   devprofr/almops list projects
 ```
 
+## Run the pipeline locally
+
+[IstarCI](https://github.com/devpro/istarci) runs the GitLab CI pipeline in Docker before the push.
+`istarci add` and `istarci install-hook` set it up for this repository.
+
 ## References
 
 ### Azure DevOps documentation
