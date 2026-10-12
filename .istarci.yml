@@ -1,11 +1,5 @@
 # IstarCI configuration, read from the root of the repository.
 
-runner:
-  # The global default image would replace the one each job of the pipeline declares, and these are the ones it declares.
-  image: ghcr.io/devpro/ubuntu-dotnet:latest
-  images:
-    "podman-*": quay.io/podman/stable:latest
-
 workflow:
   # The pipeline runs on a merge request or on the default branch only, so a local run on a feature branch skips the rules instead of evaluating them.
   respectTriggers: false
