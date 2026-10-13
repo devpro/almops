@@ -5,12 +5,13 @@ runner:
   privileged:
     - "podman-*"
     - neuvector_scan
+  # The analysis of dotnet-test runs against the SonarQube IstarCI starts on this machine, with a token made there.
+  sonarqube: true
 
 workflow:
-  # IstarCI holds no external credential: the scan logs in to Docker Hub, and the tests run against live Azure DevOps and GitLab sandboxes.
+  # IstarCI holds no external credential, and the scan logs in to Docker Hub.
   skipJobs:
     - neuvector_scan
-    - dotnet-test
   # The pipeline runs on a merge request or on the default branch only, so a local run on a feature branch skips the rules instead of evaluating them.
   respectTriggers: false
 
@@ -18,3 +19,9 @@ workflow:
 vars:
   CONTAINER_REGISTRY_DOMAIN: localhost
   CONTAINER_REGISTRY_USER: local
+  # The local SonarQube, under the names dotnet-test reads.
+  SONAR_HOSTURL: $SONAR_HOST_URL
+  SONAR_ORGANIZATION: local
+  SONAR_PROJECTKEY: almops
+  # The tests against live Azure DevOps and GitLab sandboxes need real credentials, which IstarCI never holds.
+  DOTNET_TEST_EXTRA_PARAMETERS: --filter Environment!=Sandbox
