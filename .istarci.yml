@@ -8,3 +8,8 @@ runner:
 workflow:
   # The pipeline runs on a merge request or on the default branch only, so a local run on a feature branch skips the rules instead of evaluating them.
   respectTriggers: false
+
+# The project CI/CD variables of GitLab, with local values: the image is built and scanned here, and pushed only from main on GitLab.
+vars:
+  CONTAINER_REGISTRY_DOMAIN: localhost
+  CONTAINER_REGISTRY_USER: local
