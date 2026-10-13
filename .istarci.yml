@@ -1,5 +1,10 @@
 # IstarCI configuration, read from the root of the repository.
 
+runner:
+  # podman builds and loads images, which needs the privileged container a GitLab runner gives it.
+  privileged:
+    - "podman-*"
+
 workflow:
   # The pipeline runs on a merge request or on the default branch only, so a local run on a feature branch skips the rules instead of evaluating them.
   respectTriggers: false
