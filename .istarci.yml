@@ -7,6 +7,10 @@ runner:
     - neuvector_scan
 
 workflow:
+  # IstarCI holds no external credential: the scan logs in to Docker Hub, and the tests run against live Azure DevOps and GitLab sandboxes.
+  skipJobs:
+    - neuvector_scan
+    - dotnet-test
   # The pipeline runs on a merge request or on the default branch only, so a local run on a feature branch skips the rules instead of evaluating them.
   respectTriggers: false
 
