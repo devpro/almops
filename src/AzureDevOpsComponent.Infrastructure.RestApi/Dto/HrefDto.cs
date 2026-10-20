@@ -2,6 +2,6 @@
 {
     public class HrefDto
     {
-        public string Href { get; set; }
+        public string? Href { get; set; }
     }
 }

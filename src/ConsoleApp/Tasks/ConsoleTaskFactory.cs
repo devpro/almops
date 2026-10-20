@@ -6,7 +6,7 @@ namespace AlmOps.ConsoleApp.Tasks;
 
 public class ConsoleTaskFactory(ServiceProvider serviceProvider)
 {
-    public IConsoleTask? Create(string action, string resource, out string? errorMessage)
+    public IConsoleTask? Create(string action, string? resource, out string? errorMessage)
     {
         errorMessage = null;
         switch (resource)

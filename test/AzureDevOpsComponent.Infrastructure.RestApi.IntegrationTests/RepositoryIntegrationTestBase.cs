@@ -1,6 +1,5 @@
 ﻿using System;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection;
-using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests;
@@ -28,15 +27,8 @@ public abstract class RepositoryIntegrationTestBase
 
         ProjectName = GetEnvironmentVariable("Project");
 
-        var mappingConfig = new MapperConfiguration(x =>
-        {
-            x.AddProfile(new MappingProfiles.GenericMappingProfile());
-            x.AllowNullCollections = true;
-        });
-
         var services = new ServiceCollection()
             .AddLogging()
-            .AddSingleton(mappingConfig.CreateMapper())
             .AddAzureDevOpsRestApi(Configuration);
 
         ServiceProvider = services.BuildServiceProvider();

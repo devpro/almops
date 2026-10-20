@@ -23,6 +23,7 @@ public static class ServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(configuration);
 
         services.TryAddSingleton(configuration);
+        services.TryAddSingleton<Mappers.AzureDevOpsDtoMapper>();
         services.TryAddTransient<Domain.Repositories.IBuildArtifactRepository, Repositories.BuildArtifactRepository>();
         services.TryAddTransient<Domain.Repositories.IBuildRepository, Repositories.BuildRepository>();
         services.TryAddTransient<Domain.Repositories.IBuildTagRepository, Repositories.BuildTagRepository>();

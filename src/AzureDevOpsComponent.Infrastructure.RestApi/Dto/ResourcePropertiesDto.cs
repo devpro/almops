@@ -2,7 +2,7 @@
 {
     public class ResourcePropertiesDto
     {
-        public string LocalPath { get; set; }
-        public string ArtifactSize { get; set; }
+        public string? LocalPath { get; set; }
+        public string? ArtifactSize { get; set; }
     }
 }

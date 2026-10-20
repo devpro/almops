@@ -10,6 +10,7 @@
     <File Path="CONTRIBUTING.md" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
     <File Path="README.md" />
   </Folder>
   <Folder Name="/1 - Components/">
@@ -19,6 +20,7 @@
     <Project Path="test/AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests/AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests.csproj" />
     <Project Path="test/AzureDevOpsComponent.Infrastructure.RestApi.UnitTests/AzureDevOpsComponent.Infrastructure.RestApi.UnitTests.csproj" />
     <Project Path="test/GitLabComponent.Infrastructure.RestApi.IntegrationTests/GitLabComponent.Infrastructure.RestApi.IntegrationTests.csproj" />
+    <Project Path="test/GitLabComponent.Infrastructure.RestApi.UnitTests/GitLabComponent.Infrastructure.RestApi.UnitTests.csproj" />
   </Folder>
   <Folder Name="/2 - Samples/">
     <Project Path="samples/SamlTokenClaimEnricher/SamlTokenClaimEnricher.csproj" />

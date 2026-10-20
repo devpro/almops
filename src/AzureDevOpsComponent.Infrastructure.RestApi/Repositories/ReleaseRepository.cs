@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Models;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
-using AutoMapper;
+using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;
 using Microsoft.Extensions.Logging;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
@@ -16,7 +16,7 @@ public class ReleaseRepository(
     AzureDevOpsRestApiConfiguration configuration,
     ILogger<ReleaseRepository> logger,
     IHttpClientFactory httpClientFactory,
-    IMapper mapper)
+    AzureDevOpsDtoMapper mapper)
     : RepositoryBase(configuration, logger, httpClientFactory, mapper), IReleaseRepository
 {
     protected override string ResourceName => "_apis/release/releases";
@@ -43,6 +43,6 @@ public class ReleaseRepository(
                 IsDraft = false,
                 Reason = "none"
             });
-        return Mapper.Map<ReleaseModel>(result);
+        return Mapper.ToModel(result);
     }
 }

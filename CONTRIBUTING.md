@@ -11,7 +11,19 @@
 dotnet build
 
 # runs the console app
-dotnet src/ConsoleApp/bin/Debug/net9.0/almops.dll --help
+dotnet src/ConsoleApp/bin/Debug/net10.0/almops.dll --help
+```
+
+## Run the tests
+
+Tests run on xunit v3 and the Microsoft Testing Platform (`global.json`).
+
+```bash
+# runs the tests that need no credential, exit code 8 meaning a project with no test left to run
+dotnet test -- --filter-not-trait "Environment=Sandbox" --ignore-exit-code 8
+
+# runs every test, the sandbox ones reading the AlmOps__Sandbox__* variables listed below
+dotnet test
 ```
 
 ## Run from an IDE

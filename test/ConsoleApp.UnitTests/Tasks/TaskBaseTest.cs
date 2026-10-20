@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AlmOps.ConsoleApp.Tasks;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace AlmOps.ConsoleApp.UnitTests.Tasks;

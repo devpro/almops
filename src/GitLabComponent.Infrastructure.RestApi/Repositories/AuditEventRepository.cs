@@ -22,12 +22,12 @@ public class AuditEventRepository(GitLabRestApiConfiguration configuration, ILog
     {
         return await GetAsync<List<AuditEventDto>>(GenerateUrl("audit_events"));
     }
-    
+
     public async Task<List<AuditEventDto>> FindAtGroupLevelAsync(string groupId)
     {
         return await GetAsync<List<AuditEventDto>>(GenerateUrl($"groups/{groupId}/audit_events"));
     }
-    
+
     public async Task<List<AuditEventDto>> FindAtProjectLevelAsync(string projectId)
     {
         return await GetAsync<List<AuditEventDto>>(GenerateUrl($"projects/{projectId}/audit_events"));

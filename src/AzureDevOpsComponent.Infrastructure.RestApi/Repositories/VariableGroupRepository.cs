@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Models;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
-using AutoMapper;
+using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Withywoods.Serialization.Json;
@@ -21,7 +21,7 @@ public class VariableGroupRepository(
     AzureDevOpsRestApiConfiguration configuration,
     ILogger<VariableGroupRepository> logger,
     IHttpClientFactory httpClientFactory,
-    IMapper mapper)
+    AzureDevOpsDtoMapper mapper)
     : RepositoryBase(configuration, logger, httpClientFactory, mapper), IVariableGroupRepository
 {
     protected override string ResourceName => "_apis/distributedtask/variablegroups";
@@ -38,7 +38,7 @@ public class VariableGroupRepository(
     public async Task<VariableGroupModel> FindOneByIdAsync(string projectName, string id)
     {
         var result = await FindOneVariableGroupDto(projectName, id);
-        return Mapper.Map<VariableGroupModel>(result);
+        return Mapper.ToModel(result);
     }
 
     /// <summary>
@@ -60,16 +60,16 @@ public class VariableGroupRepository(
             throw new System.ArgumentNullException(nameof(id));
         }
 
-        if (isReplaceAll)
+        if (isReplaceAll || existing.Variables == null)
         {
             existing.Variables = new JObject();
         }
 
         foreach (var variable in input)
         {
-            if (existing.Variables[variable.Key] != null)
+            if (existing.Variables[variable.Key] is { } current)
             {
-                existing.Variables[variable.Key]["value"] = variable.Value;
+                current["value"] = variable.Value;
                 continue;
             }
 

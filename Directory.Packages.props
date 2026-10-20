@@ -4,35 +4,33 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="AutoFixture" Version="4.18.1" />
-    <PackageVersion Include="AutoMapper" Version="14.0.0" />
-    <PackageVersion Include="Bogus" Version="35.6.3" />
+    <PackageVersion Include="AwesomeAssertions" Version="9.6.0" />
+    <PackageVersion Include="Bogus" Version="35.6.5" />
     <PackageVersion Include="CommandLineParser" Version="2.9.1" />
-    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
-    <PackageVersion Include="FluentAssertions" Version="8.3.0" />
-    <PackageVersion Include="JunitXml.TestLogger" Version="6.1.0" />
-    <PackageVersion Include="Microsoft.ApplicationInsights.WorkerService" Version="3.1.0" />
+    <PackageVersion Include="Microsoft.ApplicationInsights.WorkerService" Version="3.2.0" />
     <PackageVersion Include="Microsoft.Azure.Functions.Worker" Version="2.52.0" />
-    <PackageVersion Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" Version="2.50.0" />
-    <PackageVersion Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.1.0" />
-    <PackageVersion Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.7" />
+    <PackageVersion Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" Version="2.51.0" />
+    <PackageVersion Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.1.1" />
+    <PackageVersion Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.1.0" />
     <PackageVersion Include="Microsoft.Azure.WebJobs.Extensions.AuthenticationEvents" Version="1.1.0" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.5" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.5" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="9.0.5" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.5" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.5" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.5" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Configuration" Version="9.0.5" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="9.0.5" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
-    <PackageVersion Include="Moq" Version="4.20.72" />
-    <PackageVersion Include="Withywoods.Configuration" Version="1.5.2" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.13" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.13" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.13" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.13" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.13" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.13" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.13" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Configuration" Version="10.0.13" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.13" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.12.0" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.5.1" />
+    <PackageVersion Include="Moq" Version="4.21.0" />
+    <PackageVersion Include="Riok.Mapperly" Version="4.3.1" />
+    <!-- 2.x deserializes with the default System.Text.Json options, which are case sensitive, so every camelCase field of the Azure DevOps and GitLab APIs would be left empty.
+         1.x deserializes with Newtonsoft.Json, which the DTO attributes and the variable group JObject rely on, and Withywoods.Serialization has no 2.x. -->
     <PackageVersion Include="Withywoods.Net.Http" Version="1.5.2" />
     <PackageVersion Include="Withywoods.Serialization" Version="1.5.2" />
-    <PackageVersion Include="Withywoods.System" Version="1.5.2" />
-    <PackageVersion Include="xunit" Version="2.9.3" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.0" />
+    <PackageVersion Include="Withywoods.System" Version="2.0.5" />
+    <PackageVersion Include="xunit.v3.mtp-v2" Version="4.0.2" />
   </ItemGroup>
 </Project>

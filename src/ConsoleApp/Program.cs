@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection;
 using AlmOps.ConsoleApp.Tasks;
-using AutoMapper;
 using CommandLine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -137,21 +136,7 @@ internal static class Program
             .AddSingleton(configuration)
             .AddAzureDevOpsRestApi(appConfiguration.AzureDevOpsRestApiConfiguration);
 
-        ConfigureAutoMapper(serviceCollection);
-
         return serviceCollection.BuildServiceProvider();
-    }
-
-    private static void ConfigureAutoMapper(IServiceCollection serviceCollection)
-    {
-        var mappingConfig = new MapperConfiguration(x =>
-        {
-            x.AddProfile(new AzureDevOpsComponent.Infrastructure.RestApi.MappingProfiles.GenericMappingProfile());
-            x.AllowNullCollections = true;
-        });
-        var mapper = mappingConfig.CreateMapper();
-        mapper.ConfigurationProvider.AssertConfigurationIsValid();
-        serviceCollection.AddSingleton(mapper);
     }
 
     private static void LogVerbose(CommandLineOptions opts, string message)

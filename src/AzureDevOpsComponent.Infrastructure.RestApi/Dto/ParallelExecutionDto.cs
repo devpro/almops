@@ -2,6 +2,6 @@
 {
     public class ParallelExecutionDto
     {
-        public string ParallelExecutionType { get; set; }
+        public string? ParallelExecutionType { get; set; }
     }
 }

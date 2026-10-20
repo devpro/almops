@@ -10,7 +10,7 @@ public class GitLabRestApiConfiguration
 
     /// <summary>
     /// Access token.
-    /// Can be a User (Personal) Access Token, a Group Access Token, a Project Access Token, a Service Account Token. 
+    /// Can be a User (Personal) Access Token, a Group Access Token, a Project Access Token, a Service Account Token.
     /// </summary>
     /// <example>glpat-xxxxxx</example>
     public required string Token { get; init; }

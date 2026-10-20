@@ -1,5 +1,5 @@
 ﻿using System.Net.Http;
-using AutoMapper;
+using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;
 using Microsoft.Extensions.Logging;
 using Withywoods.Net.Http;
 
@@ -9,12 +9,12 @@ public abstract class RepositoryBase(
     AzureDevOpsRestApiConfiguration configuration,
     ILogger logger,
     IHttpClientFactory httpClientFactory,
-    IMapper mapper)
+    AzureDevOpsDtoMapper mapper)
     : HttpRepositoryBase(logger, httpClientFactory)
 {
     private AzureDevOpsRestApiConfiguration Configuration { get; } = configuration;
 
-    protected IMapper Mapper { get; private set; } = mapper;
+    protected AzureDevOpsDtoMapper Mapper { get; } = mapper;
 
     protected override string HttpClientName => Configuration.HttpClientName;
 

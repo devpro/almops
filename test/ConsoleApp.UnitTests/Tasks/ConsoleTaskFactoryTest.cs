@@ -1,8 +1,7 @@
 ﻿using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection;
 using AlmOps.ConsoleApp.Tasks;
-using AutoMapper;
-using FluentAssertions;
+using AwesomeAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -17,8 +16,7 @@ public class ConsoleTaskFactoryTest
     {
         var services = new ServiceCollection()
             .AddLogging()
-            .AddAzureDevOpsRestApi(new AzureDevOpsRestApiConfiguration())
-            .AddSingleton(new MapperConfiguration(x => { }).CreateMapper());
+            .AddAzureDevOpsRestApi(new AzureDevOpsRestApiConfiguration());
 
         _serviceProvider = services.BuildServiceProvider();
     }
@@ -49,7 +47,7 @@ public class ConsoleTaskFactoryTest
     [InlineData("list", null, "Unknown resource \"\". Available resources: \"projects\", \"build\", \"builds\", \"artifacts\", \"release\", \"variables\"")]
     [InlineData("list", "", "Unknown resource \"\". Available resources: \"projects\", \"build\", \"builds\", \"artifacts\", \"release\", \"variables\"")]
     [InlineData("edit", "projects", "Unknown action \"edit\" for resource \"projects\"")]
-    public void ConsoleTaskFactoryCreate_ShouldSetErrorMessageOnInvalidOptions(string action, string resource, string expected)
+    public void ConsoleTaskFactoryCreate_ShouldSetErrorMessageOnInvalidOptions(string action, string? resource, string expected)
     {
         // Arrange
         var factory = new ConsoleTaskFactory(_serviceProvider);

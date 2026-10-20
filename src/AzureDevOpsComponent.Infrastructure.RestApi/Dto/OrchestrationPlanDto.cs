@@ -2,6 +2,6 @@
 {
     public class OrchestrationPlanDto
     {
-        public string PlanId { get; set; }
+        public string? PlanId { get; set; }
     }
 }

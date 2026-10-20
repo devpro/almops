@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection;
-using AutoMapper;
-using FluentAssertions;
+using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;
+using AwesomeAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -32,10 +32,8 @@ public class ServiceCollectionExtensionsTest
     public void AddAzureDevOpsRestApi_ShouldProvideRepositories()
     {
         // Arrange
-        var mappingConfig = new MapperConfiguration(x => { x.AllowNullCollections = true; });
         var serviceCollection = new ServiceCollection()
-            .AddLogging()
-            .AddSingleton(mappingConfig.CreateMapper());
+            .AddLogging();
 
         // Act
         serviceCollection.AddAzureDevOpsRestApi(_configuration);
@@ -48,6 +46,21 @@ public class ServiceCollectionExtensionsTest
         services.GetRequiredService<Domain.Repositories.IProjectRepository>().Should().NotBeNull();
         services.GetRequiredService<Domain.Repositories.IReleaseRepository>().Should().NotBeNull();
         services.GetRequiredService<Domain.Repositories.IReleaseDefinitionRepository>().Should().NotBeNull();
+        services.GetRequiredService<Domain.Repositories.IVariableGroupRepository>().Should().NotBeNull();
+    }
+
+    [Fact]
+    public void AddAzureDevOpsRestApi_ShouldProvideMapper()
+    {
+        // Arrange
+        var serviceCollection = new ServiceCollection();
+
+        // Act
+        serviceCollection.AddAzureDevOpsRestApi(_configuration);
+
+        // Assert
+        var services = serviceCollection.BuildServiceProvider();
+        services.GetRequiredService<AzureDevOpsDtoMapper>().Should().NotBeNull();
     }
 
     [Fact]
