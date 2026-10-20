@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Nodes;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;
 using AwesomeAssertions;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.UnitTests.Mappers;
@@ -143,7 +143,7 @@ public class AzureDevOpsDtoMapperTest
     [Fact]
     public void ToModel_VariableGroup_KeepsVariables()
     {
-        var variables = JObject.Parse("{\"key1\":{\"value\":\"value1\"}}");
+        var variables = JsonNode.Parse("{\"key1\":{\"value\":\"value1\"}}")!.AsObject();
         var dto = new VariableGroupDto { Id = 8, Name = "almops-vars", Type = "Vsts", Variables = variables };
 
         var model = _mapper.ToModel(dto);

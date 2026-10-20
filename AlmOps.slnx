@@ -16,6 +16,7 @@
   <Folder Name="/1 - Components/">
     <Project Path="src/AzureDevOpsComponent.Domain/AzureDevOpsComponent.Domain.csproj" />
     <Project Path="src/AzureDevOpsComponent.Infrastructure.RestApi/AzureDevOpsComponent.Infrastructure.RestApi.csproj" />
+    <Project Path="src/Common.Infrastructure.RestApi/Common.Infrastructure.RestApi.csproj" />
     <Project Path="src/GitLabComponent.Infrastructure.RestApi/GitLabComponent.Infrastructure.RestApi.csproj" />
     <Project Path="test/AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests/AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests.csproj" />
     <Project Path="test/AzureDevOpsComponent.Infrastructure.RestApi.UnitTests/AzureDevOpsComponent.Infrastructure.RestApi.UnitTests.csproj" />

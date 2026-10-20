@@ -9,14 +9,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AzureDevOpsComponent.Domain\AzureDevOpsComponent.Domain.csproj" />
+    <ProjectReference Include="..\Common.Infrastructure.RestApi\Common.Infrastructure.RestApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Riok.Mapperly" ExcludeAssets="runtime" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Http" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-    <PackageReference Include="Withywoods.Net.Http" />
-    <PackageReference Include="Withywoods.Serialization" />
   </ItemGroup>
 
 </Project>

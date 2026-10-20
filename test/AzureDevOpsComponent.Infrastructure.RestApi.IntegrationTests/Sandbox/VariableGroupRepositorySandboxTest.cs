@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using AwesomeAssertions;
 using Bogus;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests.Sandbox;
@@ -43,12 +43,12 @@ public class VariableGroupRepositorySandboxTest() : RepositoryIntegrationTestBas
         await repository.UpdateAsync(ProjectName, variableGroupId, inputCreate, true);
         var outputAfterFirstUpdate = await repository.FindOneByIdAsync(ProjectName, variableGroupId);
         outputAfterFirstUpdate.Should().NotBeNull();
-        ((JObject)outputAfterFirstUpdate.Variables!).Children().Count().Should().Be(6);
+        ((JsonObject)outputAfterFirstUpdate.Variables!).Count.Should().Be(6);
 
         await repository.UpdateAsync(ProjectName, variableGroupId, inputUpdate);
         var outputAfterSecondUpdate = await repository.FindOneByIdAsync(ProjectName, variableGroupId);
         outputAfterSecondUpdate.Should().NotBeNull();
-        ((JObject)outputAfterSecondUpdate.Variables!).Children().Count().Should().Be(9);
+        ((JsonObject)outputAfterSecondUpdate.Variables!).Count.Should().Be(9);
     }
 
     private IVariableGroupRepository BuildRepository()

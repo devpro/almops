@@ -1,31 +1,31 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AlmOps.GitLabComponent.Infrastructure.RestApi.Dto;
 
 public class DetailsDto
 {
-    [JsonProperty("custom_message")]
+    [JsonPropertyName("custom_message")]
     public string? CustomMessage { get; set; }
 
-    [JsonProperty("author_name")]
+    [JsonPropertyName("author_name")]
     public string? AuthorName { get; set; }
 
-    [JsonProperty("author_email")]
+    [JsonPropertyName("author_email")]
     public string? AuthorEmail { get; set; }
 
-    [JsonProperty("target_id")]
+    [JsonPropertyName("target_id")]
     public object? TargetId { get; set; }
 
-    [JsonProperty("target_type")]
+    [JsonPropertyName("target_type")]
     public string? TargetType { get; set; }
 
-    [JsonProperty("target_details")]
+    [JsonPropertyName("target_details")]
     public string? TargetDetails { get; set; }
 
-    [JsonProperty("ip_address")]
+    [JsonPropertyName("ip_address")]
     public string? IpAddress { get; set; }
 
-    [JsonProperty("entity_path")]
+    [JsonPropertyName("entity_path")]
     public string? EntityPath { get; set; }
 
     public string? Add { get; set; }
@@ -36,6 +36,6 @@ public class DetailsDto
 
     public string? To { get; set; }
 
-    [JsonProperty("author_class")]
+    [JsonPropertyName("author_class")]
     public string? AuthorClass { get; set; }
 }

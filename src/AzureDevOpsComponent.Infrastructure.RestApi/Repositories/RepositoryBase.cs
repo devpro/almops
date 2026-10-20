@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;
+using AlmOps.Common.Infrastructure.RestApi;
 using Microsoft.Extensions.Logging;
-using Withywoods.Net.Http;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
 

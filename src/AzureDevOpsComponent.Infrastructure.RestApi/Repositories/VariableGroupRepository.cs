@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Models;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
-using Withywoods.Serialization.Json;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
 
@@ -55,25 +54,21 @@ public class VariableGroupRepository(
     public async Task UpdateAsync(string projectName, string id, Dictionary<string, string> input, bool isReplaceAll = false)
     {
         var existing = await FindOneVariableGroupDto(projectName, id);
-        if (existing == null)
-        {
-            throw new System.ArgumentNullException(nameof(id));
-        }
 
         if (isReplaceAll || existing.Variables == null)
         {
-            existing.Variables = new JObject();
+            existing.Variables = new JsonObject();
         }
 
         foreach (var variable in input)
         {
-            if (existing.Variables[variable.Key] is { } current)
+            if (existing.Variables[variable.Key] is JsonObject current)
             {
                 current["value"] = variable.Value;
                 continue;
             }
 
-            existing.Variables.Add(variable.Key, $"{{\"value\":\"{variable.Value}\"}}".FromJson<JToken>());
+            existing.Variables[variable.Key] = new JsonObject { ["value"] = variable.Value };
         }
 
         var url = GenerateUrl(prefix: $"/{projectName}", suffix: $"/{id}");

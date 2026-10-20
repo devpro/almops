@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
 
@@ -18,7 +18,7 @@ public class BuildDto
     public BuildDefinitionDto? Definition { get; set; }
     public ProjectDto? Project { get; set; }
     public RepositoryDto? Repository { get; set; }
-    [JsonProperty("_links")]
+    [JsonPropertyName("_links")]
     public LinksDto? Links { get; set; }
     public object? Properties { get; set; }
     public List<ValidationResultDto>? ValidationResults { get; set; }

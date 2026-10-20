@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Models;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;
 using Microsoft.Extensions.Logging;
-using Withywoods.Serialization.Json;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
 
@@ -63,7 +63,7 @@ public class BuildRepository(
             {
                 Definition = new { Id = buildDefinitionId },
                 SourceBranch = sourceBranchName,
-                Parameters = variables.ToJson()
+                Parameters = JsonSerializer.Serialize(variables)
             });
         return Mapper.ToModel(result);
     }

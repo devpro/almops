@@ -26,11 +26,6 @@
     <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.5.1" />
     <PackageVersion Include="Moq" Version="4.21.0" />
     <PackageVersion Include="Riok.Mapperly" Version="4.3.1" />
-    <!-- 2.x deserializes with the default System.Text.Json options, which are case sensitive, so every camelCase field of the Azure DevOps and GitLab APIs would be left empty.
-         1.x deserializes with Newtonsoft.Json, which the DTO attributes and the variable group JObject rely on, and Withywoods.Serialization has no 2.x. -->
-    <PackageVersion Include="Withywoods.Net.Http" Version="1.5.2" />
-    <PackageVersion Include="Withywoods.Serialization" Version="1.5.2" />
-    <PackageVersion Include="Withywoods.System" Version="2.0.5" />
     <PackageVersion Include="xunit.v3.mtp-v2" Version="4.0.2" />
   </ItemGroup>
 </Project>

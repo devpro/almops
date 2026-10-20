@@ -12,6 +12,7 @@ Project                                   | Role
 `src/ConsoleApp`                          | Command line parsing, configuration and one task per action
 `src/AzureDevOpsComponent.Domain`         | Models and repository interfaces
 `src/*Component.Infrastructure.RestApi`   | REST API clients, DTOs and the Mapperly mapper from DTO to model
+`src/Common.Infrastructure.RestApi`       | HTTP repository base and JSON options shared by the REST API clients
 `samples/SamlTokenClaimEnricher`          | Independent Azure Function sample
 
 ## Working rules
@@ -58,6 +59,7 @@ Applies to Markdown, code comments, commit messages and prose in scripts.
 - NuGet versions are managed centrally in `Directory.Packages.props`: `PackageReference` entries in csproj files have no `Version` attribute.
 - Release version is `VersionPrefix` in `Directory.Build.props`.
 - No package with a license issue: Mapperly maps, never AutoMapper; AwesomeAssertions asserts, never FluentAssertions.
+- JSON is System.Text.Json, never Newtonsoft, through `HttpRepositoryBase` and `JsonDefaults` of `src/Common.Infrastructure.RestApi`.
 - Tests use xunit v3 on the Microsoft Testing Platform (`global.json`), so runner options go after `--` with `dotnet test --project`.
 - A test reaching a live Azure DevOps or GitLab sandbox carries `[Trait("Environment", "Sandbox")]` and reads its credentials from `AlmOps__Sandbox__*` environment variables.
 - C# style is enforced by `.editorconfig`.

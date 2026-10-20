@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -12,7 +13,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.UnitTests.Repositor
 
 /// <summary>
 /// Resolves repositories from the registration the application uses, with an HTTP handler answering the JSON the API sends,
-/// so that a test covers the deserialization and the mapping together.
+/// so that a test covers the serialization, the deserialization and the mapping together.
 /// </summary>
 public abstract class RepositoryTestBase
 {
@@ -23,15 +24,20 @@ public abstract class RepositoryTestBase
         Token = "token"
     };
 
-    protected HttpRequestMessage? LastRequest { get; private set; }
+    protected List<(HttpRequestMessage Request, string? Body)> Requests { get; } = [];
 
-    protected T CreateRepository<T>(string responseJson) where T : notnull
+    protected HttpRequestMessage? LastRequest => Requests.Count == 0 ? null : Requests[^1].Request;
+
+    protected string? LastRequestBody => Requests.Count == 0 ? null : Requests[^1].Body;
+
+    protected T CreateRepository<T>(string responseJson, HttpStatusCode statusCode = HttpStatusCode.OK) where T : notnull
     {
         var handler = new Mock<HttpMessageHandler>();
         handler.Protected()
             .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .Callback<HttpRequestMessage, CancellationToken>((request, _) => LastRequest = request)
-            .ReturnsAsync(() => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseJson, Encoding.UTF8, "application/json") });
+            // The body is read when the request is sent, as the client may dispose of its content afterwards.
+            .Callback<HttpRequestMessage, CancellationToken>((request, _) => Requests.Add((request, request.Content?.ReadAsStringAsync().GetAwaiter().GetResult())))
+            .ReturnsAsync(() => new HttpResponseMessage(statusCode) { Content = new StringContent(responseJson, Encoding.UTF8, "application/json") });
 
         var services = new ServiceCollection()
             .AddLogging()

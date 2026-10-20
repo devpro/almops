@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
 {
@@ -13,7 +13,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
 
         public string? Name { get; set; }
 
-        public JObject? Variables { get; set; }
+        public JsonObject? Variables { get; set; }
 
         public string? Description { get; set; }
 
@@ -27,7 +27,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
 
         public bool IsShared { get; set; }
 
-        [JsonProperty("variableGroupProjectReferences")]
+        [JsonPropertyName("variableGroupProjectReferences")]
         public List<ProjectReferenceDto>? ProjectReferences { get; set; }
 
         // providerData VariableGroupProviderData

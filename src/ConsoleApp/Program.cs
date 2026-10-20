@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection;
 using AlmOps.ConsoleApp.Tasks;
@@ -11,7 +12,6 @@ using CommandLine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Withywoods.Serialization.Json;
 
 [assembly: InternalsVisibleTo("AlmOps.ConsoleApp.IntegrationTests")]
 
@@ -108,7 +108,7 @@ internal static class Program
                 opts.Token
             }
         };
-        File.WriteAllText(Path.Combine(AppContext.BaseDirectory, AppSettingsFilename), jsonConfig.ToJson(), Encoding.UTF8);
+        File.WriteAllText(Path.Combine(AppContext.BaseDirectory, AppSettingsFilename), JsonSerializer.Serialize(jsonConfig), Encoding.UTF8);
     }
 
     private static IConfigurationRoot LoadConfiguration()

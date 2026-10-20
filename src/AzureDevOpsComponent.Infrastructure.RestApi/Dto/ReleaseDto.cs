@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
 {
@@ -25,7 +25,7 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
         public int DefinitionSnapshotRevision { get; set; }
         public string? LogsContainerUrl { get; set; }
         public string? Url { get; set; }
-        [JsonProperty("_links")]
+        [JsonPropertyName("_links")]
         public LinksDto? Links { get; set; }
         public List<object>? Tags { get; set; }
         public ProjectDto? ProjectReference { get; set; }
