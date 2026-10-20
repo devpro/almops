@@ -64,6 +64,7 @@ Applies to Markdown, code comments, commit messages and prose in scripts.
 - A test reaching a live Azure DevOps or GitLab sandbox carries `[Trait("Environment", "Sandbox")]` and reads its credentials from `AlmOps__Sandbox__*` environment variables.
 - C# style is enforced by `.editorconfig`.
 - Shell scripts are named in `snake_case` and committed with the executable bit set (`git update-index --chmod=+x`).
+- Known debt not yet scheduled is listed in `docs/backlog.md`.
 - Target platform is Linux, including WSL2, and `bash`.
 
 ## Commands
