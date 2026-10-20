@@ -69,7 +69,7 @@ docker run -it --rm --name almops \
 
 ## Run the pipeline locally
 
-[IstarCI](https://github.com/devpro/istarci) runs the GitLab CI pipeline in Docker before the push.
+[IstarCI](https://github.com/devpro/istarci) runs the GitHub Actions pipeline in Docker on every commit, and gates the push on its result.
 `istarci add` and `istarci install-hook` set it up for this repository.
 
 ## References

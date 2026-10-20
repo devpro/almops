@@ -1,27 +1,37 @@
 # IstarCI configuration, read from the root of the repository.
 
 runner:
-  # podman builds and loads images, and docker:dind serves the scan, which need the privileged containers a GitLab runner gives them.
-  privileged:
-    - "podman-*"
-    - neuvector_scan
-  # The analysis of dotnet-test runs against the SonarQube IstarCI starts on this machine, with a token made there.
+  image: ghcr.io/devpro/ubuntu-dotnet:latest
+  images:
+    "git-check*": ghcr.io/devpro/debian-node:latest
+    "markup-lint*": ghcr.io/devpro/debian-node:latest
+    "image-scan*": ghcr.io/devpro/debian-node:latest
+  # The scan job builds an image and scans it through the host Docker daemon.
+  docker: ["image-scan*"]
+  # The analysis runs against the SonarQube IstarCI starts on this machine, with a token made there.
   sonarqube: true
 
 workflow:
-  # IstarCI holds no external credential, and the scan logs in to Docker Hub.
-  skipJobs:
-    - neuvector_scan
-  # The pipeline runs on a merge request or on the default branch only, so a local run on a feature branch skips the rules instead of evaluating them.
-  respectTriggers: false
+  onDisallowedAction: fail
+  # Actions published by GitHub or Docker, and the composite replacements for every other one kept in github-workflow-parts.
+  allowedActions:
+    - actions/*
+    - github/*
+    - docker/*
+    - devpro/github-workflow-parts/*
+  # Delivery publishes on a push to the default branch, which a local run must never reach.
+  exclude:
+    - pkg.yaml
 
-# The project CI/CD variables of GitLab, with local values: the image is built and scanned here, and pushed only from main on GitLab.
+# Repository variables the pipeline reads, which a local run otherwise gets as placeholders, and an image tag refuses the uppercase in one.
 vars:
-  CONTAINER_REGISTRY_DOMAIN: localhost
-  CONTAINER_REGISTRY_USER: local
-  # The local SonarQube, under the names dotnet-test reads.
-  SONAR_HOSTURL: $SONAR_HOST_URL
-  SONAR_ORGANIZATION: local
-  SONAR_PROJECTKEY: almops
-  # The tests against live Azure DevOps and GitLab sandboxes need real credentials, which IstarCI never holds.
-  DOTNET_TEST_EXTRA_PARAMETERS: --filter Environment!=Sandbox
+  # FOSSA analyses on its own service with an API key, which a local run never holds.
+  FOSSA_ENABLED: "false"
+  # The local SonarQube has no organizations, and a non-empty one is what turns the analysis on.
+  SONAR_ORG: local
+  SONAR_PROJECT_KEY: almops
+  CONTAINER_REGISTRY_PATH: devprofr
+  CONTAINER_IMAGE_NAME: almops
+  # The tests against live Azure DevOps and GitLab sandboxes need real credentials, which a local run never holds,
+  # and leaving them out leaves the integration projects with no test, which exit code 8 reports.
+  DOTNET_TEST_EXTRA_ARGS: --filter-not-trait "Environment=Sandbox" --ignore-exit-code 8

@@ -1,7 +1,7 @@
 ﻿# almops - Ops tool for ALM solutions
 
-[![GitLab Pipeline Status](https://gitlab.com/devpro-labs/software/almops/badges/main/pipeline.svg)](https://gitlab.com/devpro-labs/software/almops/-/pipelines)
-[![GitLab Coverage Report](https://gitlab.com/devpro-labs/software/almops/badges/main/coverage.svg)](https://gitlab.com/devpro-labs/software/almops/-/commits/main)
+[![CI](https://github.com/devpro/almops/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/devpro/almops/actions/workflows/ci.yaml)
+[![PKG](https://github.com/devpro/almops/actions/workflows/pkg.yaml/badge.svg?branch=main)](https://github.com/devpro/almops/actions/workflows/pkg.yaml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=devpro.almops&metric=alert_status)](https://sonarcloud.io/dashboard?id=devpro.almops)
 [![Nuget](https://img.shields.io/nuget/v/almops.svg)](https://www.nuget.org/packages/almops)
 [![Docker Image Version](https://img.shields.io/docker/v/devprofr/almops?label=Docker)](https://hub.docker.com/r/devprofr/almops)

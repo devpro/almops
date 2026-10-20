@@ -3,7 +3,10 @@
     <File Path=".dockerignore" />
     <File Path=".editorconfig" />
     <File Path=".gitignore" />
-    <File Path=".gitlab-ci.yml" />
+    <File Path=".github/workflows/ci.yaml" />
+    <File Path=".github/workflows/pkg.yaml" />
+    <File Path=".istarci.yml" />
+    <File Path="AGENTS.md" />
     <File Path="CONTRIBUTING.md" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
