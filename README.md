@@ -1,4 +1,4 @@
-﻿# almops - Ops tool for ALM solutions
+# almops - Ops tool for ALM solutions
 
 [![CI](https://github.com/devpro/almops/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/devpro/almops/actions/workflows/ci.yaml)
 [![PKG](https://github.com/devpro/almops/actions/workflows/pkg.yaml/badge.svg?branch=main)](https://github.com/devpro/almops/actions/workflows/pkg.yaml)
@@ -6,7 +6,11 @@
 [![Nuget](https://img.shields.io/nuget/v/almops.svg)](https://www.nuget.org/packages/almops)
 [![Docker Image Version](https://img.shields.io/docker/v/devprofr/almops?label=Docker)](https://hub.docker.com/r/devprofr/almops)
 
-<!--[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=devpro.almops&metric=coverage)](https://sonarcloud.io/dashboard?id=devpro.almops)-->
+<!--
+[![GitLab Pipeline Status](https://gitlab.com/devpro-labs/software/almops/badges/main/pipeline.svg)](https://gitlab.com/devpro-labs/software/almops/-/pipelines)
+[![GitLab Coverage Report](https://gitlab.com/devpro-labs/software/almops/badges/main/coverage.svg)](https://gitlab.com/devpro-labs/software/almops/-/commits/main)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=devpro.almops&metric=coverage)](https://sonarcloud.io/dashboard?id=devpro.almops)
+-->
 
 Command line tool to administrate [ALM (Application lifecycle management)](https://en.wikipedia.org/wiki/Application_lifecycle_management) solutions such as Azure DevOps, GitHub, GitLab.
 
