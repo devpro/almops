@@ -11,11 +11,16 @@
     <File Path="global.json" />
     <File Path="README.md" />
   </Folder>
-  <Folder Name="/0 - Solution Items/pipelines/">
+  <Folder Name="/0 - Solution Items/pipelines/" />
+  <Folder Name="/0 - Solution Items/pipelines/azure-devops/">
     <File Path=".azure/pipelines/ci.yml" />
     <File Path=".azure/pipelines/pkg.yml" />
+  </Folder>
+  <Folder Name="/0 - Solution Items/pipelines/github/">
     <File Path=".github/workflows/ci.yaml" />
     <File Path=".github/workflows/pkg.yaml" />
+  </Folder>
+  <Folder Name="/0 - Solution Items/pipelines/gitlab/">
     <File Path=".gitlab-ci.yml" />
   </Folder>
   <Folder Name="/1 - Components/">

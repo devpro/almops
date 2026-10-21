@@ -66,9 +66,25 @@ dotnet-test:
     # adds dotnet global tool in the path
     - export PATH="$PATH:/root/.dotnet/tools"
   script:
-    - dotnet sonarscanner begin /o:$SONAR_ORGANIZATION /k:$SONAR_PROJECTKEY /n:AlmOps /d:sonar.host.url=$SONAR_HOSTURL /d:sonar.token=$SONAR_TOKEN $SONAR_EXTRA_PARAMETERS
-    - dotnet test --configuration Debug --logger:"junit;LogFilePath=..\..\artifacts\{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose" --collect:"XPlat Code Coverage" $DOTNET_TEST_EXTRA_PARAMETERS
-    - reportgenerator "-reports:$DOTNET_TEST_COVERAGE_XMLFILES" -targetdir:$DOTNET_TEST_REPORT_FOLDER "-reporttypes:Cobertura;Html;TextSummary;SonarQube"
+    - >
+      dotnet sonarscanner begin
+      /o:$SONAR_ORGANIZATION
+      /k:$SONAR_PROJECTKEY
+      /n:AlmOps
+      /d:sonar.host.url=$SONAR_HOSTURL
+      /d:sonar.token=$SONAR_TOKEN
+      $SONAR_EXTRA_PARAMETERS
+    - >
+      dotnet test
+      --configuration Debug
+      --logger:"junit;LogFilePath=..\..\artifacts\{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose"
+      --collect:"XPlat Code Coverage"
+      $DOTNET_TEST_EXTRA_PARAMETERS
+    - >
+      reportgenerator
+      "-reports:$DOTNET_TEST_COVERAGE_XMLFILES"
+      -targetdir:$DOTNET_TEST_REPORT_FOLDER
+      "-reporttypes:Cobertura;Html;TextSummary;SonarQube"
     - dotnet sonarscanner end /d:sonar.token=$SONAR_TOKEN
     - cat $DOTNET_TEST_REPORT_FOLDER/Summary.txt
   artifacts:
