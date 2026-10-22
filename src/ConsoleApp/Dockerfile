@@ -1,4 +1,4 @@
-﻿# syntax=docker/dockerfile:1
+# syntax=docker/dockerfile:1
 
 FROM registry.suse.com/bci/dotnet-aspnet:10.0.13 AS base
 USER $APP_UID
