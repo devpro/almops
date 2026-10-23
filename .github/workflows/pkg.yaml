@@ -19,19 +19,19 @@ permissions:
 jobs:
   git-check:
     name: Git
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-git-check.yml@86258d301cd7d6d374587a0663ee384b9ccc4515
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-git-check.yml@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
     with:
       paths: 'src Directory.Build.props Directory.Packages.props global.json'
       version-file: Directory.Build.props
-      workflow-parts-version: 86258d301cd7d6d374587a0663ee384b9ccc4515
+      workflow-parts-version: 13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
 
   # NuGet refuses a version it already holds, so the packages are pushed only when the version changes.
   version-check:
     name: Version
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-git-check.yml@86258d301cd7d6d374587a0663ee384b9ccc4515
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-git-check.yml@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
     with:
       paths: 'Directory.Build.props'
-      workflow-parts-version: 86258d301cd7d6d374587a0663ee384b9ccc4515
+      workflow-parts-version: 13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
 
   package-publication:
     name: Package / Publication
@@ -45,7 +45,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Pack & push .NET projects
-        uses: devpro/github-workflow-parts/actions/dotnet/pack-push@86258d301cd7d6d374587a0663ee384b9ccc4515
+        uses: devpro/github-workflow-parts/actions/dotnet/pack-push@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
         with:
           registry-token: ${{ secrets.NUGET_API_KEY }}
           push-enabled: ${{ github.event_name != 'workflow_dispatch' || inputs.push-enabled }}
@@ -57,7 +57,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-container-publication.yml@86258d301cd7d6d374587a0663ee384b9ccc4515
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-container-publication.yml@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
     with:
       create-latest: ${{ github.ref_name == 'main' }}
       image-definition: "src/ConsoleApp/Dockerfile"
@@ -65,7 +65,7 @@ jobs:
       image-path: ${{ vars.CONTAINER_REGISTRY_PATH }}
       image-tag: "${{ needs.git-check.outputs.version-major-minor }}.${{ github.run_id }}"
       image-platform: linux/amd64
-      workflow-parts-version: 86258d301cd7d6d374587a0663ee384b9ccc4515
+      workflow-parts-version: 13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
     secrets:
       container-registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
       container-registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
