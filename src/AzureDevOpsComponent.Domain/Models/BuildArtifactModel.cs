@@ -1,4 +1,4 @@
-﻿namespace AlmOps.AzureDevOpsComponent.Domain.Models;
+namespace AlmOps.AzureDevOpsComponent.Domain.Models;
 
 public class BuildArtifactModel
 {

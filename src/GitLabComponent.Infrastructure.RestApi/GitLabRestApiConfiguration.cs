@@ -1,4 +1,4 @@
-﻿namespace AlmOps.GitLabComponent.Infrastructure.RestApi;
+namespace AlmOps.GitLabComponent.Infrastructure.RestApi;
 
 public class GitLabRestApiConfiguration
 {

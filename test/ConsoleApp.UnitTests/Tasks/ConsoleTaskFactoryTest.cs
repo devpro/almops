@@ -1,4 +1,4 @@
-﻿using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi;
+using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection;
 using AlmOps.ConsoleApp.Tasks;
 using AwesomeAssertions;

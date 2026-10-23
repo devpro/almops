@@ -1,4 +1,4 @@
-﻿using AlmOps.AzureDevOpsComponent.Domain.Repositories;
+using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

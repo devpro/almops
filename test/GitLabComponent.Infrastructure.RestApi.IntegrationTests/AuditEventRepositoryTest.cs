@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using AlmOps.GitLabComponent.Infrastructure.RestApi.Repositories;
 using AwesomeAssertions;
 using Microsoft.Extensions.DependencyInjection;

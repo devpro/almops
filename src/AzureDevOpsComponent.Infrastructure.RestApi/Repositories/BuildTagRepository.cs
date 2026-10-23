@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;

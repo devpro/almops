@@ -1,4 +1,4 @@
-﻿namespace AlmOps.ConsoleApp.Tasks;
+namespace AlmOps.ConsoleApp.Tasks;
 
 public abstract class TaskBase : IConsoleTask
 {

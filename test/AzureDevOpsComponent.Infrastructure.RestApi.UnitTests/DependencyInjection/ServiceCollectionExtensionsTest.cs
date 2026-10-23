@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;

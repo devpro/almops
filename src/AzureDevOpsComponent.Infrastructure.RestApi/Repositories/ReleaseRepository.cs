@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Models;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;

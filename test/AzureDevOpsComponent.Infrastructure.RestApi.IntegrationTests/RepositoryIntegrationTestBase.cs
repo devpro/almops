@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 

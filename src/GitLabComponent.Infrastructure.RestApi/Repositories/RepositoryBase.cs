@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using AlmOps.Common.Infrastructure.RestApi;
 using Microsoft.Extensions.Logging;
 

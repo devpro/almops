@@ -1,4 +1,4 @@
-﻿using AlmOps.GitLabComponent.Infrastructure.RestApi.DependencyInjection;
+using AlmOps.GitLabComponent.Infrastructure.RestApi.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AlmOps.GitLabComponent.Infrastructure.RestApi.IntegrationTests;

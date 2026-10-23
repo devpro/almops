@@ -1,4 +1,4 @@
-﻿namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi;
+namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi;
 
 public class AzureDevOpsRestApiConfiguration
 {

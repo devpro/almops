@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Models;
 
 namespace AlmOps.AzureDevOpsComponent.Domain.Repositories;
