@@ -1,0 +1,71 @@
+name: PKG
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+# purpose: Continuous Delivery (aka Packaging & Shipping)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      push-enabled:
+        description: 'Push packages?'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  git-check:
+    name: Git
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-git-check.yml@8c856cd16adc8a0ca01c7889a9c7d98ad8593818
+    with:
+      paths: 'src Directory.Build.props Directory.Packages.props global.json'
+      version-file: Directory.Build.props
+      workflow-parts-version: 8c856cd16adc8a0ca01c7889a9c7d98ad8593818
+
+  # NuGet refuses a version it already holds, so the packages are pushed only when the version changes.
+  version-check:
+    name: Version
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-git-check.yml@8c856cd16adc8a0ca01c7889a9c7d98ad8593818
+    with:
+      paths: 'Directory.Build.props'
+      workflow-parts-version: 8c856cd16adc8a0ca01c7889a9c7d98ad8593818
+
+  package-publication:
+    name: Package / Publication
+    needs: version-check
+    if: github.event_name == 'workflow_dispatch' || needs.version-check.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Pack & push .NET projects
+        uses: devpro/github-workflow-parts/actions/dotnet/pack-push@8c856cd16adc8a0ca01c7889a9c7d98ad8593818
+        with:
+          registry-token: ${{ secrets.NUGET_API_KEY }}
+          push-enabled: ${{ github.event_name != 'workflow_dispatch' || inputs.push-enabled }}
+
+  image-publication:
+    name: Image
+    needs: git-check
+    if: github.event_name == 'workflow_dispatch' || needs.git-check.outputs.changed == 'true'
+    permissions:
+      id-token: write
+      contents: read
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-container-publication.yml@8c856cd16adc8a0ca01c7889a9c7d98ad8593818
+    with:
+      create-latest: ${{ github.ref_name == 'main' }}
+      image-definition: "src/ConsoleApp/Dockerfile"
+      image-name: ${{ vars.CONTAINER_IMAGE_NAME }}
+      image-path: ${{ vars.CONTAINER_REGISTRY_PATH }}
+      image-tag: "${{ needs.git-check.outputs.version-major-minor }}.${{ github.run_id }}"
+      image-platform: linux/amd64
+      workflow-parts-version: 8c856cd16adc8a0ca01c7889a9c7d98ad8593818
+    secrets:
+      container-registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
+      container-registry-username: ${{ secrets.DOCKERHUB_USERNAME }}

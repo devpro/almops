@@ -1,4 +1,4 @@
-﻿using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi;
+using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi;
 using Microsoft.Extensions.Configuration;
 
 namespace AlmOps.ConsoleApp;

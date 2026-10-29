@@ -1,8 +1,8 @@
-﻿namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
+namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
 {
     public class ResourcePropertiesDto
     {
-        public string LocalPath { get; set; }
-        public string ArtifactSize { get; set; }
+        public string? LocalPath { get; set; }
+        public string? ArtifactSize { get; set; }
     }
 }

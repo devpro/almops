@@ -1,7 +1,7 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
-using AutoMapper;
+using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;
 using Microsoft.Extensions.Logging;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
@@ -14,7 +14,7 @@ public class BuildTagRepository(
     AzureDevOpsRestApiConfiguration configuration,
     ILogger<BuildTagRepository> logger,
     IHttpClientFactory httpClientFactory,
-    IMapper mapper)
+    AzureDevOpsDtoMapper mapper)
     : RepositoryBase(configuration, logger, httpClientFactory, mapper), IBuildTagRepository
 {
     protected override string ResourceName => "_apis/build/builds";

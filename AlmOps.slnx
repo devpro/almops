@@ -1,0 +1,42 @@
+<Solution>
+  <Folder Name="/0 - Solution Items/">
+    <File Path=".dockerignore" />
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path=".istarci.yml" />
+    <File Path="AGENTS.md" />
+    <File Path="CONTRIBUTING.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/0 - Solution Items/pipelines/" />
+  <Folder Name="/0 - Solution Items/pipelines/azure-devops/">
+    <File Path=".azure/pipelines/ci.yml" />
+    <File Path=".azure/pipelines/pkg.yml" />
+  </Folder>
+  <Folder Name="/0 - Solution Items/pipelines/github/">
+    <File Path=".github/workflows/ci.yaml" />
+    <File Path=".github/workflows/pkg.yaml" />
+  </Folder>
+  <Folder Name="/0 - Solution Items/pipelines/gitlab/">
+    <File Path=".gitlab-ci.yml" />
+  </Folder>
+  <Folder Name="/1 - Components/">
+    <Project Path="src/AzureDevOpsComponent.Domain/AzureDevOpsComponent.Domain.csproj" />
+    <Project Path="src/AzureDevOpsComponent.Infrastructure.RestApi/AzureDevOpsComponent.Infrastructure.RestApi.csproj" />
+    <Project Path="src/Common.Infrastructure.RestApi/Common.Infrastructure.RestApi.csproj" />
+    <Project Path="src/GitLabComponent.Infrastructure.RestApi/GitLabComponent.Infrastructure.RestApi.csproj" />
+    <Project Path="test/AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests/AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests.csproj" />
+    <Project Path="test/AzureDevOpsComponent.Infrastructure.RestApi.UnitTests/AzureDevOpsComponent.Infrastructure.RestApi.UnitTests.csproj" />
+    <Project Path="test/GitLabComponent.Infrastructure.RestApi.IntegrationTests/GitLabComponent.Infrastructure.RestApi.IntegrationTests.csproj" />
+    <Project Path="test/GitLabComponent.Infrastructure.RestApi.UnitTests/GitLabComponent.Infrastructure.RestApi.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/2 - Samples/">
+    <Project Path="samples/SamlTokenClaimEnricher/SamlTokenClaimEnricher.csproj" />
+  </Folder>
+  <Project Path="src/ConsoleApp/ConsoleApp.csproj" />
+  <Project Path="test/ConsoleApp.IntegrationTests/ConsoleApp.IntegrationTests.csproj" />
+  <Project Path="test/ConsoleApp.UnitTests/ConsoleApp.UnitTests.csproj" />
+</Solution>

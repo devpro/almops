@@ -1,59 +1,50 @@
-﻿using System;
+using System;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection;
-using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests
+namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.IntegrationTests;
+
+public abstract class RepositoryIntegrationTestBase
 {
-    public abstract class RepositoryIntegrationTestBase
+    private readonly string _environmentName;
+
+    protected ServiceProvider ServiceProvider { get; private set; }
+
+    protected AzureDevOpsRestApiConfiguration Configuration { get; }
+
+    protected string ProjectName { get; private set; }
+
+    protected RepositoryIntegrationTestBase(string environmentName)
     {
-        private readonly string _environmentName;
+        _environmentName = environmentName;
 
-        protected ServiceProvider ServiceProvider { get; private set; }
-
-        protected AzureDevOpsRestApiConfiguration Configuration { get; }
-
-        protected string ProjectName { get; private set; }
-
-        protected RepositoryIntegrationTestBase(string environmentName)
+        Configuration = new AzureDevOpsRestApiConfiguration
         {
-            _environmentName = environmentName;
+            BaseUrl = "https://dev.azure.com/" + GetEnvironmentVariable("Organization"),
+            Username = GetEnvironmentVariable("Username"),
+            Token = GetEnvironmentVariable("Token")
+        };
 
-            Configuration = new AzureDevOpsRestApiConfiguration
-            {
-                BaseUrl = "https://dev.azure.com/" + GetEnvironmentVariable("Organization"),
-                Username = GetEnvironmentVariable("Username"),
-                Token = GetEnvironmentVariable("Token")
-            };
+        ProjectName = GetEnvironmentVariable("Project");
 
-            ProjectName = GetEnvironmentVariable("Project");
+        var services = new ServiceCollection()
+            .AddLogging()
+            .AddAzureDevOpsRestApi(Configuration);
 
-            var mappingConfig = new MapperConfiguration(x =>
-            {
-                x.AddProfile(new MappingProfiles.GenericMappingProfile());
-                x.AllowNullCollections = true;
-            });
+        ServiceProvider = services.BuildServiceProvider();
+    }
 
-            var services = new ServiceCollection()
-                .AddLogging()
-                .AddSingleton(mappingConfig.CreateMapper())
-                .AddAzureDevOpsRestApi(Configuration);
+    protected string GetEnvironmentVariable(string key)
+    {
+        ArgumentNullException.ThrowIfNull(key);
 
-            ServiceProvider = services.BuildServiceProvider();
+        var name = $"AlmOps__{_environmentName}__{key}";
+        var output = Environment.GetEnvironmentVariable(name);
+        if (string.IsNullOrEmpty(output))
+        {
+            throw new ArgumentException($"Environment variable \"{name}\" is not defined or empty");
         }
 
-        protected string GetEnvironmentVariable(string key)
-        {
-            ArgumentNullException.ThrowIfNull(key);
-
-            var name = $"AlmOps__{_environmentName}__{key}";
-            var output = Environment.GetEnvironmentVariable(name);
-            if (string.IsNullOrEmpty(output))
-            {
-                throw new ArgumentException($"Environment variable \"{name}\" is not defined or empty");
-            }
-
-            return output;
-        }
+        return output;
     }
 }

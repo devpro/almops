@@ -1,15 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>AlmOps.AzureDevOpsComponent.Domain</AssemblyName>
     <RootNamespace>AlmOps.AzureDevOpsComponent.Domain</RootNamespace>
-    <ProjectGuid>{4CD575DE-CFBE-42A5-87A2-ED0BAA52033C}</ProjectGuid>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
 </Project>

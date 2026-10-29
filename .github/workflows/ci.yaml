@@ -1,0 +1,85 @@
+name: CI
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+# purpose: Continuous Integration pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      run-code-quality:
+        description: 'Check code quality?'
+        required: false
+        type: boolean
+        default: false
+      run-image-scan:
+        description: 'Scan container image?'
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: "${{ github.ref }}-ci"
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  markup-lint:
+    name: Markup
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-markup-lint.yml@8c856cd16adc8a0ca01c7889a9c7d98ad8593818
+
+  git-check:
+    name: Git
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-git-check.yml@8c856cd16adc8a0ca01c7889a9c7d98ad8593818
+    with:
+      paths: 'src test samples Directory.Build.props Directory.Packages.props *.slnx global.json'
+      version-file: Directory.Build.props
+      workflow-parts-version: 8c856cd16adc8a0ca01c7889a9c7d98ad8593818
+
+  code-quality:
+    name: Code
+    needs: git-check
+    if: needs.git-check.outputs.changed == 'true' || (github.event_name == 'workflow_dispatch' && inputs.run-code-quality)
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-dotnet-quality.yml@8c856cd16adc8a0ca01c7889a9c7d98ad8593818
+    with:
+      dotnet-test-args: "--report-xunit-trx --coverage --coverage-output-format cobertura ${{ vars.DOTNET_TEST_EXTRA_ARGS }}"
+      fossa-enabled: ${{ vars.FOSSA_ENABLED != 'false' }}
+      sonar-enabled: true
+      sonar-host-url: ${{ vars.SONAR_HOST_URL || 'https://sonarcloud.io' }}
+      sonar-cpd-exclusions: "**/*Generated*.cs,**/src/AzureDevOpsComponent.Domain/Models/*.cs,**/src/*/Dto/*.cs"
+      sonar-exclusions: "**/samples/**"
+      sonar-organization: ${{ vars.SONAR_ORG }}
+      sonar-project-key: ${{ vars.SONAR_PROJECT_KEY }}
+      sonar-project-name: AlmOps
+      workflow-parts-version: 8c856cd16adc8a0ca01c7889a9c7d98ad8593818
+    secrets:
+      fossa-api-key: ${{ secrets.FOSSA_API_KEY }}
+      sonar-token: ${{ secrets.SONAR_TOKEN }}
+      additional-vars: |
+        AlmOps__Sandbox__Organization=${{ secrets.AZUREDEVOPS_TEST_ORG }}
+        AlmOps__Sandbox__Username=${{ secrets.AZUREDEVOPS_TEST_USERNAME }}
+        AlmOps__Sandbox__Token=${{ secrets.AZUREDEVOPS_TEST_TOKEN }}
+        AlmOps__Sandbox__Project=${{ secrets.AZUREDEVOPS_TEST_PROJECT }}
+        AlmOps__Sandbox__VariableGroupId=${{ secrets.AZUREDEVOPS_TEST_VARIABLEGROUPID }}
+        AlmOps__Sandbox__GitLab__Token=${{ secrets.GITLAB_TEST_TOKEN }}
+        AlmOps__Sandbox__GitLab__GroupId=${{ secrets.GITLAB_TEST_GROUPID }}
+        AlmOps__Sandbox__GitLab__ProjectId=${{ secrets.GITLAB_TEST_PROJECTID }}
+    permissions:
+      contents: read
+      pull-requests: write
+
+  image-scan:
+    name: Image
+    needs: git-check
+    if: needs.git-check.outputs.changed == 'true' || (github.event_name == 'workflow_dispatch' && inputs.run-image-scan)
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-container-scan.yml@8c856cd16adc8a0ca01c7889a9c7d98ad8593818
+    with:
+      image-definition: "src/ConsoleApp/Dockerfile"
+      image-name: ${{ vars.CONTAINER_IMAGE_NAME }}
+      image-path: ${{ vars.CONTAINER_REGISTRY_PATH }}
+      image-tag: "${{ needs.git-check.outputs.version-major-minor }}.${{ github.run_id }}"
+      workflow-parts-version: 8c856cd16adc8a0ca01c7889a9c7d98ad8593818

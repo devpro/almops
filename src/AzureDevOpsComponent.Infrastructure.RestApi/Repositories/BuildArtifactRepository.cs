@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Models;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
-using AutoMapper;
+using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;
 using Microsoft.Extensions.Logging;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
@@ -17,7 +17,7 @@ public class BuildArtifactRepository(
     AzureDevOpsRestApiConfiguration configuration,
     ILogger<BuildArtifactRepository> logger,
     IHttpClientFactory httpClientFactory,
-    IMapper mapper)
+    AzureDevOpsDtoMapper mapper)
     : RepositoryBase(configuration, logger, httpClientFactory, mapper), IBuildArtifactRepository
 {
     protected override string ResourceName => "_apis/build/builds";
@@ -34,6 +34,6 @@ public class BuildArtifactRepository(
     public async Task<List<BuildArtifactModel>> FindAllAsync(string projectName, string buildId)
     {
         var resultList = await GetAsync<ResultListDto<BuildArtifactDto>>(GenerateUrl(prefix: $"/{projectName}", suffix: $"/{buildId}/artifacts"));
-        return Mapper.Map<List<BuildArtifactModel>>(resultList.Value);
+        return Mapper.ToModels(resultList.Value ?? []);
     }
 }

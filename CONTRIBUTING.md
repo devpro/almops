@@ -2,7 +2,7 @@
 
 ## Requirements
 
-* [.NET SDK](https://dotnet.microsoft.com/download) must be installed, either directly or from an IDE (Visual Studio 2022, Rider)
+* [.NET SDK](https://dotnet.microsoft.com/download) must be installed, either directly or from an IDE (Visual Studio 2022/2026, Rider)
 
 ## Run the dll
 
@@ -11,7 +11,19 @@
 dotnet build
 
 # runs the console app
-dotnet src/ConsoleApp/bin/Debug/net9.0/almops.dll --help
+dotnet src/ConsoleApp/bin/Debug/net10.0/almops.dll --help
+```
+
+## Run the tests
+
+Tests run on xunit v3 and the Microsoft Testing Platform (`global.json`).
+
+```bash
+# runs the tests that need no credential, exit code 8 meaning a project with no test left to run
+dotnet test -- --filter-not-trait "Environment=Sandbox" --ignore-exit-code 8
+
+# runs every test, the sandbox ones reading the AlmOps__Sandbox__* variables listed below
+dotnet test
 ```
 
 ## Run from an IDE
@@ -67,6 +79,11 @@ docker run -it --rm --name almops \
   devprofr/almops list projects
 ```
 
+## Run the pipeline locally
+
+[IstarCI](https://github.com/devpro/istarci) runs the GitHub Actions pipeline in Docker on every commit, and gates the push on its result.
+`istarci add` and `istarci install-hook` set it up for this repository.
+
 ## References
 
 ### Azure DevOps documentation
@@ -74,13 +91,3 @@ docker run -it --rm --name almops \
 * [Azure DevOps Services REST API Reference](https://learn.microsoft.com/en-us/rest/api/azure/devops/)
 * [microsoft/azure-devops-auth-samples](https://github.com/microsoft/azure-devops-auth-samples)
 * [microsoft/azure-devops-node-api](https://github.com/microsoft/azure-devops-node-api)
-
-## Tips
-
-### Rider shortcuts
-
- Key combination      | Action                       
-----------------------|------------------------------
- `F4`                 | Open project definition file 
- `Ctrl`+`Enter`       | Open context menu            
- `Ctrl`+`Alt`+`Enter` | Format file                  

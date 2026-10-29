@@ -1,7 +1,8 @@
-﻿using AlmOps.Common.System;
+using System.Threading.Tasks;
 using AlmOps.GitLabComponent.Infrastructure.RestApi.Repositories;
-using FluentAssertions;
+using AwesomeAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Xunit;
 
 namespace AlmOps.GitLabComponent.Infrastructure.RestApi.IntegrationTests;
 

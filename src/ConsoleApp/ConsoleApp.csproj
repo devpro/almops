@@ -1,18 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>almops</AssemblyName>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>AlmOps.ConsoleApp</RootNamespace>
-    <ProjectGuid>{9E18DEA5-68DD-4268-85FD-62E1574F7A30}</ProjectGuid>
     <IsPackable>true</IsPackable>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>almops</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
-    <LangVersion>13.0</LangVersion>
+    <LangVersion>14.0</LangVersion>
     <AutoGenerateAssemblyVersion>true</AutoGenerateAssemblyVersion>
     <Description>Command line tool to administrate ALM (Application lifecycle management) solutions like Azure DevOps or GitLab</Description>
     <Authors>Bertrand THOMAS</Authors>
@@ -23,10 +22,21 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AzureDevOpsComponent.Infrastructure.RestApi\AzureDevOpsComponent.Infrastructure.RestApi.csproj" />
+    <ProjectReference Include="..\AzureDevOpsComponent.Domain\AzureDevOpsComponent.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="nupkg\**" />
@@ -36,24 +46,6 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.5" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="9.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.5" />
-    <PackageReference Include="Withywoods.Configuration" Version="1.5.2" />
-    <PackageReference Include="Withywoods.System" Version="1.5.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\AzureDevOpsComponent.Infrastructure.RestApi\AzureDevOpsComponent.Infrastructure.RestApi.csproj" />
-    <ProjectReference Include="..\AzureDevOpsComponent.Domain\AzureDevOpsComponent.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

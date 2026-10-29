@@ -1,27 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>AlmOps.AzureDevOpsComponent.Infrastructure.RestApi</AssemblyName>
     <RootNamespace>AlmOps.AzureDevOpsComponent.Infrastructure.RestApi</RootNamespace>
-    <ProjectGuid>{163DE105-7EB7-43D5-98D6-69967ECCB87D}</ProjectGuid>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AzureDevOpsComponent.Domain\AzureDevOpsComponent.Domain.csproj" />
+    <ProjectReference Include="..\Common.Infrastructure.RestApi\Common.Infrastructure.RestApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="14.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
-    <PackageReference Include="Withywoods.Net.Http" Version="1.5.2" />
-    <PackageReference Include="Withywoods.Serialization" Version="1.5.2" />
+    <PackageReference Include="Riok.Mapperly" ExcludeAssets="runtime" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
 
 </Project>
