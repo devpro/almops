@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1
 
-FROM registry.suse.com/bci/dotnet-aspnet:10.0.13 AS base
+FROM registry.suse.com/bci/dotnet-aspnet:10.0.14 AS base
 USER $APP_UID
 WORKDIR /app
 
-FROM registry.suse.com/bci/dotnet-sdk:10.0.13 AS build
+FROM registry.suse.com/bci/dotnet-sdk:10.0.14 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ./Directory.*.props .
