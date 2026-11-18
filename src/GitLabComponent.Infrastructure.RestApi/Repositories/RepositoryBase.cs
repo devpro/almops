@@ -1,5 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using Withywoods.Net.Http;
+using System.Net.Http;
+using AlmOps.Common.Infrastructure.RestApi;
+using Microsoft.Extensions.Logging;
 
 namespace AlmOps.GitLabComponent.Infrastructure.RestApi.Repositories;
 

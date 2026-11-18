@@ -1,18 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.DependencyInjection;
 using AlmOps.ConsoleApp.Tasks;
-using AutoMapper;
 using CommandLine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Withywoods.Serialization.Json;
 
 [assembly: InternalsVisibleTo("AlmOps.ConsoleApp.IntegrationTests")]
 
@@ -109,7 +108,7 @@ internal static class Program
                 opts.Token
             }
         };
-        File.WriteAllText(Path.Combine(AppContext.BaseDirectory, AppSettingsFilename), jsonConfig.ToJson(), Encoding.UTF8);
+        File.WriteAllText(Path.Combine(AppContext.BaseDirectory, AppSettingsFilename), JsonSerializer.Serialize(jsonConfig), Encoding.UTF8);
     }
 
     private static IConfigurationRoot LoadConfiguration()
@@ -137,21 +136,7 @@ internal static class Program
             .AddSingleton(configuration)
             .AddAzureDevOpsRestApi(appConfiguration.AzureDevOpsRestApiConfiguration);
 
-        ConfigureAutoMapper(serviceCollection);
-
         return serviceCollection.BuildServiceProvider();
-    }
-
-    private static void ConfigureAutoMapper(IServiceCollection serviceCollection)
-    {
-        var mappingConfig = new MapperConfiguration(x =>
-        {
-            x.AddProfile(new AzureDevOpsComponent.Infrastructure.RestApi.MappingProfiles.GenericMappingProfile());
-            x.AllowNullCollections = true;
-        });
-        var mapper = mappingConfig.CreateMapper();
-        mapper.ConfigurationProvider.AssertConfigurationIsValid();
-        serviceCollection.AddSingleton(mapper);
     }
 
     private static void LogVerbose(CommandLineOptions opts, string message)

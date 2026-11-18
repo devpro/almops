@@ -20,7 +20,7 @@ variables:
   IMAGE_LATEST: $IMAGE_REPOSITORY:latest
 
 .dotnet:
-  image: mcr.microsoft.com/dotnet/sdk:9.0
+  image: mcr.microsoft.com/dotnet/sdk:10.0
   variables:
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
     DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
@@ -44,6 +44,8 @@ dotnet-test:
     DOTNET_TEST_REPORT_FOLDER: report
     # other options available: /d:sonar.coverage.exclusions=... /d:sonar.cpd.exclusions=**/Models/*.cs,**/Dto/*.cs
     SONAR_EXTRA_PARAMETERS: /d:sonar.cpd.exclusions=**/*Generated*.cs,report/** /d:sonar.coverageReportPaths=report/SonarQube.xml
+    # empty runs every test, and a local run filters out the ones against live sandboxes
+    DOTNET_TEST_EXTRA_PARAMETERS: ""
     AlmOps__Sandbox__Organization: $AZUREDEVOPS_TEST_ORG
     AlmOps__Sandbox__Username: $AZUREDEVOPS_TEST_USERNAME
     AlmOps__Sandbox__Token: $AZUREDEVOPS_TEST_TOKEN
@@ -64,9 +66,25 @@ dotnet-test:
     # adds dotnet global tool in the path
     - export PATH="$PATH:/root/.dotnet/tools"
   script:
-    - dotnet sonarscanner begin /o:$SONAR_ORGANIZATION /k:$SONAR_PROJECTKEY /n:AlmOps /d:sonar.host.url=$SONAR_HOSTURL /d:sonar.token=$SONAR_TOKEN $SONAR_EXTRA_PARAMETERS
-    - dotnet test --configuration Debug --logger:"junit;LogFilePath=..\..\artifacts\{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose" --collect:"XPlat Code Coverage"
-    - reportgenerator "-reports:$DOTNET_TEST_COVERAGE_XMLFILES" -targetdir:$DOTNET_TEST_REPORT_FOLDER "-reporttypes:Cobertura;Html;TextSummary;SonarQube"
+    - >
+      dotnet sonarscanner begin
+      /o:$SONAR_ORGANIZATION
+      /k:$SONAR_PROJECTKEY
+      /n:AlmOps
+      /d:sonar.host.url=$SONAR_HOSTURL
+      /d:sonar.token=$SONAR_TOKEN
+      $SONAR_EXTRA_PARAMETERS
+    - >
+      dotnet test
+      --configuration Debug
+      --logger:"junit;LogFilePath=..\..\artifacts\{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose"
+      --collect:"XPlat Code Coverage"
+      $DOTNET_TEST_EXTRA_PARAMETERS
+    - >
+      reportgenerator
+      "-reports:$DOTNET_TEST_COVERAGE_XMLFILES"
+      -targetdir:$DOTNET_TEST_REPORT_FOLDER
+      "-reporttypes:Cobertura;Html;TextSummary;SonarQube"
     - dotnet sonarscanner end /d:sonar.token=$SONAR_TOKEN
     - cat $DOTNET_TEST_REPORT_FOLDER/Summary.txt
   artifacts:

@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Models;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
-using AutoMapper;
+using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
-using Withywoods.Serialization.Json;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
 
@@ -21,7 +20,7 @@ public class VariableGroupRepository(
     AzureDevOpsRestApiConfiguration configuration,
     ILogger<VariableGroupRepository> logger,
     IHttpClientFactory httpClientFactory,
-    IMapper mapper)
+    AzureDevOpsDtoMapper mapper)
     : RepositoryBase(configuration, logger, httpClientFactory, mapper), IVariableGroupRepository
 {
     protected override string ResourceName => "_apis/distributedtask/variablegroups";
@@ -38,7 +37,7 @@ public class VariableGroupRepository(
     public async Task<VariableGroupModel> FindOneByIdAsync(string projectName, string id)
     {
         var result = await FindOneVariableGroupDto(projectName, id);
-        return Mapper.Map<VariableGroupModel>(result);
+        return Mapper.ToModel(result);
     }
 
     /// <summary>
@@ -55,25 +54,21 @@ public class VariableGroupRepository(
     public async Task UpdateAsync(string projectName, string id, Dictionary<string, string> input, bool isReplaceAll = false)
     {
         var existing = await FindOneVariableGroupDto(projectName, id);
-        if (existing == null)
-        {
-            throw new System.ArgumentNullException(nameof(id));
-        }
 
-        if (isReplaceAll)
+        if (isReplaceAll || existing.Variables == null)
         {
-            existing.Variables = new JObject();
+            existing.Variables = new JsonObject();
         }
 
         foreach (var variable in input)
         {
-            if (existing.Variables[variable.Key] != null)
+            if (existing.Variables[variable.Key] is JsonObject current)
             {
-                existing.Variables[variable.Key]["value"] = variable.Value;
+                current["value"] = variable.Value;
                 continue;
             }
 
-            existing.Variables.Add(variable.Key, $"{{\"value\":\"{variable.Value}\"}}".FromJson<JToken>());
+            existing.Variables[variable.Key] = new JsonObject { ["value"] = variable.Value };
         }
 
         var url = GenerateUrl(prefix: $"/{projectName}", suffix: $"/{id}");

@@ -1,9 +1,8 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Models;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using Microsoft.Extensions.Logging;
-using Withywoods.System;
 
 namespace AlmOps.ConsoleApp.Tasks;
 

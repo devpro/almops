@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
 {
@@ -6,6 +6,6 @@ namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
     {
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

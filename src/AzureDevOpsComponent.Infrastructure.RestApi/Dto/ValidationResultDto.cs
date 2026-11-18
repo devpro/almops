@@ -1,8 +1,8 @@
-﻿namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
+namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
 {
     public class ValidationResultDto
     {
-        public string Result { get; set; }
-        public string Message { get; set; }
+        public string? Result { get; set; }
+        public string? Message { get; set; }
     }
 }

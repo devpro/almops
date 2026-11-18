@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AlmOps.AzureDevOpsComponent.Domain.Models;
 using AlmOps.AzureDevOpsComponent.Domain.Repositories;
 using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto;
-using AutoMapper;
+using AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Mappers;
 using Microsoft.Extensions.Logging;
-using Withywoods.Serialization.Json;
 
 namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Repositories;
 
@@ -18,7 +18,7 @@ public class BuildRepository(
     AzureDevOpsRestApiConfiguration configuration,
     ILogger<BuildRepository> logger,
     IHttpClientFactory httpClientFactory,
-    IMapper mapper)
+    AzureDevOpsDtoMapper mapper)
     : RepositoryBase(configuration, logger, httpClientFactory, mapper), IBuildRepository
 {
     protected override string ResourceName => "_apis/build/builds";
@@ -35,13 +35,13 @@ public class BuildRepository(
             arguments += $"&definitions={buildDefinitionsId}";
         }
         var resultList = await GetAsync<ResultListDto<BuildDto>>(GenerateUrl(prefix: $"/{projectName}", arguments: arguments));
-        return Mapper.Map<List<BuildModel>>(resultList.Value);
+        return Mapper.ToModels(resultList.Value ?? []);
     }
 
     public async Task<BuildModel> FindOneByIdAsync(string projectName, string id)
     {
         var result = await GetAsync<BuildDto>(GenerateUrl(prefix: $"/{projectName}", suffix: $"/{id}"));
-        return Mapper.Map<BuildModel>(result);
+        return Mapper.ToModel(result);
     }
 
     /// <summary>
@@ -63,8 +63,8 @@ public class BuildRepository(
             {
                 Definition = new { Id = buildDefinitionId },
                 SourceBranch = sourceBranchName,
-                Parameters = variables.ToJson()
+                Parameters = JsonSerializer.Serialize(variables)
             });
-        return Mapper.Map<BuildModel>(result);
+        return Mapper.ToModel(result);
     }
 }

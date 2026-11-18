@@ -1,7 +1,7 @@
-﻿namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
+namespace AlmOps.AzureDevOpsComponent.Infrastructure.RestApi.Dto
 {
     public class ParallelExecutionDto
     {
-        public string ParallelExecutionType { get; set; }
+        public string? ParallelExecutionType { get; set; }
     }
 }
